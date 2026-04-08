@@ -1,0 +1,1600 @@
+{
+    "course_code": "C04443",
+    "course_name": "Master of Artificial Intelligence",
+    "course_details": "This course is tailored for IT and computing graduates and related disciplines eager to specialise in AI, addressing the skills gap in industries like finance, healthcare, and agriculture. Choose this course to stay ahead in the AI revolution, gaining both foundational and advanced insights into data analytics, machine learning, and AI applications.Distinctively, the program offers specialisation in high-demand fields such as Computer Vision and Natural Language Processing to solve real-world problems. You'll acquire the ability to design, implement, and manage AI systems responsibly and effectively.You will learn through hands-on projects, collaborating with peers and experts to apply AI technologies in real-world scenarios. This approach ensures you develop both the technical proficiency and the practical experience necessary for a successful career in AI.",
+    "course_url": "https://coursehandbook.uts.edu.au/course/2026/C04443?year=2026",
+    "structure": [
+        {
+            "structure_name": "Core",
+            "structure_cp": "30 Credit Points",
+            "structure_details": "(STM91715) Complete all of the following subjects:",
+            "items": [
+                {
+                    "code": "42172",
+                    "name": "Introduction to Artificial Intelligence",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42172",
+                    "description": "This subject provides a grounding in Artificial Intelligence (AI), covering core areas such as learning, natural language processing, computer vision, search, knowledge representation, and reasoning. Through lectures/workshops and labs, you'll gain conceptual understanding of basic AI techniques and practical experience of using AI techniques and tools. You will be assessed in a knowledge test, a set of simple AI applications, and a group project designing an AI solution for a real-world problem, developing sound judgement and competence in this cutting-edge field.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "41040 Introduction to Artificial Intelligence"
+                                }
+                            ]
+                        },
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d OR 1e))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into Master's Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into Master's Combined Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into Grad Dip Extending Previous Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into Grad Dip New Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission Graduate Certificate courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Must have completed at least 48 credit points in  spk(s): C04379 - Master of Business Analytics (Extension)",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "32555",
+                    "name": "Fundamentals of Software Development",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/32555",
+                    "description": "This subject provides a foundation in modern software development, covering the theoretical and practical aspects of software modelling and development methods, tools, and techniques. You will learn how to analyse, design, develop, and evaluate software programs that implement realistic but manageably small-scale software requirements. Teaching is delivered through pre-recorded lectures and demos, hands-on workshops, and mini-lectures in these workshops. You are encouraged to practice peer learning and collaboration within and outside the classroom; however, you must complete the individual tasks and your part of the group tasks independently. By completing this subject, you will understand the importance of foundational software development practices and be able to apply programming skills to build software that meets the defined criteria.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1 AND 2 AND 3 AND 4 AND 5)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "49211 Software Engineering Foundation"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "49212 Software Design and Implementation"
+                                },
+                                {
+                                    "item_id": "3",
+                                    "details": "49247 Object-oriented Technology"
+                                },
+                                {
+                                    "item_id": "4",
+                                    "details": "49263 Software Analysis and Design"
+                                },
+                                {
+                                    "item_id": "5",
+                                    "details": "49265 Software Technologies"
+                                }
+                            ]
+                        },
+                        "requisite": {
+                            "rule": "Requisite rule: (((1 OR 1a OR 1b OR 1c OR 1d)) OR ((2 OR 2a OR 2b OR 2c OR 2d OR 2e OR 2f OR 2g OR 2h OR 2i OR 2j OR 2k OR 2l)))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Must have completed at least 120 credit points in  spk(s): C10061 - Bachelor of Engineering Diploma Engineering Practice",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Must have completed at least 120 credit points in  spk(s): C10066 - Bachelor of Engineering Science",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Must have completed at least 120 credit points in  spk(s): C10067 - Bachelor of Engineering",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Must have completed at least 120 credit points in  spk(s): C09067 - Bachelor of Engineering (Honours) Diploma Professional Engineering Practice",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Must have completed at least 120 credit points in  spk(s): C09066 - Bachelor of Engineering (Honours)",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "Admission into Master's Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "Admission into Master's Combined Coursework co-owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2b",
+                                    "details": "Admission into Graduate Certificate's Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2c",
+                                    "details": "Admission into C04380 Master of Business Analytics",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2d",
+                                    "details": "Admission into C04379 Master of Business Analytics (Extension)",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2e",
+                                    "details": "Admission into C11280 Graduate Certificate in Business Analytics",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2f",
+                                    "details": "Admission into C04006 Master of Project Management",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2g",
+                                    "details": "Admission into Graduate Diploma (Extending) Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2h",
+                                    "details": "Admission into Graduate Diploma (New) Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2i",
+                                    "details": "Admission into SMJ02038 Information Technology Sub-major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2j",
+                                    "details": "Admission into MAJ02902 36cp Information Technology Major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2k",
+                                    "details": "Admission into MAJ02044 Information Technology Major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2l",
+                                    "details": "Admission into C04419 Master of Mathematics and Quantitative Finance",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "32130",
+                    "name": "Fundamentals of Data Analytics",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/32130",
+                    "description": "This subject equips you with both theoretical and hands-on experience of data analytics, the process of extracting meaningful insights from large data sets. You'll learn statistical methods and data visualisation techniques to explore and process vast volumes of data, and unsupervised as well as supervised techniques to discover patterns and insights for knowledge discovery. The subject synthesises cutting-edge research and practice, preparing you to lead data analytics projects that transform data into commercially valuable information.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "31250 Introduction to Data Analytics"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "32513",
+                    "name": "Advanced Data Analytics Algorithms",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/32513",
+                    "description": "This subject advances your understanding of data analytics through a machine learning lens, exploring how intelligent agents learn and adapt. Applied across various sectors, machine learning is central to discovering new knowledge. You'll delve into knowledge discovery algorithms, building on prior data analytics knowledge to comprehend both elementary and complex algorithms. The subject blends hands-on practice with foundational theories, enabling you to master key techniques through implementation and analysis. Additionally, you'll explore machine learning's practical applications, particularly in artificial intelligence, equipping you with the skills to apply this knowledge in real-world scenarios.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "31005 Machine Learning"
+                                }
+                            ]
+                        },
+                        "requisite": {
+                            "rule": "Requisite rule: (((1 OR 1a)) OR ((2 OR 2a) AND (3 OR 3a)) OR (4 AND (5 OR 5a)) OR (6))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "32130 Fundamentals of Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "31250 Introduction to Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "26776 Foundations of Business Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "22804 Business Analytics Foundations",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3",
+                                    "details": "42047 Data Processing Using Python",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3a",
+                                    "details": "43031 Python Programming for Data Processing",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "4",
+                                    "details": "36106 Machine Learning Algorithms and Applications",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "5",
+                                    "details": "Admission into C04372 Master of Data Science and Innovation",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "5a",
+                                    "details": "Admission into C04293 Master of Data Science and Innovation",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "6",
+                                    "details": "Admission into C04370 Executive Master of Data Science and Innovation",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "32146",
+                    "name": "Data Visualisation and Visual Analytics",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/32146",
+                    "description": "This subject focuses on the vital technologies of data visualisation and visual interaction that underpin visual analytics and decision-making. You'll engage with recent data visualisation literature and practice using advanced software. The subject outlines the visual data analytics process and methodology, including the critical role of human interaction with interactive visual interfaces. Upon completion, you'll be adept at designing and evaluating sophisticated visualisation interfaces, positioning you for roles as a data visualisation designer and visual data analyst.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 AND (2 OR 2a OR 2b)) OR (3) OR ((4 OR 4a)))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "31250 Introduction to Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "48024 Programming 2",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "43031 Python Programming for Data Processing",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2b",
+                                    "details": "41040 Introduction to Artificial Intelligence",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3",
+                                    "details": "32130 Fundamentals of Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "4",
+                                    "details": "26776 Foundations of Business Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "4a",
+                                    "details": "22804 Business Analytics Foundations",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "structure_name": "Options",
+            "structure_cp": "18 Credit Points",
+            "structure_details": "(CBK92147) Select 18 credit points from the following subjects:",
+            "items": [
+                {
+                    "code": "42049",
+                    "name": "Architecting on Amazon Web Services",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42049",
+                    "description": "As enterprises globally transition to the Cloud, AWS expertise is increasingly sought-after. The Faculty of Engineering and Information Technology is an AWS Academy member, offering a subject on engineering and deploying enterprise-grade applications on AWS. Through this subject, you'll learn to build and deploy applications in the Cloud, equipping you with the skills to become an AWS Certified Solutions Architect (Associate) upon completion. The curriculum aligns with the authorised AWS Academy program.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 AND (2 OR 2a OR 2b OR 2c OR 2d OR 2e)) OR (3))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "41001 Cloud Computing and Software as a Service",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Honours Embedded owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2b",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2c",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Honours owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2d",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Degree co-owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2e",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Honours co-owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3",
+                                    "details": "42904 Cloud Computing and Software as a Service",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "32567",
+                    "name": "Business Intelligence for Decision Support",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/32567",
+                    "description": "This subject delves into business intelligence (BI), a comprehensive term encompassing architectures, tools, databases, analytics, applications, and methodologies aimed at facilitating interactive data access and empowering managers to make informed decisions. It introduces decision support systems (DSS), which are computer-based systems combining models, methods, and data to tackle semi-structured or unstructured decisions, demanding user involvement and a user-friendly interface. As high-level business decisions often fall into these categories and are data-intensive, DSS are increasingly integrated with BI techniques for enhanced problem-solving. You'll learn about various aspects of BI and DSS, including group and intelligent support systems, web-based systems, decision optimisation, and personalised recommender systems. Additionally, the subject teaches the design, implementation, and integration of BI techniques to bolster business decision-making processes.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into Masters Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into Masters Combined Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into Graduate Diploma Extending Previous Area of Study courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into Graduate Diploma New Area of Study courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission into Graduate Certificate courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "42904",
+                    "name": "Cloud Computing and Software as a Service",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42904",
+                    "description": "This subject provides an introduction to cloud computing, covering architecture, Infrastructure-as-a-Service (IaaS), Platform-as-a-Service (PaaS), Software-as-a-Service (SaaS), virtualisation, and multi-tenancy. You'll first critically analyse a cloud computing aspect through a group research report. Then, you'll develop practical cloud-based software engineering skills on an existing platform, culminating in the creation of a cloud-based software application with your group.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "41001 Cloud Computing and Software as a Service"
+                                }
+                            ]
+                        },
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f OR 1g OR 1h OR 1i OR 1j))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into Master's Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into Master's Combined Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into Grad Dip Extending Previous Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into Grad Dip New Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission Graduate Certificate courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Admission into Master's Coursework owned by TD School.",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1f",
+                                    "details": "Admission into Grad Dip Extending Previous Area of Study owned by TD School.",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1g",
+                                    "details": "Admission into Grad Dip New Area of Study owned by TD School.",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1h",
+                                    "details": "Admission into Graduate Certificate owned by TD School.",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1i",
+                                    "details": "Admission into SMJ02038 Information Technology Sub-major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1j",
+                                    "details": "Admission into MAJ02902 36cp Information Technology Major MBA",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "95563",
+                    "name": "Data Driven Storytelling Studio",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/95563",
+                    "description": "This studio subject focuses on crafting interactive, data-driven storytelling, an approach gaining traction across news, media, journalism, and marketing. You'll delve into the storytelling creation process, backed by data visualization and human-centered design, and collaborate on projects. Hands-on experience with a Business Intelligence platform will enhance your data storytelling and problem-solving skills. This subject is suitable if you have prior knowledge of data analytics and want to further improve your story telling skills using data.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into Master's Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into Master's Combined Coursework courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into Grad Dip Extending Previous Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into Grad Dip New Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission Graduate Certificate courses owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Admission into MAJ02902 36cp Information Technology Major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1f",
+                                    "details": "Admission into SMJ02038 Information Technology Sub-major MBA",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "43023",
+                    "name": "Emerging Topics in Artificial Intelligence",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/43023",
+                    "description": "This subject offers an introduction to current trends in artificial intelligence (AI), covering areas like machine learning, computer vision, and natural language processing. You'll grasp key concepts, definitions, and algorithms, along with their real-world industry applications. Ideal for those keen on AI research or application development, you'll gain a broad understanding and deep expertise in a specific AI topic through a project mentored by UTS researchers. Your learning will be assessed through reflective exercises, technical implementations, research reports, and oral presentations.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "42172 Introduction to Artificial Intelligence",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "41040 Introduction to Artificial Intelligence",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "43024",
+                    "name": "Introduction to Computational Intelligence",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/43024",
+                    "description": "This subject delves into computational intelligence (CI), including fuzzy logic, neural networks, and evolutionary computation. You'll learn through lectures, assignments, and practical experiments to address real-world issues. Emphasis is on using CI algorithms for problem-solving, knowledge extraction, and model evaluation. You'll understand theories, process data using CI models, and develop validated CI-based solutions for real-world challenges.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "41040 Introduction to Artificial Intelligence",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "42172 Introduction to Artificial Intelligence",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "43025",
+                    "name": "Introduction to Quantum Computing",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/43025",
+                    "description": "This subject introduces quantum computation, a model of computation based on the physical laws of quantum mechanics. Quantum computers outperform traditional computers for a range of practical problems, and in many cases offer drastic advantages.\nIn this subject, you will learn about the basic tools for understanding quantum information processing. You will apply this knowledge to study the key quantum protocols: teleportation, superdense coding, and simple quantum algorithms.The subject covers key features of quantum theory which differentiate it from classical theory, including quantum entanglement and coherence.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "37151 Introduction to Statistics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "33230 Mathematics 2",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "33290 Statistics and Mathematics for Science",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into C04443 Master of Artificial Intelligence",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission into C06147 Graduate Diploma in Artificial Intelligence",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "49275",
+                    "name": "Neural Networks and Fuzzy Logic",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/49275",
+                    "description": "This subject introduces you to neural networks and fuzzy theory with an engineering focus, offering hands-on experience and professional practice integration. You'll learn how these intelligent systems can identify and control dynamic systems without pre-existing models, using numerical and linguistic data to learn and adapt. Through practical examples, you'll develop expertise in applying neural networks and fuzzy logic to real-world engineering applications.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: (((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f OR 1g OR 1h OR 1i)) OR ((2 OR 2a OR 2b OR 2c OR 2d OR 2e)))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into Master's Coursework course owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into Master's Combined Coursework course owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into Master's Research course owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into Graduate Diploma Extending Previous Area of Study course owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission into Graduate Diploma New Area of Study course owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Admission into Graduate Certificate course owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1f",
+                                    "details": "Admission into C04267 Master of Philosophy in Science",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1g",
+                                    "details": "Admission into C04241 Master of Science",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1h",
+                                    "details": "Admission into C04265 Master of Science (Extension)",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1i",
+                                    "details": "Admission into C04448 Master of Science Master of Business Administration",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Honours Embedded Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2b",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2c",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Honours Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2d",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Degree co-owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2e",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Honours Degree co-owned by FEIT",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "42050",
+                    "name": "SAS Predictive Business Analytics",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42050",
+                    "description": "Predictive business analytics is used to predict unknown future events by analysing historical business data and plays a critical function in data-driven business. This subject will equip you with the theoretical and practical foundations of predictive business analytics. You will comprehend analytical methods for business problem solving encompassing the entire predictive analytics lifecycle, from understanding business problems to deploying predictive models in the real-time business environment via case studies. This understanding will be further enhanced via demonstrations and hands-on exercises. You will use Model Studio in SAS Viya to develop and compare advanced analytics models, learning to create supervised machine learning models for informed decision-making with big data. The subject uses no code technology while setting you up to potentially achieve SAS Certified Specialist: Machine Learning Using SAS Viya certification.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "31250 Introduction to Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "32130 Fundamentals of Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Must have completed at least 48 credit points in  spk(s): C04379 - Master of Business Analytics (Extension)",
+                                    "type": "Academic requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "42913",
+                    "name": "Social and Information Network Analysis",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42913",
+                    "description": "This subject introduces you to the fundamentals of social and information networks, including core concepts, network characterisation metrics, generative models, and analysis methods. You'll learn to use software tools to visualise and analyse real-world network data. The subject also covers practical applications such as user recommendations and web search, equipping you to interpret the increasingly interconnected data of our social and economic activities.",
+                    "requisite_list": {
+                        "requisite": {
+                            "rule": "Requisite rule: (((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f OR 1g) AND (2 OR 2a)) OR ((3 OR 3a OR 3b OR 3c OR 3d OR 3e OR 3f OR 3g OR 3h OR 3i) AND (4 OR 4a)) OR (5))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Honours Embedded owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Degree owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Honours owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Degree co-owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Must have completed at least 120 credit points in  Bachelor's Combined Honours co-owned by FEIT",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1f",
+                                    "details": "Must have completed at least 36 credit points in  MAJ10061 - Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "1g",
+                                    "details": "Must have completed at least 36 credit points in  MAJ10059 - Data Analytics and Research",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "31250 Introduction to Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "43031 Python Programming for Data Processing",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3",
+                                    "details": "Admission into Master's Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3a",
+                                    "details": "Admission into Master's Combined Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3b",
+                                    "details": "Admission into Master's Combined Coursework co-owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3c",
+                                    "details": "Admission into Grad Dip Extending Previous Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3d",
+                                    "details": "Admission into Grad Dip New Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3e",
+                                    "details": "Admission into Graduate Certificate's Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3f",
+                                    "details": "Admission into C04372 Master of Data Science and Innovation",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3g",
+                                    "details": "Admission into C04293 Master of Data Science and Innovation",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3h",
+                                    "details": "Must have completed at least 24 credit points in 24.0000000000 Credit Points spk(s): C04380 - Master of Business Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3i",
+                                    "details": "Must have completed at least 48 credit points in 48.0000000000 Credit Points spk(s): C04379 - Master of Business Analytics (Extension)",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "4",
+                                    "details": "32130 Fundamentals of Data Analytics",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "4a",
+                                    "details": "36106 Machine Learning Algorithms and Applications",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "5",
+                                    "details": "Admission into C04370 Executive Master of Data Science and Innovation",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "structure_name": "Professional Stream",
+            "structure_cp": "12 Credit Points",
+            "structure_details": "(STM91716) Complete all of the following subjects:",
+            "items": [
+                {
+                    "code": "49016",
+                    "name": "Technology and Innovation Management",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/49016",
+                    "description": "This subject teaches you to manage technology and innovation within organisations, from inception to transfer. You'll learn to navigate the full product and service development cycle, including needs analysis, ideation, and implementation. Through an innovation project, you'll apply quantitative and qualitative tools to grasp and manage the intricate components of the innovation process, preparing you to design and analyse effective innovation strategies.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1 AND 2)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "48080 Introduction to Innovation"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "48081 Innovation Processes"
+                                }
+                            ]
+                        },
+                        "requisite": {
+                            "rule": "Requisite rule: (((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f OR 1g)) OR ((2 OR 2a OR 2b OR 2c OR 2d)) OR ((3 OR 3a OR 3b OR 3c OR 3d)))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into Master's Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into Master's Combined Coursework owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into Grad Dip Extending Previous Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into Grad Dip New Area of Study owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission into Graduate Certificate owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Admission into Master's Combined Coursework co-owned by FEIT",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1f",
+                                    "details": "Admission into MAJ02902 36cp Information Technology Major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1g",
+                                    "details": "Admission into SMJ02038 Information Technology Sub-major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "2",
+                                    "details": "Must have completed at least 120 credit points in 120.0000000000 Credit Points spk(s): C10061 - Bachelor of Engineering Diploma Engineering Practice",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2a",
+                                    "details": "Must have completed at least 120 credit points in 120.0000000000 Credit Points spk(s): C10066 - Bachelor of Engineering Science",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2b",
+                                    "details": "Must have completed at least 120 credit points in 120.0000000000 Credit Points spk(s): C10067 - Bachelor of Engineering",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2c",
+                                    "details": "Must have completed at least 120 credit points in 120.0000000000 Credit Points spk(s): C09067 - Bachelor of Engineering (Honours) Diploma Professional Engineering Practice",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "2d",
+                                    "details": "Must have completed at least 120 credit points in 120.0000000000 Credit Points spk(s): C09066 - Bachelor of Engineering (Honours)",
+                                    "type": "Academic requisite"
+                                },
+                                {
+                                    "item_id": "3",
+                                    "details": "Admission into C04392 Master of Forensic Science (Extension)",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3a",
+                                    "details": "Admission into C04390 Master of Medical Biotechnology",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3b",
+                                    "details": "Admission into C04388 Master of Medical Biotechnology (Extension)",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3c",
+                                    "details": "Admission into SMJ08075 Engineering Management Sub-major MBA",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "3d",
+                                    "details": "Admission into MAJ08991 36cp Technology Management Major MBA",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "code": "57304",
+                    "name": "The Ethics of Data and AI",
+                    "credit_points": "6 CPs",
+                    "type": "Subject",
+                    "url": "https://coursehandbook.uts.edu.au/subject/2026/57304",
+                    "description": "This subject addresses the ethical dilemmas surrounding data-driven AI systems in decision-making across various sectors. You will engage in debates on AI's function and development, informed by humanities and social science perspectives. The course emphasises moral and ethical considerations like transparency, fairness, and algorithmic bias, and applies these to real and hypothetical case studies concerning data ethics, regulation, and accountability.",
+                    "requisite_list": {
+                        "anti_requisite": {
+                            "rule": "Anti-requisite rule: (1)",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "570100 Data Ethics and Regulation"
+                                }
+                            ]
+                        },
+                        "requisite": {
+                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f OR 1g OR 1h OR 1i OR 1j OR 1k))",
+                            "items": [
+                                {
+                                    "item_id": "1",
+                                    "details": "Admission into MAJ10053 Artificial Intelligence and Data Analytics major",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1a",
+                                    "details": "Admission into C06147 Graduate Diploma in Artificial Intelligence",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1b",
+                                    "details": "Admission into C04443 Master of Artificial Intelligence",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1c",
+                                    "details": "Admission into MAJ02084 Data Analytics Major",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1d",
+                                    "details": "Admission into C10471 Bachelor of Cybersecurity",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1e",
+                                    "details": "Admission into C10472 Bachelor of Criminology Bachelor of Cybersecurity",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1f",
+                                    "details": "Admission into C10473 Bachelor of Cybersecurity Bachelor of International Studies",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1g",
+                                    "details": "Admission into C04431 Master of Cybersecurity (Extension)",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1h",
+                                    "details": "Admission into C04430 Master of Cybersecurity",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1i",
+                                    "details": "Admission into C10474 Bachelor of Artificial Intelligence",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1j",
+                                    "details": "Admission into C10475 Bachelor of Artificial Intelligence Bachelor of International Studies",
+                                    "type": "Admission requisite"
+                                },
+                                {
+                                    "item_id": "1k",
+                                    "details": "Admission into C04462 Master of Strategic Communication (Extension)",
+                                    "type": "Admission requisite"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "structure_name": "Sub-Majors",
+            "structure_cp": "24 Credit Points",
+            "structure_details": "(CBK92150) Select one of the following sub-majors:",
+            "items": [
+                {
+                    "code": "SMJ10169",
+                    "name": "Computer Vision",
+                    "credit_points": "24 CPs",
+                    "type": "Sub-Major",
+                    "url": "https://coursehandbook.uts.edu.au/aos/2026/SMJ10169",
+                    "description": null,
+                    "structure": [
+                        {
+                            "structure_name": "Core",
+                            "structure_cp": "24 Credit Points",
+                            "structure_details": "Complete all of the following subjects:",
+                            "items": [
+                                {
+                                    "code": "43008",
+                                    "name": "Reinforcement Learning",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/43008",
+                                    "description": "This subject introduces you to reinforcement learning, the study of how machines learn from interactions with their environment. A subset of machine learning, it's essential for automated decision-making and AI, teaching programs to predict and act optimally through experience. You'll explore its applications in control systems, gaming, and inventory management. The subject covers both theory and practice, including Markov Decision Processes, classic and modern algorithms, and hands-on agent training using cutting-edge software tools. By the end, you'll understand value functions, explore exploration versus exploitation, and be able to deploy an AI system to solve real-world problems in your final project.",
+                                    "requisite_list": {
+                                        "requisite": {
+                                            "rule": "Requisite rule: ((1 OR 1a) AND (2 OR 2a) AND (3 OR 3a OR 3b))",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "31250 Introduction to Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1a",
+                                                    "details": "32130 Fundamentals of Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "2",
+                                                    "details": "48024 Programming 2",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "2a",
+                                                    "details": "32555 Fundamentals of Software Development",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "3",
+                                                    "details": "41040 Introduction to Artificial Intelligence",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "3a",
+                                                    "details": "31005 Machine Learning",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "3b",
+                                                    "details": "42172 Introduction to Artificial Intelligence",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "code": "42028",
+                                    "name": "Deep Learning and Convolutional Neural Network",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42028",
+                                    "description": "This subject delves into deep learning and convolutional neural networks (CNNs), highlighting their practical applications in data analytics, image recognition, and object detection. You'll study deep learning architectures, focusing on end-to-end model training for tasks like image classification. Practical sessions include setting up deep learning libraries, fine-tuning networks, and training your own CNNs on GPUs. You'll also learn model deployment to build an AI system. The coursework involves individual comprehension of cutting-edge research and collaborative projects to implement image classification and object detection systems.",
+                                    "requisite_list": {
+                                        "requisite": {
+                                            "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c))",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "31250 Introduction to Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1a",
+                                                    "details": "32130 Fundamentals of Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1b",
+                                                    "details": "36106 Machine Learning Algorithms and Applications",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1c",
+                                                    "details": "Must have completed at least 48 credit points in  spk(s): C04379 - Master of Business Analytics (Extension)",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "code": "42177",
+                                    "name": "Image Processing and Pattern Recognition",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42177",
+                                    "description": "This subject imparts the ability to extract information from images and videos using image processing and pattern recognition techniques, underpinning innovative applications like video surveillance and medical diagnostics. You will learn the principles of image processing and pattern recognition, create software for automatic image and video analysis, and explore recent advancements in the field. The goal is to cultivate skills necessary to develop image processing and computer vision applications. You will apply your knowledge in a team-based project, tackling real-world problems such as detecting individuals and objects in surveillance footage, automating medical image diagnosis, and recognising faces in images, while also delving into current research to enhance your understanding of this fast-paced domain.",
+                                    "requisite_list": {
+                                        "anti_requisite": {
+                                            "rule": "Anti-requisite rule: (1)",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "31256 Image Processing and Pattern Recognition"
+                                                }
+                                            ]
+                                        },
+                                        "requisite": {
+                                            "rule": "Requisite rule: ((1 OR 1a OR 1b))",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "32555 Fundamentals of Software Development",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1a",
+                                                    "details": "Admission into C04296 Master of Information Technology (Extension)",
+                                                    "type": "Admission requisite"
+                                                },
+                                                {
+                                                    "item_id": "1b",
+                                                    "details": "Admission into C04297 Master of Information Technology (Advanced)",
+                                                    "type": "Admission requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "code": "42174",
+                                    "name": "Artificial Intelligence Studio",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42174",
+                                    "description": "In this subject, you'll undertake a comprehensive project that needs substantial research effort, applying your full range of AI skills. Your task is to conduct research and project development in a team that hones your ability to articulate a research question or a problem statement, relate it to existing work, select appropriate methods or models, iteratively develop the solution, and effectively present your findings and demonstrate your ability to work as part of a team.You will tackle a real-world problem and develop a complete solution in the project that encompasses stages from background research, through data handling, to solution development and deployment. You'll receive guidance from an academic mentor and produce an individual portfolio that outlines your learning journey and your achievements in this subject, including a reflective journal and contribution to project artifacts (e.g., project proposal, project plan, proof of concept of solution idea, interim solution and final solution). You will be assessed on your portfolio and an oral presentation, reflecting professional academic and industry standards.",
+                                    "requisite_list": {
+                                        "requisite": {
+                                            "rule": "Requisite rule: (1)",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "42172 Introduction to Artificial Intelligence",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "SMJ10170",
+                    "name": "Natural Language Processing",
+                    "credit_points": "24 CPs",
+                    "type": "Sub-Major",
+                    "url": "https://coursehandbook.uts.edu.au/aos/2026/SMJ10170",
+                    "description": null,
+                    "structure": [
+                        {
+                            "structure_name": "Core",
+                            "structure_cp": "24 Credit Points",
+                            "structure_details": "Complete all of the following subjects:",
+                            "items": [
+                                {
+                                    "code": "43008",
+                                    "name": "Reinforcement Learning",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/43008",
+                                    "description": "This subject introduces you to reinforcement learning, the study of how machines learn from interactions with their environment. A subset of machine learning, it's essential for automated decision-making and AI, teaching programs to predict and act optimally through experience. You'll explore its applications in control systems, gaming, and inventory management. The subject covers both theory and practice, including Markov Decision Processes, classic and modern algorithms, and hands-on agent training using cutting-edge software tools. By the end, you'll understand value functions, explore exploration versus exploitation, and be able to deploy an AI system to solve real-world problems in your final project.",
+                                    "requisite_list": {
+                                        "requisite": {
+                                            "rule": "Requisite rule: ((1 OR 1a) AND (2 OR 2a) AND (3 OR 3a OR 3b))",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "31250 Introduction to Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1a",
+                                                    "details": "32130 Fundamentals of Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "2",
+                                                    "details": "48024 Programming 2",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "2a",
+                                                    "details": "32555 Fundamentals of Software Development",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "3",
+                                                    "details": "41040 Introduction to Artificial Intelligence",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "3a",
+                                                    "details": "31005 Machine Learning",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "3b",
+                                                    "details": "42172 Introduction to Artificial Intelligence",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "code": "42850",
+                                    "name": "Natural Language Processing Algorithms",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42850",
+                                    "description": "Natural Language Processing (NLP) develops AI algorithms and methods to enable machines to understand and interpret human languages. This subject provides a foundation in NLP technologies, explores advanced algorithms, and applies them to real-world problems. You'll gain both the knowledge to engage with NLP theories and the practical skills to craft NLP projects, bridging the gap between theoretical insights and hands-on application.",
+                                    "requisite_list": {
+                                        "anti_requisite": {
+                                            "rule": "Anti-requisite rule: (1)",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "41043 Natural Language Processing"
+                                                }
+                                            ]
+                                        },
+                                        "requisite": {
+                                            "rule": "Requisite rule: ((1 OR 1a))",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "32130 Fundamentals of Data Analytics",
+                                                    "type": "Academic requisite"
+                                                },
+                                                {
+                                                    "item_id": "1a",
+                                                    "details": "Must have completed at least 48 credit points in  spk(s): C04379 - Master of Business Analytics (Extension)",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "code": "42173",
+                                    "name": "Advanced Natural Language Processing",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42173",
+                                    "description": "This subject introduces advanced topics and technologies in natural language processing, and their applications to real-world problems. You'll build on prior NLP knowledge to understand powerful algorithms and explore deep learning approaches that drive cutting-edge NLP technologies, applying them to real-world challenges.",
+                                    "requisite_list": {
+                                        "requisite": {
+                                            "rule": "Requisite rule: (1)",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "42850 Natural Language Processing Algorithms",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "code": "42174",
+                                    "name": "Artificial Intelligence Studio",
+                                    "credit_points": "6 CPs",
+                                    "type": "Subject",
+                                    "url": "https://coursehandbook.uts.edu.au/subject/2026/42174",
+                                    "description": "In this subject, you'll undertake a comprehensive project that needs substantial research effort, applying your full range of AI skills. Your task is to conduct research and project development in a team that hones your ability to articulate a research question or a problem statement, relate it to existing work, select appropriate methods or models, iteratively develop the solution, and effectively present your findings and demonstrate your ability to work as part of a team.You will tackle a real-world problem and develop a complete solution in the project that encompasses stages from background research, through data handling, to solution development and deployment. You'll receive guidance from an academic mentor and produce an individual portfolio that outlines your learning journey and your achievements in this subject, including a reflective journal and contribution to project artifacts (e.g., project proposal, project plan, proof of concept of solution idea, interim solution and final solution). You will be assessed on your portfolio and an oral presentation, reflecting professional academic and industry standards.",
+                                    "requisite_list": {
+                                        "requisite": {
+                                            "rule": "Requisite rule: (1)",
+                                            "items": [
+                                                {
+                                                    "item_id": "1",
+                                                    "details": "42172 Introduction to Artificial Intelligence",
+                                                    "type": "Academic requisite"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "structure_name": "Project Stream",
+            "structure_cp": "12 Credit Points",
+            "structure_details": "(STM91717) Select 12 credit points from the following subjects:",
+            "sub_sections": [
+                {
+                    "structure_name": "Core",
+                    "structure_cp": "6 Credit Points",
+                    "structure_details": "Complete the following subject:",
+                    "items": [
+                        {
+                            "code": "32144",
+                            "name": "Technology Research Preparation",
+                            "credit_points": "6 CPs",
+                            "type": "Subject",
+                            "url": "https://coursehandbook.uts.edu.au/subject/2026/32144",
+                            "description": "This subject equips you with vital communication skills for your engineering and IT career. It focusses on you understanding key research principles, activities and outcomes, which include but are not restricted to crafting literature reviews, completing ethics applications and more. You will be guided and assessed on how to propose a research project as part of the foundational research activities for your degree. By enhancing your academic and professional language proficiency which is crucial for both university and workplace success you will engage with a series of interactive lectures and tutorials, where you will apply concepts in practical exercises and weekly written assignments as provided via the Canvas site.",
+                            "requisite_list": {
+                                "requisite": {
+                                    "rule": "Requisite rule: ((1 OR 1a OR 1b OR 1c OR 1d OR 1e OR 1f OR 1g))",
+                                    "items": [
+                                        {
+                                            "item_id": "1",
+                                            "details": "Admission into Master's Coursework owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1a",
+                                            "details": "Admission into Master's Combined Coursework co-owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1b",
+                                            "details": "Admission into Doctorate Research owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1c",
+                                            "details": "Admission into Master's Research owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1d",
+                                            "details": "Admission into Bachelor's Honours owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1e",
+                                            "details": "Admission into Bachelor's Honours Embedded owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1f",
+                                            "details": "Admission into C22029 Exchange Postgraduate",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "1g",
+                                            "details": "Admission into C50007 Study Abroad Postgraduate",
+                                            "type": "Admission requisite"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "structure_name": "Options",
+                    "structure_cp": "6 Credit Points",
+                    "structure_details": "Select 6 credit points from the following subjects:",
+                    "items": [
+                        {
+                            "code": "32040",
+                            "name": "Industry Project",
+                            "credit_points": "6 CPs",
+                            "type": "Subject",
+                            "url": "https://coursehandbook.uts.edu.au/subject/2026/32040",
+                            "description": "This subject equips you to manage with strategic analysis and design issues for corporate information systems environment, utilising a major case study to apply and reinforce prior knowledge. You'll learn to evaluate different system strategies and enhance your senior management and communication abilities. Learning is interactive, emphasising practical judgement and teamwork while working in an industry-like environment.",
+                            "requisite_list": {
+                                "requisite": {
+                                    "rule": "Requisite rule: (1)",
+                                    "items": [
+                                        {
+                                            "item_id": "1",
+                                            "details": "32144 Technology Research Preparation",
+                                            "type": "Academic requisite"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "code": "32933",
+                            "name": "Research Project",
+                            "credit_points": "6 CPs",
+                            "type": "Subject",
+                            "url": "https://coursehandbook.uts.edu.au/subject/2026/32933",
+                            "description": "This subject equips you with practical research skills, enabling you to tackle novel problems using ICT technologies through individual or small team projects, guided by academic staff and senior researchers. You'll develop critical thinking, problem-solving, and effective communication abilities, assessed via research quality, written reports, and oral presentations. Your learning journey is self-directed, with support from a dedicated supervisor and subject coordinator, and while there are no formal classes, you're expected to proactively schedule regular supervisory meetings. An introductory guide will be available on Canvas.",
+                            "requisite_list": {
+                                "anti_requisite": {
+                                    "rule": "Anti-requisite rule: (1 AND 2)",
+                                    "items": [
+                                        {
+                                            "item_id": "1",
+                                            "details": "32932 Management Research Project"
+                                        },
+                                        {
+                                            "item_id": "2",
+                                            "details": "32934 Research Project"
+                                        }
+                                    ]
+                                },
+                                "requisite": {
+                                    "rule": "Requisite rule: (1 AND (2 OR 2a OR 2b OR 2c OR 2d OR 2e OR 2f))",
+                                    "items": [
+                                        {
+                                            "item_id": "1",
+                                            "details": "32144 Technology Research Preparation",
+                                            "type": "Academic requisite"
+                                        },
+                                        {
+                                            "item_id": "2",
+                                            "details": "Admission into Master's Coursework courses owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "2a",
+                                            "details": "Admission into Master's Combined Coursework courses owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "2b",
+                                            "details": "Admission into Graduate Diploma Extending Previous Area of Study owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "2c",
+                                            "details": "Admission into Graduate Diploma New Area of Study owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "2d",
+                                            "details": "Admission Graduate Certificate courses owned by FEIT",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "2e",
+                                            "details": "Admission into MAJ02902 36cp Information Technology Major MBA",
+                                            "type": "Admission requisite"
+                                        },
+                                        {
+                                            "item_id": "2f",
+                                            "details": "Admission into SMJ02038 Information Technology Sub-major MBA",
+                                            "type": "Admission requisite"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

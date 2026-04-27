@@ -79,6 +79,37 @@ def extract_section_data(header_text):
     return section_data if (section_data["items"] or section_data["rule"]) else None
 
 
+# scrape learning outcomes
+def extract_learning_outcomes(soup):
+    learning_outcomes_list = []
+
+    # 1. Find the main container for Learning Outcomes
+    # We target the data-menu-id to ensure we are in the right section of the page
+    main_container = soup.find("div", {"data-menu-id": "Learningoutcomes"})
+
+    if main_container:
+        # 2. Find all accordion items within this section
+        items = main_container.find_all(
+            "div", class_=lambda x: x and "AccordionItem" in x
+        )
+
+        for item in items:
+            # 3. Find the text within the 'clamp' div or the <p> tag
+            outcome_text_tag = item.find("div", class_=lambda x: x and "clamp" in x)
+
+            if outcome_text_tag:
+                # Clean the text to remove extra whitespace/newlines
+                text = outcome_text_tag.get_text(strip=True)
+                if text:
+                    learning_outcomes_list.append(text)
+
+    return (
+        learning_outcomes_list
+        if learning_outcomes_list
+        else "No learning outcomes available"
+    )
+
+
 # Scrape subject page
 def scrape_subject(url):
     print(f"   → Visiting subject detail: {url}")
@@ -86,11 +117,70 @@ def scrape_subject(url):
     time.sleep(3)
     soup = BeautifulSoup(driver.page_source, "html.parser")
 
-    data = {"description": None}
+    data = {
+        "faculty": None,
+        "study_level": None,
+        "result_type": None,
+        "total_workload_hours": None,
+        "leanring_outcomes": None,
+        "learning_and_teaching_activities": None,
+        "description": None,
+    }
+    # extract all attribute except subject type (already have one leater)
+    allowed_keys = {
+        "faculty": "faculty",
+        "study level": "study_level",
+        "result type": "result_type",
+        "total workload hours": "total_workload_hours",
+    }
 
-    desc = soup.find("div", class_="readmore-content-wrapper")
-    if desc:
-        data["description"] = desc.get_text(strip=True)
+    attr_table = soup.find("div", {"data-testid": "attributes-table"})
+    if attr_table:
+        containers = attr_table.find_all(
+            "div", class_=lambda x: x and "AttrContainer" in x
+        )
+        for container in containers:
+            header = container.find("h3")
+            if header:
+                header_text = header.get_text(strip=True).lower()
+
+                # Check if the current header is in our allow-list
+                if header_text in allowed_keys:
+                    body = container.find("div", {"data-testid": "AttrBody"})
+                    if body:
+                        json_key = allowed_keys[header_text]
+                        data[json_key] = body.get_text(strip=True)
+
+    # Extract Learning Outcomes
+    data["leanring_outcomes"] = extract_learning_outcomes(soup)
+
+    # Extract learning and teaching eactivities
+    activities_section = soup.find(
+        "div", {"data-menu-id": "Learningandteachingactivities"}
+    )
+    if activities_section:
+        activities_wrapper = activities_section.find(
+            "div", class_="readmore-content-wrapper"
+        )
+        data["learning_and_teaching_activities"] = (
+            activities_wrapper.get_text(strip=True)
+            if activities_wrapper
+            else "No activities available"
+        )
+    else:
+        data["learning_and_teaching_activities"] = "No activities available"
+
+    # Extract description
+    desc_section = soup.find("div", {"data-menu-id": "Subjectdescription"})
+    if desc_section:
+        desc_wrapper = desc_section.find("div", class_="readmore-content-wrapper")
+        data["description"] = (
+            desc_wrapper.get_text(strip=True)
+            if desc_wrapper
+            else "No description available"
+        )
+    else:
+        data["description"] = "No description available"
 
     req_div = soup.find("div", id="Requisites")
     if req_div:
@@ -150,7 +240,7 @@ def scrape_aos(url):
     time.sleep(3)
     soup = BeautifulSoup(driver.page_source, "html.parser")
 
-    group_data = {"description": None, "structure": []}
+    group_data = {"description": None, "have_structure": []}
 
     # Extract Description
     desc = soup.find("div", class_="readmore-content-wrapper")
@@ -169,33 +259,35 @@ def scrape_aos(url):
             )
             if not div.find_parent("div", class_=lambda x: x and "AccordionItem" in x)
         ]
-
         for acc in top_accordions:
             # Recursively crawl each top-level branch of the AOS
-            group_data["structure"].append(scrape_structure(acc))
+            group_data["have_structure"].append(scrape_structure(acc))
 
     # CRITICAL: Return to the page we were on before this function was called
     # This prevents the loop in scrape_structure from breaking
     print(f"   ← Returning to parent page...")
     driver.get(current_page_url)
     time.sleep(2)
-
     return group_data
 
 
 # Scrape structure (The Recursive Tree)
 def scrape_structure(parent_accordion):
-    # structure name
+    #
     name_tag = parent_accordion.find(
-        "strong", class_=lambda x: x and "SAlternateHeading" in x
+        ["strong", "h4"],
+        class_=lambda x: x and ("SAlternateHeading" in x or "SDefaultHeading" in x),
     )
+
     structure_name = name_tag.get_text(strip=True) if name_tag else "Untitled Section"
-    # structure credit point
+
     cp_tag = parent_accordion.find(
         "strong", class_=lambda x: x and "SAlternateSubheading" in x
     )
-    structure_cp = cp_tag.get_text(strip=True) if cp_tag else "Credit Point Not Found"
-    # structure details
+    structure_cp = (
+        cp_tag.get_text(strip=True) if cp_tag else "No Credit Point Information"
+    )
+
     details_tag = parent_accordion.find(
         "div", class_=lambda x: x and "SAccordionDescription" in x
     )
@@ -217,9 +309,8 @@ def scrape_structure(parent_accordion):
         for child in plate.find_all("div", recursive=False):
             child_classes = str(child.get("class", []))
 
-            # Link Group Logic
+            # --- Link Group Logic ---
             if "Links--StyledLinkGroup" in child_classes:
-                items_found = []
                 for a in child.find_all("a", class_="cs-list-item"):
                     code = (
                         a.find("div", class_="section1").get_text(strip=True)
@@ -227,13 +318,20 @@ def scrape_structure(parent_accordion):
                         else ""
                     )
 
+                    # Determine Type first to know which list to use
+                    item_type = get_item_type(code)
+
+                    # Decide the key name based on type
+                    # "Subject" goes to has_subject, everything else goes to has_area_of_study
+                    list_key = (
+                        "has_subject" if item_type == "Subject" else "has_area_of_study"
+                    )
+
                     # CACHE CHECK
                     if code in visited_subjects:
                         print(f"      Using cached data for {code}")
-                        # Grab the pre-scraped data from our global dictionary
                         item_obj = visited_subjects[code]
                     else:
-                        # Standard scraping logic for new items
                         name = (
                             a.find("div", class_="unit-title").get_text(strip=True)
                             if a.find("div", class_="unit-title")
@@ -244,13 +342,11 @@ def scrape_structure(parent_accordion):
                             if a.find("div", class_="section2")
                             else ""
                         )
-                        item_type = get_item_type(code)
                         full_url = urljoin(BASE_URL, a["href"])
 
                         if item_type == "Subject":
                             details = scrape_subject(full_url)
                         else:
-                            # Major/Sub-Major/Choice Block
                             details = scrape_aos(full_url)
 
                         item_obj = {
@@ -261,24 +357,20 @@ def scrape_structure(parent_accordion):
                             "url": full_url,
                             **details,
                         }
-
-                        # SAVE TO CACHE: Update the global dictionary for future encounters
                         visited_subjects[code] = item_obj
 
-                    items_found.append(item_obj)
+                    # Add to the specific list in current_node
+                    if list_key not in current_node:
+                        current_node[list_key] = []
+                    current_node[list_key].append(item_obj)
 
-                if items_found:
-                    if "items" not in current_node:
-                        current_node["items"] = []
-                    current_node["items"].extend(items_found)
-
-            # --- 3. Sub-sections (Recursive Call) ---
+            # --- Sub-sections (Recursive Call) ---
             elif "AccordionItem" in child_classes:
                 sub_data = scrape_structure(child)
                 if sub_data:
-                    if "sub_sections" not in current_node:
-                        current_node["sub_sections"] = []
-                    current_node["sub_sections"].append(sub_data)
+                    if "have_sub_structures" not in current_node:
+                        current_node["have_sub_structures"] = []
+                    current_node["have_sub_structures"].append(sub_data)
 
     return current_node
 
@@ -295,10 +387,12 @@ def scrape_course(course_url):
     # scrape course details
     details = soup.find("div", class_="readmore-content-wrapper")
     course_details = details.get_text(strip=True) if details else "No details"
+    course_leanring_outcomes = extract_learning_outcomes(soup)
     course_data = {
         "course_code": course_code,
         "course_name": course_name,
         "course_details": course_details,
+        "course_leanring_outcomes": course_leanring_outcomes,
         "course_url": course_url,
         "structure": [],
     }

@@ -1,0 +1,49 @@
+subject_1_code,subject_1_name,subject_2_code,subject_2_name,similarity_score
+41001,Cloud Computing and Software as a Service,42904,Cloud Computing and Software as a Service,0.9979051114608117
+31256,Image Processing and Pattern Recognition,42177,Image Processing and Pattern Recognition,0.9743964732792011
+31005,Machine Learning,32513,Advanced Data Analytics Algorithms,0.9620452482185755
+99200,Intercultural Communication,99218,Intercultural Communication,0.9489398258962876
+97410,Places and Spaces of the Francophone World,97408,Show and Tell: Francophone Cultures on Display,0.9411161705951637
+97407,Francophone Identities in Conflict,97408,Show and Tell: Francophone Cultures on Display,0.934953851474712
+97407,Francophone Identities in Conflict,97410,Places and Spaces of the Francophone World,0.9331341653375351
+97114,Developing Chinese Reading and Writing Skills 1,97115,Developing Chinese Reading and Writing Skills 2,0.9132028357328478
+41043,Natural Language Processing,42850,Natural Language Processing Algorithms,0.8969001996168914
+SMJ09034,International Studies,SMJ09036,Specialist Country Studies,0.8822197500959303
+97510,Diaspora of the Hispanic Imagination,97509,Innocence and Experience in Hispanophone Societies,0.8725416138954064
+40002,Architecting on AWS,42049,Architecting on Amazon Web Services,0.8715827390210712
+977917,In-country Contemporary Society Study,97901,International Internship,0.8562220337761282
+31250,Introduction to Data Analytics,32130,Fundamentals of Data Analytics,0.8434746605044044
+97209,Japanese Media and Current Issues,97210,Transcultural Communication in Japanese,0.838006723385646
+97606,German Literature,97605,German Today,0.814643951922171
+97607,German Film,97605,German Today,0.7995745615064733
+97607,German Film,97606,German Literature,0.7982407003707583
+97207,Japanese Films and Popular Culture,97208,Japanese Language and Identity,0.7809228899316881
+97606,German Literature,97608,German Popular Music,0.7658684733768104
+97608,German Popular Music,97605,German Today,0.7484857425017972
+41025,Introduction to Software Development,32555,Fundamentals of Software Development,0.730299530995377
+97607,German Film,97608,German Popular Music,0.7297091124781089
+97207,Japanese Films and Popular Culture,97210,Transcultural Communication in Japanese,0.7285956213030328
+97111,Chinese Festivals and Ceremonies,97115,Developing Chinese Reading and Writing Skills 2,0.7175106136365137
+97207,Japanese Films and Popular Culture,97209,Japanese Media and Current Issues,0.716542668258108
+97109,Communicating About Chinese Media,97112,Language in Chinese Screen Studies,0.7155838629659583
+97111,Chinese Festivals and Ceremonies,97114,Developing Chinese Reading and Writing Skills 1,0.7097877098730779
+97507,Human Rights in Hispanophone Societies,97508,US Latin American Relations,0.6932894648099915
+97806,Italian Popular Culture,97805,Italy and Migration,0.6809108533259913
+41040,Introduction to Artificial Intelligence,42172,Introduction to Artificial Intelligence,0.6747407388588865
+97113,Chinese Culture and Heritage,97115,Developing Chinese Reading and Writing Skills 2,0.674559441183027
+SMJ10188,AWS Industry sub-major,SMJ10190,iOS Industry sub-major,0.6713169874515025
+97208,Japanese Language and Identity,97209,Japanese Media and Current Issues,0.6702273221906724
+97808,Italian Language and the Arts,97806,Italian Popular Culture,0.6682260293992287
+97113,Chinese Culture and Heritage,97114,Developing Chinese Reading and Writing Skills 1,0.6675843596283442
+97808,Italian Language and the Arts,97807,Italophone Literature(s),0.6667060747384508
+97208,Japanese Language and Identity,97210,Transcultural Communication in Japanese,0.6618175689415646
+SMJ10188,AWS Industry sub-major,SMJ10189,Google Industry sub-major,0.6607375818208642
+SMJ10189,Google Industry sub-major,SMJ10190,iOS Industry sub-major,0.6607375818208642
+976111,Contemporary China,976211,Contemporary Japan,0.6563356190339444
+97113,Chinese Culture and Heritage,97111,Chinese Festivals and Ceremonies,0.6560176607311107
+97409,Francophone Cultures of Consumption,97410,Places and Spaces of the Francophone World,0.6548890777371974
+97409,Francophone Cultures of Consumption,97408,Show and Tell: Francophone Cultures on Display,0.6472019410118488
+97409,Francophone Cultures of Consumption,97407,Francophone Identities in Conflict,0.6424424114959739
+97808,Italian Language and the Arts,97805,Italy and Migration,0.6376480841627366
+41185,Emerging Topics in Cyber Security and Privacy,41182,System Security,0.6054284701144537
+976431,Contemporary Italy,976451,Contemporary Spain,0.6018697120887098

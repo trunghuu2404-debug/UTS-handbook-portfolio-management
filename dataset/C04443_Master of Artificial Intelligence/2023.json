@@ -2,7 +2,7 @@
     "course_code": "C04443",
     "course_name": "Master of Artificial Intelligence",
     "course_details": "Artificial Intelligence (AI) is one of the most promising technologies, driven by big data and advancements in computing power and algorithms. It has huge potential to transform economies and uncover new societal and environmental values. This course enables students to gain fundamental and advanced knowledge in data analytics and visualisation, machine learning, deep learning, and various aspects of AI. Students have opportunities to gain expertise in specialised areas such as Computer Vision or Natural Language Processing and to solve real-world problems. Hands-on experience with real-world research and industry projects enables graduates to manage the increasing challenges of creating and maintaining AI systems. Graduates from this course become socially responsible and technically competent as AI specialists, to help current and future industry across many sectors, such as banking and finance, healthcare, agriculture, infrastructure development, or natural resource management. This course is aimed at graduates from computing science, information technology or computer engineering, who wish to learn or extend their knowledge of AI in various contexts. The postgraduate artificial intelligence program provides IT and computing professionals with the opportunity to upskill and meet the demands of this rapidly changing field. The course covers a broad range of current and emerging areas of AI including data analytics, neural networks, deep learning, reinforcement learning and ethics in AI. The course provides specialised subjects in areas including computer vision, and natural language processing to meet the growing industry demand for AI professionals with advanced technical capabilities and understanding of the risks and opportunities in this growing field. This course provides ideal preparation for graduates seeking careers in AI and its related domains. Students in the course engage in practical, hands-on learning, using technologies to develop algorithms in various AI approaches.",
-    "course_leanring_outcomes": [
+    "course_learning_outcomes": [
         "Master of Artificial Intelligence graduates will use specialised knowledge of Indigenous Australian contexts to critically analyse and evaluate their professional capability in designing and implementing AI solutions in industry and/or research when working with and for Indigenous peoples and communities.",
         "Master of Artificial Intelligence graduates are able to identify and respond to a broad range of organisational stakeholders on Artificial Intelligence issues, and to analyse and identify ethical, personal, organisational, policy, social and environmental impacts of Artificial Intelligence in diverse contexts.",
         "Master of Artificial Intelligence graduates are lifelong learners able to demonstrate autonomy, researching solutions and apply expert judgment in the design and evaluation of innovative Artificial Intelligence solutions to organisational, societal and global problems.",
@@ -28,7 +28,7 @@
                     "study_level": "No study level available",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "No workload information",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Explain key ideas of common AI techniques",
                         "Apply common AI algorithms to solve simple problems",
                         "Justify AI algorithm selection",
@@ -95,7 +95,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "3hpw; 1hpw (lecture), 2hpw (tutorial/laboratory)",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Describe the software development process and its phases.",
                         "Analyse user requirements and the context within which the system is being developed, in order to prepare system requirements and analysis documentation.",
                         "Utilise a range of modelling and programming techniques and tools to develop the proposed system.",
@@ -238,7 +238,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "2 hpw (workshop)",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Identify skills and attributes required for the understanding and application of data analytics in Industry",
                         "Describe the methods involved in data analytics, their scope and limitations.",
                         "Design a data analytics project in a business environment.",
@@ -268,7 +268,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "No workload information",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "describe the scope, limitations and application of several advanced machine learning methods;",
                         "use or program a machine learning method;",
                         "design an approach to machine learning problems in specialised domains;",
@@ -353,7 +353,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "1hr one-off orientation lecture, 2hpw (weekly workshop)",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Recognise, compare and apply a range of static data visualisation techniques",
                         "Apply interactive data visualisation techniques",
                         "Design and create data visualisations for particular social contexts that are appropriate for specific users",
@@ -422,7 +422,7 @@
                     "study_level": "No study level available",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "approx. 4-6hpw",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Identity and express where and how AWS services can be used to solve a business problem.",
                         "Comparative analysis and justification of the selected AWS services for solving business problem"
                     ],
@@ -486,7 +486,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "No workload information",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Identify key elements of the body of knowledge for the field of decision support technology and business intelligence",
                         "Identify main decision models, decision methods, and decision support systems",
                         "Apply decision support models, methods and systems in related business intelligence systems such as e-government, e-business, e-banking, e-logistics, e-learning and warning systems",
@@ -540,7 +540,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "No workload information",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Articulate the need for cloud computing, elements of cloud computing for e-business, e-government, e-banking and e-learning.",
                         "Describe the architecture of different types of Cloud Services (IaaS, PaaS and SaaS), different types of Virtualization and their industrial use.",
                         "Critically understand the current issues in Cloud Computing for informed business decision making.",
@@ -630,7 +630,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "after the initial orientation week, 2hpw",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Create and design effective data driven narratives.",
                         "Plan and manage data driven storytelling project.",
                         "Examine user experience of a data driven narrative and adapt its design in response. Deliver a compelling storytelling presentation",
@@ -691,7 +691,7 @@
                     "study_level": "No study level available",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "3hpw, standard face-to-face",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Explain and discuss the potential social/societal impacts of emerging AI technologies",
                         "Implement selected algorithms/demos/functions for applications",
                         "Communicate effectively in both oral and written forms"
@@ -726,7 +726,7 @@
                     "study_level": "No study level available",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "2hpw, standard face-to-face",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Explain the social implications of CI techniques",
                         "Implement selected CI algorithms and apply them to benchmark datasets",
                         "Read research papers and synthesize new understanding to solve specific CI problems in real-world",
@@ -762,7 +762,7 @@
                     "study_level": "No study level available",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "3hpw, standard face-to-face",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Analyse quantum information protocols using the basic mathematical structure of quantum mechanics, including states, operations and measurements to validate performance claims.",
                         "Design and create quantum circuits for quantum algorithms to run on quantum computers.",
                         "Critically reflect and contrast the historical development of quantum and classical computation to differentiate computational capabilities.",
@@ -813,7 +813,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "3hpw, on campus",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Apply basic and advanced theories for neural network and fuzzy logic to biomedical engineering problems.",
                         "Implement a neural network, convolutional deep network or a fuzzy logic system to solve complex biomedical engineering problems.",
                         "Collaborate to manage and conduct research projects using neural networks and fuzzy logic."
@@ -918,7 +918,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "1.5hpw (lecture), 1.5 hpw (tutorial)",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Explore and transform business data into analytic-ready features for\r\npredictive modelling.",
                         "Design and implement predictive models for predicting unknown\r\nfuture events in business environment.",
                         "Evaluate and deploy predictive models in business production\r\nenvironment."
@@ -958,7 +958,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "3hpw (1.5hr seminar, 1.5hr lab, tutorial), on campus, standard.",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Understand basic concepts in social and information networks.",
                         "Use important metrics and models to characterize networks.",
                         "Utilize software tools to visualize real-life network data.",
@@ -1109,7 +1109,7 @@
                     "study_level": "Postgraduate",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "3hpw",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Identify and discuss the scope of technological change and innovation in organisations and markets from a social, environmental and financial perspective.",
                         "Analyse and design innovation processes and show how to deploy a customer focus.",
                         "Evaluate and use appropriate technology and innovation management tools."
@@ -1237,7 +1237,7 @@
                     "study_level": "No study level available",
                     "result_type": "Grade and marks",
                     "total_workload_hours": "No workload information",
-                    "leanring_outcomes": [
+                    "learning_outcomes": [
                         "Distinguish between the characteristics and significance of ethical challenges of data-driven and automated intelligent systems",
                         "Analyse the ethical considerations that have arisen from the wide-scale collection and processing of data from and about individuals and social groups",
                         "Compare national and international approaches to regulating and governing data-driven technology",
@@ -1355,7 +1355,7 @@
                                     "study_level": "No study level available",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "3.5 hpw, standard face-to-face",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Design Reinforcement Learning algorithms to solve classic reinforcement learning problems",
                                         "Apply state-of-the-art and customized Reinforcement Learning Algorithms to solve real-world problem",
                                         "Communicate efficiently in a team, in both oral and written forms"
@@ -1415,7 +1415,7 @@
                                     "study_level": "Undergraduate and Postgraduate",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "3hpw (lab/tutorial), on campus, weekly.",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Compare and contrast latest trends in Deep Learning strategies with traditional machine learning techniques",
                                         "Build, train and test basic Convolutional Neural Networks for real image classification projects",
                                         "Use Deep Learning software tools to explore state-of-the-art techniques and applications",
@@ -1462,7 +1462,7 @@
                                     "study_level": "No study level available",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "No workload information",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Use foundational techniques of image processing and analysis such as filtering, segmentation and local features to solve image processing problems of real-world application",
                                         "Build a statistical classifier and know how to use other classifiers",
                                         "Apply image processing and pattern recognition techniques to detect objects and activities in images and video",
@@ -1512,7 +1512,7 @@
                                     "study_level": "Postgraduate",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "Block, 1–2hpw (on-campus meeting with mentor), 3 x 3hpw (on-campus presentation sessions)",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Conceptualise, design, plan and implement an AI project",
                                         "Choose appropriate AI methods to achieve outcomes, apply them and evaluate their efficacy",
                                         "Communicate the results of the AI investigation verbally and in written form at a level appropriate for a business audience",
@@ -1561,7 +1561,7 @@
                                     "study_level": "No study level available",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "3.5 hpw, standard face-to-face",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Design Reinforcement Learning algorithms to solve classic reinforcement learning problems",
                                         "Apply state-of-the-art and customized Reinforcement Learning Algorithms to solve real-world problem",
                                         "Communicate efficiently in a team, in both oral and written forms"
@@ -1621,7 +1621,7 @@
                                     "study_level": "Postgraduate",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "2hpw, on campus",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Identify NLP applications in business and social contexts",
                                         "Reflect on their own NLP skill development.",
                                         "Explain the advantages and disadvantages of different NLP methods and algorithms and their applicability in different business situations.",
@@ -1667,7 +1667,7 @@
                                     "study_level": "Postgraduate",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "2hpw, standard face-to-face",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Demonstrate an understanding of the advantages and limitations of several advanced natural language processing methods",
                                         "Review technologies used in advanced natural language processing literature, and perform self-reflection",
                                         "Develop an advanced natural language processing project for a real-world problem",
@@ -1698,7 +1698,7 @@
                                     "study_level": "Postgraduate",
                                     "result_type": "Grade and marks",
                                     "total_workload_hours": "Block, 1–2hpw (on-campus meeting with mentor), 3 x 3hpw (on-campus presentation sessions)",
-                                    "leanring_outcomes": [
+                                    "learning_outcomes": [
                                         "Conceptualise, design, plan and implement an AI project",
                                         "Choose appropriate AI methods to achieve outcomes, apply them and evaluate their efficacy",
                                         "Communicate the results of the AI investigation verbally and in written form at a level appropriate for a business audience",
@@ -1745,7 +1745,7 @@
                             "study_level": "Postgraduate",
                             "result_type": "Grade and marks",
                             "total_workload_hours": "3hpw; 1.5hpw lecture, 1.5pw tutorial",
-                            "leanring_outcomes": [
+                            "learning_outcomes": [
                                 "Conduct research at a level appropriate to the student's program of studies.",
                                 "Search effectively for industry and academic texts and critically evaluate textual sources of information.",
                                 "Demonstrate research ethics by drawing upon other's words and ideas fairly and honestly with appropriate citation and referencing.",
@@ -1819,7 +1819,7 @@
                             "study_level": "Postgraduate",
                             "result_type": "Grade and marks",
                             "total_workload_hours": "2hpw (lecture)",
-                            "leanring_outcomes": [
+                            "learning_outcomes": [
                                 "Conceptualise, design, and undertake research on an industry based problem or scenario.",
                                 "Engage in decision making in areas of uncertainty.",
                                 "Identify and present systematically, the requirements for an information system in a medium to large and complex organisation.",
@@ -1852,7 +1852,7 @@
                             "study_level": "Postgraduate",
                             "result_type": "Grade and marks",
                             "total_workload_hours": "No workload information",
-                            "leanring_outcomes": [
+                            "learning_outcomes": [
                                 "Conceptualise, design, plan, and implement research studies in their field of study and practice",
                                 "Apply at least one research method applicable to ICT fields",
                                 "Write a research report in appropriate format and style, including the research background, design, implementation, results and conclusions",

@@ -1,479 +1,966 @@
 """
-UTS Course Graph Importer
-=========================
-Reads any UTS course handbook JSON file (produced by post_2025_scrapping.py)
-and imports it into Neo4j using parameterised Cypher — fully idempotent (MERGE).
+neo4j_importer.py
+=================
+Imports the UTS Curriculum Digital Twin dataset into Neo4j.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-JSON STRUCTURE  (mirroring scraper output)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Course
-└── structure[]                          ← list of top-level Structure dicts
-    Each Structure dict has:
-      structure_name, structure_cp, structure_details
-      items[]          ← list of Subject / Sub-Major / Choice Block / Major
-      sub_sections[]   ← list of child Structure dicts  (recursive, same shape)
+Dataset layout (all under DATASET_PATH):
+    dataset/
+        C10474_Bachelor of Artificial Intelligent/
+            2023.json  2024.json  2025.json  2026.json
+        C10443_Master of Artificial Intelligent/
+            2023.json  2024.json  2025.json  2026.json
+        subject_archives/
+            2023_subjects.json  ...
 
-    A Structure has EITHER items OR sub_sections (or both).
+Key design decisions
+--------------------
+* SubjectVersion display name  : "{code}_{year}" stored as .id, plus .name for clarity
+* Requisite relationships carry item_id and rule metadata as relationship properties
+* Admission requisites stored as AdmissionRequisite nodes (not SubjectVersion links)
+* Other requisites stored as OtherRequisite nodes
+* Course learning outcomes stored on CourseVersion
+* AreaOfStudy follows same versioning pattern as Subject
 
-Subject  (item where type == "Subject")
-  code, name, credit_points, url, description
-  requisite_list{}
-    requisite{}        → rule + items[]  each with item_id, details, type
-    anti_requisite{}   → rule + items[]  each with item_id, details
-    other_requisite{}  → rule + items[]  each with note  (free-text)
+Graph schema
+------------
+Nodes:
+    (:Course)              {code, name}
+    (:CourseVersion)       {id="{code}_{year}", course_code, course_name, year,
+                            course_details, course_learning_outcomes, course_url}
+    (:Structure)           {id, structure_name, structure_cp}
+    (:Subject)             {code, name}
+    (:SubjectVersion)      {id="{code}_{year}", code, name, year, url,
+                            credit_points, type, faculty, study_level,
+                            result_type, total_workload_hours, description,
+                            learning_outcomes, teaching_and_learning_activities,
+                            requisite_rule, anti_requisite_rule}
+    (:AdmissionRequisite)  {id, detail, item_id, item_type, rule}
+    (:OtherRequisite)      {id, note, rule}
+    (:AreaOfStudy)         {code, name}
+    (:AreaOfStudyVersion)  {id="{code}_{year}", code, name, year, url,
+                            credit_points, type, description}
 
-Area of Study  (item where type in Major / Sub-Major / Choice Block)
-  code, name, credit_points, url, description
-  structure[]          ← same recursive structure as Course.structure
+Relationships:
+    (Course)-[:HAS_VERSION]->(CourseVersion)
+    (CourseVersion)-[:HAS_STRUCTURE]->(Structure)
+    (Structure)-[:HAS_CHILD]->(Structure)
+    (Structure)-[:CONTAINS]->(Subject)
+    (Structure)-[:CONTAINS_AOS]->(AreaOfStudy)
+    (Subject)-[:IN_COURSE_VERSION]->(CourseVersion)
+    (AreaOfStudy)-[:IN_COURSE_VERSION]->(CourseVersion)
+    (Subject)-[:HAS_VERSION]->(SubjectVersion)
+    (SubjectVersion)-[:OF_SUBJECT]->(Subject)
+    (SubjectVersion)-[:NEXT_VERSION]->(SubjectVersion)
+    (AreaOfStudy)-[:HAS_VERSION]->(AreaOfStudyVersion)
+    (AreaOfStudyVersion)-[:NEXT_VERSION]->(AreaOfStudyVersion)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-GRAPH MODEL
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nodes
-  (:Course)         code, name, url, details
-  (:Structure)      code (namespaced), name, credit_points, details
-  (:Subject)        code, name, credit_points, url, description
-  (:Major)          code, name, credit_points, url, description
-  (:SubMajor)       code, name, credit_points, url, description
-  (:ChoiceBlock)    code, name, credit_points, url, description
-  (:Requisite)      subject_code, details, type, rule, item_id
-  (:AntiRequisite)  subject_code, details, rule, item_id
-  (:OtherRequisite) subject_code, note, rule
-
-Relationships
-  (:Course)                              -[:HAS_STRUCTURE    {order}]-> (:Structure)
-  (:Structure)                           -[:HAS_SUB_SECTION  {order}]-> (:Structure)
-  (:Structure)                           -[:HAS_SUBJECT      {order}]-> (:Subject)
-  (:Structure)                           -[:HAS_AREA_OF_STUDY {order, area_type}]->
-                                              (:Major | :SubMajor | :ChoiceBlock)
-  (:Major | :SubMajor | :ChoiceBlock)    -[:HAS_STRUCTURE    {order}]-> (:Structure)
-  (:Subject)                             -[:HAS_REQUISITE]->       (:Requisite)
-  (:Subject)                             -[:HAS_ANTI_REQUISITE]->  (:AntiRequisite)
-  (:Subject)                             -[:HAS_OTHER_REQUISITE]-> (:OtherRequisite)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-USAGE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  python uts_graph_importer.py                             # 2026.json, localhost
-  python uts_graph_importer.py path/to/course.json
-  python uts_graph_importer.py course.json bolt://host:7687 user password
+    # Requisite relationships with item metadata
+    (SubjectVersion)-[:PREREQUISITE    {item_id, rule, item_type}]->(SubjectVersion)
+    (SubjectVersion)-[:ANTI_REQUISITE  {item_id, rule}]->(SubjectVersion)
+    (SubjectVersion)-[:HAS_ADMISSION_REQUISITE]->(AdmissionRequisite)
+    (SubjectVersion)-[:HAS_OTHER_REQUISITE    ]->(OtherRequisite)
 """
 
-from __future__ import annotations
-
+import os
+import re
 import json
-import sys
+import logging
+from pathlib import Path
+from typing import Any
 
-from neo4j import GraphDatabase
+from neo4j import GraphDatabase, Driver
+
+# Configuration
+
+NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "Trungvip2404@")
+DATASET_PATH = os.getenv("DATASET_PATH", "dataset")
+
+BATCH_SIZE = 500
+
+COURSE_DIR_RE = re.compile(r"^C\d+_", re.IGNORECASE)
+SUBJECT_DIR_NAME = "subjects_archive"
+
+# Matches a 5-digit UTS subject code: "31265 Subject Name" -> "31265", some subject code has more than 5
+SUBJECT_CODE_RE = re.compile(r"\b(\d{5,})\b")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Label mapping  (scraper type string  →  Neo4j node label)
-# ─────────────────────────────────────────────────────────────────────────────
-AREA_LABEL: dict[str, str] = {
-    "Major": "Major",
-    "Sub-Major": "SubMajor",
-    "Choice Block": "ChoiceBlock",
-}
+# Logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s  %(levelname)-8s  %(message)s",
+    datefmt="%H:%M:%S",
+)
+log = logging.getLogger(__name__)
+
+# SCHEMA
+CONSTRAINTS = [
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:Course)             REQUIRE n.code IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:CourseVersion)      REQUIRE n.id   IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:Structure)          REQUIRE n.id   IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:Subject)            REQUIRE n.code IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:SubjectVersion)     REQUIRE n.id   IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:AreaOfStudy)        REQUIRE n.code IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:AreaOfStudyVersion) REQUIRE n.id   IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:AdmissionRequisite) REQUIRE n.id   IS UNIQUE",
+    "CREATE CONSTRAINT IF NOT EXISTS FOR (n:OtherRequisite)     REQUIRE n.id   IS UNIQUE",
+]
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Driver wrapper
-# ─────────────────────────────────────────────────────────────────────────────
-class UTSGraphImporter:
-    def __init__(self, uri: str, user: str, password: str) -> None:
-        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+def create_constraints(driver: Driver) -> None:
+    with driver.session() as session:
+        for cypher in CONSTRAINTS:
+            session.run(cypher)
+    log.info("Constraints ensured.")
 
-    def close(self) -> None:
-        self.driver.close()
 
-    def import_course(self, data: dict) -> None:
-        course_code = data["course_code"]
-        print(f"🚀  Importing: {data.get('course_name', '(unnamed)')}  [{course_code}]")
+# FOLDER DISCOVERY
+def discover_folders(dataset_path: str) -> tuple:
+    root = Path(dataset_path)
+    if not root.exists():
+        log.error("DATASET_PATH does not exist: %s", root)
+        raise SystemExit(1)
 
-        with self.driver.session() as session:
-            # 1. Course node
-            session.execute_write(_create_course, data)
+    course_dirs = []
+    subject_dir = None
 
-            # 2. Walk every top-level structure attached to the Course
-            for order, struct in enumerate(data.get("structure", [])):
-                session.execute_write(
-                    _import_structure,
-                    parent_code=course_code,
-                    parent_label="Course",
-                    struct=struct,
-                    order=order,
-                    namespace=course_code,
+    for entry in sorted(root.iterdir()):
+        if not entry.is_dir():
+            continue
+        if COURSE_DIR_RE.match(entry.name):
+            course_dirs.append(entry)
+            log.info("  Found course dir : %s", entry.name)
+        elif entry.name.lower() == SUBJECT_DIR_NAME:
+            subject_dir = entry
+            log.info("  Found subject dir: %s", entry.name)
+
+    return course_dirs, subject_dir
+
+
+# HELPERS
+def _run_batches(driver: Driver, cypher: str, rows: list) -> None:
+    """Execute cypher (UNWIND $rows) in chunks of BATCH_SIZE."""
+    for start in range(0, len(rows), BATCH_SIZE):
+        chunk = rows[start : start + BATCH_SIZE]
+        with driver.session() as session:
+            session.run(cypher, rows=chunk)
+
+
+def _safe_list(value: Any) -> list:
+    if value is None:
+        return []
+    return value if isinstance(value, list) else [value]
+
+
+def _normalise_lo(raw: Any) -> list:
+    """Normalise learning outcomes field to a clean list of strings."""
+    if isinstance(raw, list):
+        return [str(x) for x in raw if x]
+    if isinstance(raw, str) and raw.strip().lower() != "no learning outcomes available":
+        return [raw.strip()]
+    return []
+
+
+def _normalise_cp(raw: Any) -> str:
+    return str(raw or "").replace("CPs", "").replace("CP", "").strip()
+
+
+def _parse_requisites(requisite_list: Any) -> dict:
+    """
+    Parse a subject's full requisite_list into categorised buckets.
+
+    Returns:
+    {
+      "prerequisite":  [{"code","item_id","item_type","rule","detail"}, ...],
+      "anti_requisite":[{"code","item_id","rule","detail"}, ...],
+      "admission":     [{"detail","item_id","item_type","rule"}, ...],
+      "other":         [{"note","rule"}, ...],
+      "requisite_rule":      str,   # raw rule string for prerequisite block
+      "anti_requisite_rule": str,   # raw rule string for anti_requisite block
+    }
+    """
+    out = {
+        "prerequisite": [],
+        "anti_requisite": [],
+        "admission": [],
+        "other": [],
+        "requisite_rule": "",
+        "anti_requisite_rule": "",
+    }
+
+    if not isinstance(requisite_list, dict):
+        return out
+
+    for block_key, block in requisite_list.items():
+        if not isinstance(block, dict):
+            continue
+
+        rule_str = block.get("rule", "")
+        items = _safe_list(block.get("items"))
+
+        if block_key == "requisite":
+            out["requisite_rule"] = rule_str
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                item_id = item.get("item_id", "")
+                item_type = item.get("type", "")
+                detail = item.get("details", "")
+
+                if "admission" in item_type.lower():
+                    # Store as AdmissionRequisite node
+                    out["admission"].append(
+                        {
+                            "detail": detail,
+                            "item_id": item_id,
+                            "item_type": item_type,
+                            "rule": rule_str,
+                        }
+                    )
+                else:
+                    # Extract 5-digit subject code if present
+                    codes = SUBJECT_CODE_RE.findall(detail)
+                    if codes:
+                        out["prerequisite"].append(
+                            {
+                                "code": codes[0],
+                                "item_id": item_id,
+                                "item_type": item_type,
+                                "rule": rule_str,
+                                "detail": detail,
+                            }
+                        )
+                    else:
+                        # No subject code but still a requisite detail — store as admission
+                        out["admission"].append(
+                            {
+                                "detail": detail,
+                                "item_id": item_id,
+                                "item_type": item_type,
+                                "rule": rule_str,
+                            }
+                        )
+
+        elif block_key == "anti_requisite":
+            out["anti_requisite_rule"] = rule_str
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                item_id = item.get("item_id", "")
+                detail = item.get("details", "")
+                codes = SUBJECT_CODE_RE.findall(detail)
+                if codes:
+                    out["anti_requisite"].append(
+                        {
+                            "code": codes[0],
+                            "item_id": item_id,
+                            "rule": rule_str,
+                            "detail": detail,
+                        }
+                    )
+
+        elif block_key == "other_requisite":
+            # Items have a "note" field instead of "details"
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                out["other"].append(
+                    {
+                        "note": item.get("note", ""),
+                        "rule": rule_str,
+                    }
                 )
 
-        print("✅  Import complete.\n")
+    return out
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Transaction: Course node
-# ─────────────────────────────────────────────────────────────────────────────
-def _create_course(tx, data: dict) -> None:
-    tx.run(
-        """
-        MERGE (c:Course {code: $code})
-        SET c.name    = $name,
-            c.url     = $url,
-            c.details = $details
-        """,
-        code=data["course_code"],
-        name=data.get("course_name", ""),
-        url=data.get("course_url", ""),
-        details=data.get("course_details", ""),
-    )
+# STEP 1 — COURSE FILES
+def import_courses(driver: Driver, course_dirs: list) -> None:
+    if not course_dirs:
+        log.warning("No course directories found.")
+        return
+
+    for course_dir in course_dirs:
+        dir_match = re.match(r"(C\d+)_", course_dir.name)
+        dir_code = dir_match.group(1) if dir_match else None
+
+        year_files = sorted(course_dir.glob("*.json"))
+        if not year_files:
+            log.warning("No JSON files in %s – skipping.", course_dir.name)
+            continue
+
+        log.info(
+            "Processing course dir: %s  (%d version(s))",
+            course_dir.name,
+            len(year_files),
+        )
+
+        for filepath in year_files:
+            year_match = re.fullmatch(r"(\d{4})", filepath.stem)
+            if not year_match:
+                log.warning("  Skipping non-year file: %s", filepath.name)
+                continue
+            year = int(year_match.group(1))
+
+            try:
+                with open(filepath, encoding="utf-8") as fh:
+                    data = json.load(fh)
+            except Exception as exc:
+                log.error("  Failed to read %s: %s", filepath, exc)
+                continue
+
+            course_code = (data.get("course_code") or dir_code or "").strip()
+            course_name = (data.get("course_name") or "").strip()
+            course_url = (data.get("course_url") or "").strip()
+            course_details = data.get("course_details") or ""
+
+            raw_clo = data.get("course_learning_outcomes") or []
+            course_lo = _normalise_lo(raw_clo)
+
+            if not course_code:
+                log.warning(
+                    "  Cannot determine course_code for %s – skipping.", filepath
+                )
+                continue
+
+            version_id = f"{course_code}_{year}"
+            log.info("  Loading %s version %d …", course_code, year)
+
+            with driver.session() as session:
+                session.run(
+                    """
+                    MERGE (c:Course {code: $code})
+                    SET   c.name = $name
+
+                    MERGE (cv:CourseVersion {id: $vid})
+                    SET   cv.course_code              = $code,
+                          cv.course_name              = $name,
+                          cv.year                     = $year,
+                          cv.course_url               = $url,
+                          cv.course_details           = $details,
+                          cv.course_learning_outcomes = $clo
+
+                    MERGE (c)-[:HAS_VERSION]->(cv)
+                    """,
+                    code=course_code,
+                    name=course_name,
+                    vid=version_id,
+                    year=year,
+                    url=course_url,
+                    details=course_details,
+                    clo=course_lo,
+                )
+
+                structure_items = _safe_list(data.get("structure"))
+                for idx, struct_item in enumerate(structure_items):
+                    if isinstance(struct_item, dict):
+                        _import_structure(
+                            session=session,
+                            struct_data=struct_item,
+                            parent_id=version_id,
+                            parent_label="CourseVersion",
+                            course_version_id=version_id,
+                            year=year,
+                            path=f"{version_id}_s{idx}",
+                        )
+
+            log.info("  -> CourseVersion %s imported.", version_id)
+
+        log.info("Finished course dir: %s", course_dir.name)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Transaction: one Structure node + everything inside it  (fully recursive)
-#
-# scrape_structure() produces dicts with:
-#   structure_name, structure_cp, structure_details
-#   items[]        ← Subjects or Areas of Study at THIS level
-#   sub_sections[] ← child Structure dicts  (same shape, recursive)
-#
-# The `namespace` argument is threaded through recursion to build unique
-# section codes even when section names like "Core" or "Options" repeat.
-# ─────────────────────────────────────────────────────────────────────────────
 def _import_structure(
-    tx,
-    parent_code: str,
+    session,
+    struct_data: dict,
+    parent_id: str,
     parent_label: str,
-    struct: dict,
-    order: int,
-    namespace: str,
+    course_version_id: str,
+    year: int,
+    path: str,
 ) -> None:
+    """Recursively create Structure nodes and their children."""
+    struct_name = struct_data.get("structure_name") or "Unnamed"
+    struct_cp = struct_data.get("structure_cp") or ""
+    struct_id = path
 
-    sec_name = struct.get("structure_name", "Untitled Section")
-    sec_cp = struct.get("structure_cp", "")
-    sec_details = struct.get("structure_details", "")
-
-    # Unique code: carry full ancestry as prefix
-    section_code = f"{namespace}::{sec_name}"
-
-    # ── 1. Upsert :Structure node ──────────────────────────────────────
-    tx.run(
+    session.run(
         """
-        MERGE (s:Structure {code: $code})
-        SET s.name          = $name,
-            s.credit_points = $cp,
-            s.details       = $details
+        MERGE (st:Structure {id: $id})
+        SET   st.structure_name = $name,
+              st.structure_cp   = $cp
         """,
-        code=section_code,
-        name=sec_name,
-        cp=sec_cp,
-        details=sec_details,
+        id=struct_id,
+        name=struct_name,
+        cp=struct_cp,
     )
 
-    # ── 2. Link parent  -[:HAS_STRUCTURE]->  this Structure ───────────
-    # Parent can be: Course, Structure, Major, SubMajor, ChoiceBlock
-    tx.run(
-        f"""
-        MATCH (p:{parent_label} {{code: $parent_code}})
-        MATCH (s:Structure       {{code: $section_code}})
-        MERGE (p)-[:HAS_STRUCTURE {{order: $order}}]->(s)
-        """,
-        parent_code=parent_code,
-        section_code=section_code,
-        order=order,
-    )
-
-    # ── 3. sub_sections[]  →  child Structure nodes ───────────────────
-    # Each sub-section is also a Structure; we create HAS_SUB_SECTION
-    # in addition to HAS_STRUCTURE so both semantic relationships exist.
-    for sub_order, sub_struct in enumerate(struct.get("sub_sections", [])):
-        sub_name = sub_struct.get("structure_name", "Untitled Section")
-        sub_code = f"{section_code}::{sub_name}"
-
-        # Recurse: create the child Structure and link it
-        _import_structure(
-            tx,
-            parent_code=section_code,
-            parent_label="Structure",
-            struct=sub_struct,
-            order=sub_order,
-            namespace=section_code,  # continue namespacing downward
-        )
-
-        # Semantic alias: Structure -[:HAS_SUB_SECTION]-> Structure
-        tx.run(
+    if parent_label == "CourseVersion":
+        session.run(
             """
-            MATCH (parent:Structure {code: $parent_code})
-            MATCH (child:Structure  {code: $child_code})
-            MERGE (parent)-[:HAS_SUB_SECTION {order: $order}]->(child)
+            MATCH (cv:CourseVersion {id: $pid})
+            MATCH (st:Structure     {id: $cid})
+            MERGE (cv)-[:HAS_STRUCTURE]->(st)
             """,
-            parent_code=section_code,
-            child_code=sub_code,
-            order=sub_order,
+            pid=parent_id,
+            cid=struct_id,
+        )
+    else:
+        session.run(
+            """
+            MATCH (p:Structure {id: $pid})
+            MATCH (c:Structure {id: $cid})
+            MERGE (p)-[:HAS_CHILD]->(c)
+            """,
+            pid=parent_id,
+            cid=struct_id,
         )
 
-    # ── 4. items[]  →  Subjects and/or Areas of Study ─────────────────
-    for item_order, item in enumerate(struct.get("items", [])):
-        item_type = item.get("type", "")
-
-        if item_type == "Subject":
-            # Upsert Subject and all its requisites
-            _upsert_subject(tx, item)
-
-            # Structure -[:HAS_SUBJECT]-> Subject
-            tx.run(
-                """
-                MATCH (s:Structure {code: $sec_code})
-                MATCH (subj:Subject {code: $subj_code})
-                MERGE (s)-[:HAS_SUBJECT {order: $order}]->(subj)
-                """,
-                sec_code=section_code,
-                subj_code=item["code"],
-                order=item_order,
+    # Leaf subjects
+    for subj_data in _safe_list(struct_data.get("has_subject")):
+        if isinstance(subj_data, dict):
+            _import_inline_subject(
+                session, subj_data, struct_id, course_version_id, year
             )
 
-        elif item_type in AREA_LABEL:
-            label = AREA_LABEL[item_type]
-
-            # Upsert the Area of Study node itself
-            _upsert_area_of_study(tx, item, label)
-
-            # Structure -[:HAS_AREA_OF_STUDY]-> Major|SubMajor|ChoiceBlock
-            tx.run(
-                f"""
-                MATCH (s:Structure {{code: $sec_code}})
-                MATCH (a:{label}   {{code: $area_code}})
-                MERGE (s)-[:HAS_AREA_OF_STUDY {{order: $order, area_type: $area_type}}]->(a)
-                """,
-                sec_code=section_code,
-                area_code=item["code"],
-                order=item_order,
-                area_type=item_type,
+    # Areas of study
+    for aos_idx, aos_data in enumerate(
+        _safe_list(struct_data.get("has_area_of_study"))
+    ):
+        if isinstance(aos_data, dict):
+            _import_area_of_study(
+                session,
+                aos_data,
+                struct_id,
+                course_version_id,
+                year,
+                path=f"{path}_aos{aos_idx}",
             )
 
-            # Recurse into the AoS's own internal structure[]
-            # (same shape as Course.structure — scraped by scrape_aos)
-            for sub_order, sub_struct in enumerate(item.get("structure", [])):
-                _import_structure(
-                    tx,
-                    parent_code=item["code"],
-                    parent_label=label,
-                    struct=sub_struct,
-                    order=sub_order,
-                    namespace=item["code"],  # AoS code starts fresh namespace
-                )
-
-        else:
-            if item_type:  # suppress noise for empty type fields
-                print(
-                    f"  ⚠️   Unknown item type '{item_type}' "
-                    f"(code={item.get('code', '?')})"
-                )
+    # Nested structure groups
+    for sub_idx, sub_struct in enumerate(
+        _safe_list(struct_data.get("have_sub_structures"))
+    ):
+        if isinstance(sub_struct, dict):
+            _import_structure(
+                session=session,
+                struct_data=sub_struct,
+                parent_id=struct_id,
+                parent_label="Structure",
+                course_version_id=course_version_id,
+                year=year,
+                path=f"{path}_sub{sub_idx}",
+            )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Subject node  +  requisites
-# ─────────────────────────────────────────────────────────────────────────────
-def _upsert_subject(tx, item: dict) -> None:
-    tx.run(
+def _import_inline_subject(
+    session,
+    subj_data: dict,
+    struct_id: str,
+    course_version_id: str,
+    year: int,
+) -> None:
+    """
+    Upsert Subject + SubjectVersion from inline course-file data.
+    Subject archive (Step 2) will later overwrite/enrich SubjectVersion props.
+    """
+    code = str(subj_data.get("code") or "").strip()
+    name = (subj_data.get("name") or "").strip()
+    if not code:
+        return
+
+    raw_lo = subj_data.get("learning_outcomes")
+    lo = _normalise_lo(raw_lo)
+    cp = _normalise_cp(subj_data.get("credit_points"))
+
+    req = _parse_requisites(subj_data.get("requisite_list"))
+
+    version_id = f"{code}_{year}"
+
+    session.run(
         """
         MERGE (s:Subject {code: $code})
-        SET s.name          = $name,
-            s.credit_points = $cp,
-            s.url           = $url,
-            s.description   = $desc
+        SET   s.name = $name
         """,
-        code=item["code"],
-        name=item.get("name", ""),
-        cp=item.get("credit_points", ""),
-        url=item.get("url", ""),
-        desc=item.get("description", ""),
+        code=code,
+        name=name,
     )
 
-    req_list = item.get("requisite_list", {})
-    if req_list:
-        _process_requisites(tx, item["code"], req_list)
+    session.run(
+        """
+        MERGE (sv:SubjectVersion {id: $id})
+        SET   sv.code                           = $code,
+              sv.name                           = $name,
+              sv.year                           = $year,
+              sv.url                            = $url,
+              sv.credit_points                  = $cp,
+              sv.type                           = $type,
+              sv.faculty                        = $faculty,
+              sv.study_level                    = $study_level,
+              sv.result_type                    = $result_type,
+              sv.total_workload_hours           = $workload,
+              sv.description                    = $description,
+              sv.learning_outcomes              = $lo,
+              sv.teaching_and_learning_activities = $tla,
+              sv.requisite_rule                 = $req_rule,
+              sv.anti_requisite_rule            = $anti_rule
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Area of Study node  (Major / SubMajor / ChoiceBlock)
-# Internal structure[] is handled by the caller via _import_structure recursion.
-# ─────────────────────────────────────────────────────────────────────────────
-def _upsert_area_of_study(tx, item: dict, label: str) -> None:
-    tx.run(
-        f"""
-        MERGE (a:{label} {{code: $code}})
-        SET a.name          = $name,
-            a.credit_points = $cp,
-            a.url           = $url,
-            a.description   = $desc
+        WITH sv
+        MATCH (s:Subject {code: $code})
+        MERGE (s)-[:HAS_VERSION]->(sv)
+        MERGE (sv)-[:OF_SUBJECT]->(s)
         """,
-        code=item["code"],
-        name=item.get("name", ""),
-        cp=item.get("credit_points", ""),
-        url=item.get("url", ""),
-        desc=item.get("description", ""),
+        id=version_id,
+        code=code,
+        name=name,
+        year=year,
+        url=subj_data.get("url") or "",
+        cp=cp,
+        type=subj_data.get("type") or "",
+        faculty=subj_data.get("faculty") or "",
+        study_level=subj_data.get("study_level") or "",
+        result_type=subj_data.get("result_type") or "",
+        workload=str(subj_data.get("total_workload_hours") or ""),
+        description=subj_data.get("description") or "",
+        lo=lo,
+        tla=subj_data.get("learning_and_teaching_activities") or "",
+        req_rule=req["requisite_rule"],
+        anti_rule=req["anti_requisite_rule"],
     )
 
+    session.run(
+        """
+        MATCH (st:Structure {id: $sid})
+        MATCH (s:Subject    {code: $code})
+        MERGE (st)-[:CONTAINS]->(s)
+        """,
+        sid=struct_id,
+        code=code,
+    )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Requisite processing
-#
-# The scraper captures exactly three keys inside requisite_list{}:
-#
-#   "requisite"       – things the student must satisfy BEFORE enrolling.
-#                       Items have: item_id, details, type
-#                         type = "Academic requisite"   (passed subjects / CP thresholds)
-#                         type = "Admission requisite"  (must be admitted to a course/major)
-#                       → Node:  (:Requisite)
-#                       → Rel:   (Subject)-[:HAS_REQUISITE]->(:Requisite)
-#
-#   "anti_requisite"  – subjects that PREVENT enrolment if already completed.
-#                       Items have: item_id, details   (no type field)
-#                       → Node:  (:AntiRequisite)
-#                       → Rel:   (Subject)-[:HAS_ANTI_REQUISITE]->(:AntiRequisite)
-#
-#   "other_requisite" – free-text informational notes.
-#                       Items have: note                (no item_id / details)
-#                       → Node:  (:OtherRequisite)
-#                       → Rel:   (Subject)-[:HAS_OTHER_REQUISITE]->(:OtherRequisite)
-#
-# Each requisite node is keyed on (subject_code + details/note) to avoid
-# duplicates within a subject's requisite set while remaining idempotent.
-# ─────────────────────────────────────────────────────────────────────────────
-def _process_requisites(tx, subject_code: str, req_list: dict) -> None:
+    session.run(
+        """
+        MATCH (s:Subject        {code: $code})
+        MATCH (cv:CourseVersion {id: $cv_id})
+        MERGE (s)-[:IN_COURSE_VERSION]->(cv)
+        """,
+        code=code,
+        cv_id=course_version_id,
+    )
 
-    # ── requisite  (Academic requisite / Admission requisite) ─────────
-    req_block = req_list.get("requisite")
-    if req_block:
-        rule = req_block.get("rule", "")
-        for entry in req_block.get("items", []):
-            item_id = entry.get("item_id", "")
-            details = entry.get("details", "")
-            req_type = entry.get(
-                "type", ""
-            )  # "Academic requisite" or "Admission requisite"
+    # Store requisite relationships (deferred linking done in Step 2;
+    # but inline data also triggers linking so we call it here too)
+    _create_requisite_nodes(session, version_id, req, year)
 
-            if not details:
+
+def _create_requisite_nodes(session, sv_id: str, req: dict, year: int) -> None:
+    """
+    Create AdmissionRequisite / OtherRequisite nodes and link them.
+    Subject-to-subject PREREQUISITE / ANTI_REQUISITE relationships are created
+    separately after all SubjectVersions exist (to avoid missing targets).
+    """
+    # AdmissionRequisite nodes
+    for adm in req["admission"]:
+        adm_id = f"adm_{sv_id}_{adm['item_id']}"
+        session.run(
+            """
+            MERGE (ar:AdmissionRequisite {id: $id})
+            SET   ar.detail    = $detail,
+                  ar.item_id   = $item_id,
+                  ar.item_type = $item_type,
+                  ar.rule      = $rule
+
+            WITH ar
+            MATCH (sv:SubjectVersion {id: $sv_id})
+            MERGE (sv)-[:HAS_ADMISSION_REQUISITE]->(ar)
+            """,
+            id=adm_id,
+            detail=adm["detail"],
+            item_id=adm["item_id"],
+            item_type=adm["item_type"],
+            rule=adm["rule"],
+            sv_id=sv_id,
+        )
+
+    # OtherRequisite nodes
+    for idx, other in enumerate(req["other"]):
+        other_id = f"other_{sv_id}_{idx}"
+        note_label = other["note"] if other["note"] else "Other Requisite"
+        session.run(
+            """
+            MERGE (or:OtherRequisite {id: $id})
+            SET   or.note = $note,
+                  or.rule = $rule
+
+            WITH or
+            MATCH (sv:SubjectVersion {id: $sv_id})
+            MERGE (sv)-[:HAS_OTHER_REQUISITE]->(or)
+            """,
+            id=other_id,
+            note=note_label,
+            rule=other["rule"],
+            sv_id=sv_id,
+        )
+
+
+def _import_area_of_study(
+    session,
+    aos_data: dict,
+    struct_id: str,
+    course_version_id: str,
+    year: int,
+    path: str,
+) -> None:
+    code = str(aos_data.get("code") or "").strip()
+    name = (aos_data.get("name") or "").strip()
+    if not code:
+        return
+
+    cp = _normalise_cp(aos_data.get("credit_points"))
+
+    session.run(
+        """
+        MERGE (a:AreaOfStudy {code: $code})
+        SET   a.name = $name
+        """,
+        code=code,
+        name=name,
+    )
+
+    version_id = f"{code}_{year}"
+    session.run(
+        """
+        MERGE (av:AreaOfStudyVersion {id: $id})
+        SET   av.code          = $code,
+              av.name          = $name,
+              av.year          = $year,
+              av.url           = $url,
+              av.credit_points = $cp,
+              av.type          = $type,
+              av.description   = $description
+
+        WITH av
+        MATCH (a:AreaOfStudy {code: $code})
+        MERGE (a)-[:HAS_VERSION]->(av)
+        """,
+        id=version_id,
+        code=code,
+        name=name,
+        year=year,
+        url=aos_data.get("url") or "",
+        cp=cp,
+        type=aos_data.get("type") or "",
+        description=aos_data.get("description") or "",
+    )
+
+    session.run(
+        """
+        MATCH (st:Structure  {id: $sid})
+        MATCH (a:AreaOfStudy {code: $code})
+        MERGE (st)-[:CONTAINS_AOS]->(a)
+        """,
+        sid=struct_id,
+        code=code,
+    )
+
+    session.run(
+        """
+        MATCH (a:AreaOfStudy    {code: $code})
+        MATCH (cv:CourseVersion {id: $cv_id})
+        MERGE (a)-[:IN_COURSE_VERSION]->(cv)
+        """,
+        code=code,
+        cv_id=course_version_id,
+    )
+
+    # Recurse into AoS internal structure
+    for sub_idx, sub_struct in enumerate(_safe_list(aos_data.get("have_structure"))):
+        if not isinstance(sub_struct, dict):
+            continue
+        inner_path = f"{path}_inner{sub_idx}"
+        _import_structure(
+            session=session,
+            struct_data=sub_struct,
+            parent_id=inner_path,
+            parent_label="Structure",
+            course_version_id=course_version_id,
+            year=year,
+            path=inner_path,
+        )
+        session.run(
+            """
+            MATCH (av:AreaOfStudyVersion {id: $av_id})
+            MATCH (st:Structure          {id: $st_id})
+            MERGE (av)-[:HAS_STRUCTURE]->(st)
+            """,
+            av_id=version_id,
+            st_id=inner_path,
+        )
+
+
+# STEP 2 — SUBJECT ARCHIVES
+_SUBJECT_UPSERT_CYPHER = """
+UNWIND $rows AS row
+MERGE (s:Subject {code: row.code})
+SET   s.name = row.name
+
+MERGE (sv:SubjectVersion {id: row.vid})
+SET   sv.code                           = row.code,
+      sv.name                           = row.name,
+      sv.year                           = row.year,
+      sv.url                            = row.url,
+      sv.credit_points                  = row.cp,
+      sv.type                           = row.type,
+      sv.faculty                        = row.faculty,
+      sv.study_level                    = row.study_level,
+      sv.result_type                    = row.result_type,
+      sv.total_workload_hours           = row.workload,
+      sv.description                    = row.description,
+      sv.learning_outcomes              = row.lo,
+      sv.teaching_and_learning_activities = row.tla,
+      sv.requisite_rule                 = row.req_rule,
+      sv.anti_requisite_rule            = row.anti_rule
+
+MERGE (s)-[:HAS_VERSION]->(sv)
+MERGE (sv)-[:OF_SUBJECT]->(s)
+"""
+
+# Subject-to-subject requisite link (carries item_id and rule as props)
+_PREREQ_CYPHER = """
+UNWIND $rows AS row
+MATCH (from_sv:SubjectVersion {id: row.from_vid})
+MATCH (to_sv:SubjectVersion   {id: row.to_vid})
+MERGE (from_sv)-[r:PREREQUISITE {item_id: row.item_id}]->(to_sv)
+SET   r.rule      = row.rule,
+      r.item_type = row.item_type
+"""
+
+_ANTI_CYPHER = """
+UNWIND $rows AS row
+MATCH (from_sv:SubjectVersion {id: row.from_vid})
+MATCH (to_sv:SubjectVersion   {id: row.to_vid})
+MERGE (from_sv)-[r:ANTI_REQUISITE {item_id: row.item_id}]->(to_sv)
+SET   r.rule = row.rule
+"""
+
+
+def import_subject_archives(driver: Driver, subject_dir: Path) -> None:
+    """
+    Load each YYYY_subjects.json and upsert Subject + SubjectVersion nodes,
+    then wire all requisite relationships (with item metadata on the edges).
+    """
+    files = sorted(subject_dir.glob("*_subjects.json"))
+    if not files:
+        log.warning("No subject archive files found in %s", subject_dir)
+        return
+
+    for filepath in files:
+        year_match = re.search(r"(\d{4})", filepath.stem)
+        if not year_match:
+            log.warning("Cannot extract year from %s – skipping.", filepath.name)
+            continue
+        year = int(year_match.group(1))
+
+        log.info("Processing subject archive: %s  (year=%d)", filepath.name, year)
+
+        try:
+            with open(filepath, encoding="utf-8") as fh:
+                data = json.load(fh)
+        except Exception as exc:
+            log.error("Failed to read %s: %s", filepath, exc)
+            continue
+
+        subj_rows = []
+        prereq_rows = []
+        anti_rows = []
+        adm_rows = []  # (sv_id, AdmissionRequisite data)
+        other_rows = []  # (sv_id, OtherRequisite data)
+
+        for code, subj in data.items():
+            if not isinstance(subj, dict):
                 continue
 
-            # Upsert :Requisite node
-            tx.run(
-                """
-                MERGE (r:Requisite {subject_code: $scode, details: $details})
-                SET r.type    = $req_type,
-                    r.rule    = $rule,
-                    r.item_id = $item_id
-                """,
-                scode=subject_code,
-                details=details,
-                req_type=req_type,
-                rule=rule,
-                item_id=item_id,
+            raw_lo = subj.get("learning_outcomes") or []
+            lo = _normalise_lo(raw_lo)
+            cp = _normalise_cp(subj.get("credit_points"))
+            vid = f"{code}_{year}"
+            name = subj.get("name") or ""
+
+            req = _parse_requisites(subj.get("requisite_list"))
+
+            subj_rows.append(
+                {
+                    "code": str(code),
+                    "name": name,
+                    "year": year,
+                    "vid": vid,
+                    "url": subj.get("url") or "",
+                    "cp": cp,
+                    "type": subj.get("type") or "",
+                    "faculty": subj.get("faculty") or "",
+                    "study_level": subj.get("study_level") or "",
+                    "result_type": subj.get("result_type") or "",
+                    "workload": str(
+                        subj.get("total_workload_hours") or subj.get("workload") or ""
+                    ),
+                    "description": subj.get("description") or "",
+                    "lo": lo,
+                    "tla": (
+                        subj.get("learning_and_teaching_activities")
+                        or subj.get("teaching_and_learning_activities")
+                        or ""
+                    ),
+                    "req_rule": req["requisite_rule"],
+                    "anti_rule": req["anti_requisite_rule"],
+                }
             )
 
-            # (Subject)-[:HAS_REQUISITE]->(:Requisite)
-            tx.run(
-                """
-                MATCH (s:Subject   {code: $scode})
-                MATCH (r:Requisite {subject_code: $scode, details: $details})
-                MERGE (s)-[:HAS_REQUISITE]->(r)
-                """,
-                scode=subject_code,
-                details=details,
-            )
+            for pre in req["prerequisite"]:
+                prereq_rows.append(
+                    {
+                        "from_vid": vid,
+                        "to_vid": f"{pre['code']}_{year}",
+                        "item_id": pre["item_id"],
+                        "item_type": pre["item_type"],
+                        "rule": pre["rule"],
+                    }
+                )
 
-    # ── anti_requisite ────────────────────────────────────────────────
-    anti_block = req_list.get("anti_requisite")
-    if anti_block:
-        rule = anti_block.get("rule", "")
-        for entry in anti_block.get("items", []):
-            item_id = entry.get("item_id", "")
-            details = entry.get("details", "")
+            for anti in req["anti_requisite"]:
+                anti_rows.append(
+                    {
+                        "from_vid": vid,
+                        "to_vid": f"{anti['code']}_{year}",
+                        "item_id": anti["item_id"],
+                        "rule": anti["rule"],
+                    }
+                )
 
-            if not details:
-                continue
+            for adm in req["admission"]:
+                adm_rows.append({"sv_id": vid, **adm})
 
-            # Upsert :AntiRequisite node
-            tx.run(
-                """
-                MERGE (a:AntiRequisite {subject_code: $scode, details: $details})
-                SET a.rule    = $rule,
-                    a.item_id = $item_id
-                """,
-                scode=subject_code,
-                details=details,
-                rule=rule,
-                item_id=item_id,
-            )
+            for idx, other in enumerate(req["other"]):
+                other_rows.append({"sv_id": vid, "idx": idx, **other})
 
-            # (Subject)-[:HAS_ANTI_REQUISITE]->(:AntiRequisite)
-            tx.run(
-                """
-                MATCH (s:Subject       {code: $scode})
-                MATCH (a:AntiRequisite {subject_code: $scode, details: $details})
-                MERGE (s)-[:HAS_ANTI_REQUISITE]->(a)
-                """,
-                scode=subject_code,
-                details=details,
-            )
+        # Batch upsert SubjectVersion nodes
+        _run_batches(driver, _SUBJECT_UPSERT_CYPHER, subj_rows)
 
-    # ── other_requisite  (free-text notes) ───────────────────────────
-    other_block = req_list.get("other_requisite")
-    if other_block:
-        rule = other_block.get("rule", "")
-        for entry in other_block.get("items", []):
-            note = entry.get("note", "").strip()
+        # Subject-to-subject prerequisite / anti-requisite edges
+        if prereq_rows:
+            _run_batches(driver, _PREREQ_CYPHER, prereq_rows)
+        if anti_rows:
+            _run_batches(driver, _ANTI_CYPHER, anti_rows)
 
-            if not note:
-                continue
+        # AdmissionRequisite nodes and edges (per-subject, can't UNWIND easily with MERGE edge)
+        if adm_rows:
+            _run_batches(driver, _ADM_UPSERT_CYPHER, adm_rows)
 
-            # Upsert :OtherRequisite node
-            tx.run(
-                """
-                MERGE (o:OtherRequisite {subject_code: $scode, note: $note})
-                SET o.rule = $rule
-                """,
-                scode=subject_code,
-                note=note,
-                rule=rule,
-            )
+        if other_rows:
+            _run_batches(driver, _OTHER_UPSERT_CYPHER, other_rows)
 
-            # (Subject)-[:HAS_OTHER_REQUISITE]->(:OtherRequisite)
-            tx.run(
-                """
-                MATCH (s:Subject        {code: $scode})
-                MATCH (o:OtherRequisite {subject_code: $scode, note: $note})
-                MERGE (s)-[:HAS_OTHER_REQUISITE]->(o)
-                """,
-                scode=subject_code,
-                note=note,
-            )
+        log.info(
+            "  -> %d subjects | %d prereqs | %d anti | %d admission | %d other",
+            len(subj_rows),
+            len(prereq_rows),
+            len(anti_rows),
+            len(adm_rows),
+            len(other_rows),
+        )
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# CLI
-# ─────────────────────────────────────────────────────────────────────────────
+_ADM_UPSERT_CYPHER = """
+UNWIND $rows AS row
+MERGE (ar:AdmissionRequisite {id: 'adm_' + row.sv_id + '_' + row.item_id})
+SET   ar.detail    = row.detail,
+      ar.item_id   = row.item_id,
+      ar.item_type = row.item_type,
+      ar.rule      = row.rule
+
+WITH ar, row
+MATCH (sv:SubjectVersion {id: row.sv_id})
+MERGE (sv)-[:HAS_ADMISSION_REQUISITE]->(ar)
+"""
+
+_OTHER_UPSERT_CYPHER = """
+UNWIND $rows AS row
+MERGE (or:OtherRequisite {id: 'other_' + row.sv_id + '_' + toString(row.idx)})
+SET   or.note = row.note,
+      or.rule = row.rule
+
+WITH or, row
+MATCH (sv:SubjectVersion {id: row.sv_id})
+MERGE (sv)-[:HAS_OTHER_REQUISITE]->(or)
+"""
+
+# STEP 3 — NEXT_VERSION CHAINS
+
+
+def link_next_versions(driver: Driver) -> None:
+    log.info("Linking NEXT_VERSION chains for SubjectVersion ...")
+    with driver.session() as session:
+        session.run("""
+            MATCH (s:Subject)-[:HAS_VERSION]->(sv:SubjectVersion)
+            WITH  s, sv ORDER BY sv.year
+            WITH  s, collect(sv) AS versions
+            UNWIND range(0, size(versions)-2) AS i
+            WITH  versions[i] AS curr, versions[i+1] AS nxt
+            MERGE (curr)-[:NEXT_VERSION]->(nxt)
+        """)
+
+    log.info("Linking NEXT_VERSION chains for AreaOfStudyVersion ...")
+    with driver.session() as session:
+        session.run("""
+            MATCH (a:AreaOfStudy)-[:HAS_VERSION]->(av:AreaOfStudyVersion)
+            WITH  a, av ORDER BY av.year
+            WITH  a, collect(av) AS versions
+            UNWIND range(0, size(versions)-2) AS i
+            WITH  versions[i] AS curr, versions[i+1] AS nxt
+            MERGE (curr)-[:NEXT_VERSION]->(nxt)
+        """)
+
+    log.info("NEXT_VERSION chains created.")
+
+
+# MAIN
+
+
 def main() -> None:
-    json_file = "2026.json"
-    neo4j_uri = "neo4j://127.0.0.1:7687"
-    neo4j_user = "neo4j"
-    neo4j_pass = "Trungvip2404@"
+    log.info("Connecting to Neo4j at %s ...", NEO4J_URI)
 
     try:
-        with open(json_file, encoding="utf-8") as f:
-            course_data = json.load(f)
-    except FileNotFoundError:
-        print(f"❌  File not found: {json_file}")
-        sys.exit(1)
-    except json.JSONDecodeError as e:
-        print(f"❌  JSON parse error: {e}")
-        sys.exit(1)
+        driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
+        driver.verify_connectivity()
+        log.info("Connection verified.")
+    except Exception as exc:
+        log.error("Cannot connect to Neo4j: %s", exc)
+        raise SystemExit(1)
 
-    importer = UTSGraphImporter(neo4j_uri, neo4j_user, neo4j_pass)
     try:
-        importer.import_course(course_data)
+        create_constraints(driver)
+
+        log.info("Scanning DATASET_PATH: %s", DATASET_PATH)
+        course_dirs, subject_dir = discover_folders(DATASET_PATH)
+
+        log.info(
+            "=== Step 1: Importing course files (%d course dir(s)) ===",
+            len(course_dirs),
+        )
+        import_courses(driver, course_dirs)
+
+        if subject_dir:
+            log.info("=== Step 2: Importing subject archives from %s ===", subject_dir)
+            import_subject_archives(driver, subject_dir)
+        else:
+            log.warning("No subject_archives folder found – skipping Step 2.")
+
+        log.info("=== Step 3: Linking version chains ===")
+        link_next_versions(driver)
+
+        log.info("Import complete.")
+
     finally:
-        importer.close()
+        driver.close()
 
 
 if __name__ == "__main__":

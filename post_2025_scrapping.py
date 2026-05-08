@@ -9,7 +9,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from bs4 import BeautifulSoup
 
-
 # setup selenium
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
@@ -122,7 +121,7 @@ def scrape_subject(url):
         "study_level": None,
         "result_type": None,
         "total_workload_hours": None,
-        "leanring_outcomes": None,
+        "learning_outcomes": None,
         "learning_and_teaching_activities": None,
         "description": None,
     }
@@ -152,7 +151,7 @@ def scrape_subject(url):
                         data[json_key] = body.get_text(strip=True)
 
     # Extract Learning Outcomes
-    data["leanring_outcomes"] = extract_learning_outcomes(soup)
+    data["learning_outcomes"] = extract_learning_outcomes(soup)
 
     # Extract learning and teaching eactivities
     activities_section = soup.find(
@@ -387,12 +386,12 @@ def scrape_course(course_url):
     # scrape course details
     details = soup.find("div", class_="readmore-content-wrapper")
     course_details = details.get_text(strip=True) if details else "No details"
-    course_leanring_outcomes = extract_learning_outcomes(soup)
+    course_learning_outcomes = extract_learning_outcomes(soup)
     course_data = {
         "course_code": course_code,
         "course_name": course_name,
         "course_details": course_details,
-        "course_leanring_outcomes": course_leanring_outcomes,
+        "course_learning_outcomes": course_learning_outcomes,
         "course_url": course_url,
         "structure": [],
     }

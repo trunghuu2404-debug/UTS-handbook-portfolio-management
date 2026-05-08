@@ -9,7 +9,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from bs4 import BeautifulSoup
 
-
 # setup selenium
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
@@ -95,7 +94,7 @@ def scrape_subject(url, code, name, cp):
         "study_level": "No study level available",
         "result_type": "No result type available",
         "total_workload_hours": "No workload information",
-        "leanring_outcomes": "No learning outcomes available",
+        "learning_outcomes": "No learning outcomes available",
         "learning_and_teaching_activities": "No activities available",
         "description": "No description available",
     }
@@ -200,8 +199,8 @@ def scrape_subject(url, code, name, cp):
                 for td in slo_table.find_all("td")
                 if td.get_text(strip=True)
             ]
-            data["leanring_outcomes"] = (
-                outcomes if outcomes else data["leanring_outcomes"]
+            data["learning_outcomes"] = (
+                outcomes if outcomes else data["learning_outcomes"]
             )
 
         # Teaching and Learning Strategies
@@ -533,7 +532,7 @@ def scrape_course(course_url):
         "course_code": course_code,
         "course_name": course_name,
         "course_details": course_details,
-        "course_leanring_outcomes": (
+        "course_learning_outcomes": (
             course_learning_outcomes
             if course_learning_outcomes
             else "No learning outcomes available"

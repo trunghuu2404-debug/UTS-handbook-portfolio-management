@@ -20,6 +20,7 @@ from database.neo4j import get_driver, close_driver
 from routes.course_routes import router as course_router
 from routes.subject_routes import router as subject_router
 from routes.graph_routes import router as graph_router
+from routes.similarity_routes import router as similarity_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -72,7 +73,7 @@ app.add_middleware(
 app.include_router(course_router)
 app.include_router(subject_router)
 app.include_router(graph_router)
-
+app.include_router(similarity_router)
 
 @app.get("/", tags=["Health"])
 def health_check():

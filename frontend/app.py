@@ -12,6 +12,7 @@ Ensure the FastAPI backend is running at API_BASE_URL before starting.
 import streamlit as st
 import requests
 import json
+import streamlit.components.v1 as components
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -134,12 +135,13 @@ with st.sidebar:
 st.title("UTS Curriculum Digital Twin")
 st.markdown("Explore course structures and subject requisites stored in Neo4j.")
 
-tab_course, tab_subject, tab_requisites, tab_graph = st.tabs(
+tab_course, tab_subject, tab_requisites, tab_graph, tab_similarity = st.tabs(
     [
         "📚 Course Structure",
         "📖 Subject Detail",
         "🔗 Subject Requisites",
         "🕸️ Requisite Graph",
+        "🧠 Subject Similarity",
     ]
 )
 
@@ -466,7 +468,6 @@ with tab_graph:
 
             st.markdown("---")
 
-            # ── Node breakdown ────────────────────────────────────────────
             st.subheader("Nodes")
             type_groups: dict[str, list] = {}
             for n in nodes:
@@ -482,7 +483,6 @@ with tab_graph:
                         )
                         st.markdown(f"- **{n['label']}**  {props_str}")
 
-            # ── Edge breakdown ────────────────────────────────────────────
             st.subheader("Relationships")
             with st.expander(f"All edges  ({len(links)})", expanded=True):
                 for link in links:
@@ -494,14 +494,204 @@ with tab_graph:
                         f"`{link['target']}`  {props_str}"
                     )
 
-            # ── Full JSON ─────────────────────────────────────────────────
             with st.expander("Full raw JSON", expanded=False):
                 st.json(graph)
 
-            # ── Download ──────────────────────────────────────────────────
             st.download_button(
                 label="Download graph JSON",
                 data=json.dumps(graph, indent=2),
                 file_name=f"graph_{selected_subject_code}_{year}.json",
                 mime="application/json",
             )
+
+
+# ===========================================================================
+# TAB 5 — Subject Similarity
+# ===========================================================================
+
+with tab_similarity:
+    st.header("Subject similarity comparison")
+    st.markdown(
+        "Compare two subjects using TF-IDF vectorisation and cosine similarity. "
+        "The backend calculates the score and returns the result to the frontend."
+    )
+
+    col_a, col_b = st.columns(2)
+
+    with col_a:
+        st.subheader("Subject 1")
+        subject_code_1 = st.text_input("Subject 1 code", value="41040")
+        year_1 = st.number_input(
+            "Subject 1 year",
+            min_value=2023,
+            max_value=2026,
+            value=2026,
+            step=1,
+            key="similarity_year_1",
+        )
+
+    with col_b:
+        st.subheader("Subject 2")
+        subject_code_2 = st.text_input("Subject 2 code", value="42172")
+        year_2 = st.number_input(
+            "Subject 2 year",
+            min_value=2023,
+            max_value=2026,
+            value=2026,
+            step=1,
+            key="similarity_year_2",
+        )
+
+    compare_clicked = st.button("Compare subjects", type="primary")
+
+    if compare_clicked:
+        with st.spinner("Calculating subject similarity …"):
+            result = api_get(
+                "/similarity/compare",
+                params={
+                    "subject_code_1": subject_code_1.strip(),
+                    "subject_code_2": subject_code_2.strip(),
+                    "year_1": str(year_1),
+                    "year_2": str(year_2),
+                },
+            )
+
+        if result:
+            st.markdown("---")
+
+            subject_1 = result["subject_1"]
+            subject_2 = result["subject_2"]
+            similarity_percentage = result["similarity_percentage"]
+            similarity_score = result["similarity_score"]
+
+            left, middle, right = st.columns([2, 1, 2])
+
+            with left:
+                st.markdown("### Subject 1")
+                st.markdown(f"**{subject_1['name']}**")
+                st.caption(f"{subject_1['code']} · {subject_1['year']}")
+
+            with middle:
+                st.metric("Similarity", f"{similarity_percentage}%")
+                st.progress(similarity_score)
+
+            with right:
+                st.markdown("### Subject 2")
+                st.markdown(f"**{subject_2['name']}**")
+                st.caption(f"{subject_2['code']} · {subject_2['year']}")
+
+            st.markdown("---")
+            st.subheader("Similarity relationship diagram")
+
+            diagram_html = f"""
+            <div style="
+                background-color:#0e1117;
+                color:#fafafa;
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:24px;
+                padding:24px;
+                font-family:Arial, sans-serif;
+            ">
+                <div style="
+                    flex:1;
+                    padding:22px;
+                    border:1px solid #4b5563;
+                    border-radius:14px;
+                    text-align:center;
+                    background-color:#111827;
+                ">
+                    <h2 style="margin:0 0 10px 0; color:#fafafa;">{subject_1['code']}</h2>
+                    <p style="margin:0 0 8px 0; color:#e5e7eb;">{subject_1['name']}</p>
+                    <small style="color:#9ca3af;">{subject_1['year']}</small>
+                </div>
+
+                <div style="
+                    flex:1;
+                    text-align:center;
+                    color:#fafafa;
+                ">
+                    <div style="font-size:32px; font-weight:bold; color:#fafafa;">{similarity_percentage}%</div>
+                    <div style="margin:12px 0; font-size:24px; color:#60a5fa;">──────────────▶</div>
+                    <div style="font-size:14px; color:#d1d5db;">TF-IDF + Cosine Similarity</div>
+                </div>
+
+                <div style="
+                    flex:1;
+                    padding:22px;
+                    border:1px solid #4b5563;
+                    border-radius:14px;
+                    text-align:center;
+                    background-color:#111827;
+                ">
+                    <h2 style="margin:0 0 10px 0; color:#fafafa;">{subject_2['code']}</h2>
+                    <p style="margin:0 0 8px 0; color:#e5e7eb;">{subject_2['name']}</p>
+                    <small style="color:#9ca3af;">{subject_2['year']}</small>
+                </div>
+            </div>
+            """
+
+            components.html(diagram_html, height=240)
+
+            st.markdown("---")
+
+            st.subheader("Field-level similarity")
+
+            field_scores = result.get("field_scores", {})
+
+            field_labels = {
+                "description": "Description",
+                "learning_outcomes": "Learning outcomes",
+                "learning_activities": "Learning and teaching activities",
+            }
+
+            for key, label in field_labels.items():
+                field = field_scores.get(key)
+
+                if field:
+                    percentage = field["percentage"]
+                    score = field["score"]
+
+                    st.markdown(f"**{label}: {percentage}%**")
+                    st.progress(score)
+
+            st.markdown("---")
+
+            st.subheader("Interpretation")
+            st.success(result["classification"])
+            st.caption(f"Method: {result['method']}")
+
+            st.markdown("---")
+            st.subheader("Top 5 similar subjects")
+
+            top_result = api_get(
+                "/similarity/top",
+                params={
+                    "subject_code": subject_code_1.strip(),
+                    "year": str(year_1),
+                    "limit": 5,
+                },
+            )
+
+            if top_result:
+                top_matches = top_result.get("top_matches", [])
+
+                for match in top_matches:
+                    with st.container(border=True):
+                        st.markdown(f"### {match['name']}")
+                        st.caption(
+                            f"{match['code']} · {match['year']}"
+                        )
+
+                        st.metric(
+                            "Similarity",
+                            f"{match['similarity_percentage']}%"
+                        )
+
+                        st.write(match["classification"])
+
+                        st.progress(match["similarity_score"])
+
+            with st.expander("Raw API response"):
+                st.json(result)

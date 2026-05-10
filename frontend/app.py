@@ -43,17 +43,6 @@ VIZ_DIR = PROJECT_ROOT / "visualisations"
 
 
 def embed_html(filename: str, height: int = 900) -> None:
-<<<<<<< HEAD
-    """Read a self-contained HTML viz from PROJECT_ROOT and embed it inline."""
-    path = PROJECT_ROOT / "visualisations" / filename
-    if not path.exists():
-        st.error(
-            f"Visualisation file not found: `{filename}`. "
-            f"Make sure the HTML file is in the project root: `{PROJECT_ROOT}`"
-        )
-        return
-    components.html(path.read_text(encoding="utf-8"), height=height, scrolling=True)
-=======
     """Read a self-contained HTML viz and embed it inline."""
     for candidate in (VIZ_DIR / filename, PROJECT_ROOT / filename):
         if candidate.exists():
@@ -63,11 +52,11 @@ def embed_html(filename: str, height: int = 900) -> None:
                 scrolling=True,
             )
             return
+
     st.error(
         f"Visualisation file not found: `{filename}`. "
         f"Looked in `{VIZ_DIR}` and `{PROJECT_ROOT}`."
     )
->>>>>>> 5261123728d4dcd6b7ff3e77e2a94a2807891e6d
 
 
 # ---------------------------------------------------------------------------

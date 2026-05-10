@@ -625,18 +625,26 @@ with tab_graph:
 
                 if is_subject:
                     display_label = str(props.get("code") or label or node_id)
-                    title = f"""
-                    <b>{props.get("name", label)}</b><br>
-                    Type: {node_type}<br>
-                    Code: {props.get("code", "")}<br>
-                    Year: {props.get("year", "")}
-                    """
+                    title = (
+                        f"{props.get('name', label)}\n"
+                        f"Type: {node_type}\n"
+                        f"Code: {props.get('code', '')}\n"
+                        f"Year: {props.get('year', '')}"
+                    )
                 else:
-                    display_label = ""
-                    title = f"""
-                    <b>{label}</b><br>
-                    Type: {node_type}
-                    """
+                    if "Admission" in node_type:
+                        display_label = "Admission"
+                    elif "Anti" in node_type:
+                        display_label = "Anti-req"
+                    elif "Co" in node_type:
+                        display_label = "Co-req"
+                    else:
+                        display_label = "Prerequisite"
+
+                    title = (
+                        f"{label}\n"
+                        f"Type: {node_type}"
+                    )
 
                 net.add_node(
                     node_id,

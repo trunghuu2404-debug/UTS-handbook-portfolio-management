@@ -585,16 +585,13 @@ with tab_requisites:
 # ===========================================================================
 
 with tab_graph:
-    st.header("Requisite graph  (JSON)")
-    st.markdown(
-        "Raw graph payload — pipe this into D3.js, Cytoscape, or vis-network "
-        "on the frontend for visual rendering."
-    )
+    st.header("Interactive Requisite Graph")
 
     if not selected_subject_code:
         st.info("Search for a subject in the sidebar, then select it.")
     else:
         year = int(selected_subject_year)
+
         with st.spinner(
             f"Loading requisite graph for {selected_subject_code} ({year}) …"
         ):
@@ -604,37 +601,115 @@ with tab_graph:
             nodes = graph.get("nodes", [])
             links = graph.get("links", [])
 
+            from pyvis.network import Network
+            import tempfile
+
+            net = Network(
+                height="650px",
+                width="100%",
+                bgcolor="#0e1117",
+                font_color="#ffffff",
+                directed=True,
+                cdn_resources="in_line",
+            )
+
+            added_node_ids = set()
+
+            for node in nodes:
+                node_id = str(node.get("id"))
+                label = node.get("label") or node_id
+                node_type = node.get("type", "Unknown")
+                props = node.get("properties", {})
+
+                is_subject = node_type == "SubjectVersion"
+
+                if is_subject:
+                    display_label = str(props.get("code") or label or node_id)
+                    title = f"""
+                    <b>{props.get("name", label)}</b><br>
+                    Type: {node_type}<br>
+                    Code: {props.get("code", "")}<br>
+                    Year: {props.get("year", "")}
+                    """
+                else:
+                    display_label = ""
+                    title = f"""
+                    <b>{label}</b><br>
+                    Type: {node_type}
+                    """
+
+                net.add_node(
+                    node_id,
+                    label=display_label,
+                    title=title,
+                    color="#3498db" if is_subject else "#f39c12",
+                    size=42 if is_subject else 18,
+                    shape="circle",
+                    borderWidth=2,
+                    font={
+                        "size": 18,
+                        "face": "Inter",
+                        "color": "#ffffff",
+                    },
+                )
+
+                added_node_ids.add(node_id)
+
+            for link in links:
+                source = str(link.get("source"))
+                target = str(link.get("target"))
+                relationship = link.get("relationship", "")
+
+                if source not in added_node_ids or target not in added_node_ids:
+                    continue
+
+                net.add_edge(
+                    source,
+                    target,
+                    title=relationship,
+                    arrows="to",
+                    color="#60a5fa",
+                    width=2,
+                )
+
+            net.set_options("""
+            {
+              "physics": {
+                "enabled": true,
+                "barnesHut": {
+                  "gravitationalConstant": -6000,
+                  "centralGravity": 0.2,
+                  "springLength": 180,
+                  "springConstant": 0.04,
+                  "damping": 0.5
+                },
+                "stabilization": {"iterations": 200}
+              },
+              "interaction": {
+                "hover": true,
+                "tooltipDelay": 100,
+                "navigationButtons": true,
+                "keyboard": true
+              },
+              "nodes": {
+                "font": {
+                  "size": 14,
+                  "face": "Inter, Arial, sans-serif",
+                  "color": "#ffffff"
+                }
+              }
+            }
+            """)
+
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp:
+                net.write_html(tmp.name, notebook=False, open_browser=False)
+                html = Path(tmp.name).read_text(encoding="utf-8")
+
+            components.html(html, height=700, scrolling=True)
+
             col1, col2 = st.columns(2)
             col1.metric("Nodes", len(nodes))
             col2.metric("Relationships", len(links))
-
-            st.markdown("---")
-
-            st.subheader("Nodes")
-            type_groups: dict[str, list] = {}
-            for n in nodes:
-                t = n.get("type", "Unknown")
-                type_groups.setdefault(t, []).append(n)
-
-            for node_type, group in type_groups.items():
-                with st.expander(f"{node_type}  ({len(group)})", expanded=True):
-                    for n in group:
-                        props = n.get("properties", {})
-                        props_str = "  ·  ".join(
-                            f"`{k}`: {v}" for k, v in props.items() if v
-                        )
-                        st.markdown(f"- **{n['label']}**  {props_str}")
-
-            st.subheader("Relationships")
-            with st.expander(f"All edges  ({len(links)})", expanded=True):
-                for link in links:
-                    props = link.get("properties", {})
-                    props_items = [f"`{k}={v}`" for k, v in props.items() if v]
-                    props_str = "  ".join(props_items)
-                    st.markdown(
-                        f"- `{link['source']}` **→{link['relationship']}→** "
-                        f"`{link['target']}`  {props_str}"
-                    )
 
             with st.expander("Full raw JSON", expanded=False):
                 st.json(graph)
@@ -645,7 +720,6 @@ with tab_graph:
                 file_name=f"graph_{selected_subject_code}_{year}.json",
                 mime="application/json",
             )
-
 
 # ===========================================================================
 # ===========================================================================

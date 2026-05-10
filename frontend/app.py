@@ -13,6 +13,24 @@ import streamlit as st
 import requests
 import json
 import streamlit.components.v1 as components
+from pathlib import Path
+
+# Project root (one level up from this frontend/ folder) — where the standalone
+# visualisation HTML files live.
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
+def embed_html(filename: str, height: int = 900) -> None:
+    """Read a self-contained HTML viz from PROJECT_ROOT and embed it inline."""
+    path = PROJECT_ROOT / filename
+    if not path.exists():
+        st.error(
+            f"Visualisation file not found: `{filename}`. "
+            f"Make sure the HTML file is in the project root: `{PROJECT_ROOT}`"
+        )
+        return
+    components.html(path.read_text(encoding="utf-8"), height=height, scrolling=True)
+
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -135,13 +153,22 @@ with st.sidebar:
 st.title("UTS Curriculum Digital Twin")
 st.markdown("Explore course structures and subject requisites stored in Neo4j.")
 
-tab_course, tab_subject, tab_requisites, tab_graph, tab_similarity = st.tabs(
+(
+    tab_course, tab_subject, tab_requisites, tab_graph, tab_similarity,
+    tab_twins, tab_sunburst, tab_tree, tab_evolution, tab_prereq, tab_shared,
+) = st.tabs(
     [
         "📚 Course Structure",
         "📖 Subject Detail",
         "🔗 Subject Requisites",
         "🕸️ Requisite Graph",
         "🧠 Subject Similarity",
+        "👯 Subject Twins",
+        "🌞 Course Sunburst",
+        "🌳 Course Tree (D3)",
+        "📅 Subject Evolution",
+        "🧭 Prerequisite Tree (D3)",
+        "🔄 Shared Subjects",
     ]
 )
 
@@ -695,3 +722,85 @@ with tab_similarity:
 
             with st.expander("Raw API response"):
                 st.json(result)
+
+# ===========================================================================
+# TAB 6 - Subject Twins (similarity NETWORK - Eden's viz)
+# ===========================================================================
+
+with tab_twins:
+    st.header("Subject Twins & Siblings")
+    st.markdown(
+        "Network of UTS subjects whose descriptions and learning outcomes are "
+        "textually similar (cosine similarity >= 0.70). Clusters of tightly "
+        "connected subjects are likely 'twins' across programs."
+    )
+    year = st.radio("Year", ["2024", "2023"], horizontal=True, key="twins_year")
+    embed_html(f"subject_similarity_network_{year}.html", height=950)
+
+
+# ===========================================================================
+# TAB 7 - Course Sunburst (Eden's viz)
+# ===========================================================================
+
+with tab_sunburst:
+    st.header("Course Structure (Sunburst)")
+    st.markdown(
+        "Interactive radial chart of a course's structure. Click any wedge to zoom in. "
+        "Grey wedges flag branches present in the handbook but not captured by the scraper."
+    )
+    course_choice = st.radio(
+        "Course",
+        ["Master of AI (C04443)", "Bachelor of AI (C10474)"],
+        horizontal=True,
+        key="sunburst_course",
+    )
+    code = "C04443" if "C04443" in course_choice else "C10474"
+    embed_html(f"course_structure_sunburst_{code}_2026.html", height=900)
+
+
+# ===========================================================================
+# TAB 8 - Course Tree D3 (Eden's viz)
+# ===========================================================================
+
+with tab_tree:
+    st.header("Course Structure (D3 Tree)")
+    st.markdown(
+        "Same data as the sunburst, drawn as a top-down D3 hierarchy. "
+        "Default-collapsed to depth 2; click any blue or purple node to expand."
+    )
+    course_choice = st.radio(
+        "Course",
+        ["Master of AI (C04443)", "Bachelor of AI (C10474)"],
+        horizontal=True,
+        key="tree_course",
+    )
+    code = "C04443" if "C04443" in course_choice else "C10474"
+    embed_html(f"course_tree_d3_{code}_2026.html", height=900)
+
+
+# ===========================================================================
+# TAB 9 - Subject Evolution (Eden's viz)
+# ===========================================================================
+
+with tab_evolution:
+    st.header("Subject Evolution Across Years")
+    st.markdown(
+        "How a single subject has changed across 2023-2026: credit points, learning "
+        "outcomes, description length, requisite count, plus a colour-coded text diff "
+        "of what was added or removed each year."
+    )
+    embed_html("subject_evolution_41040.html", height=1200)
+
+
+with tab_prereq:
+    st.header("Prerequisite Tree (D3)")
+    st.markdown("Vertical D3 tree of a subject's prerequisite chain. Click any node to collapse/expand.")
+    subject_choice = st.radio("Subject", ["41001 - Cloud Computing", "41043 - NLP"], horizontal=True, key="prereq_subject")
+    code = subject_choice.split(" - ")[0]
+    embed_html(f"prereq_tree_d3_{code}_2026.html", height=900)
+
+
+with tab_shared:
+    st.header("Subjects Shared Across Programs")
+    st.markdown("Bipartite network of programs and their subjects. Gold = subjects in 2+ programs.")
+    embed_html("shared_subjects_across_programs_2026.html", height=950)

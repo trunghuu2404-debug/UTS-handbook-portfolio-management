@@ -907,7 +907,7 @@ with tab_similarity:
 with tab_twins:
     st.header("Subject Twins & Siblings")
     st.markdown("Network of UTS subjects whose descriptions and learning outcomes are textually similar (cosine similarity >= 0.70). Tight clusters are likely 'twins' across programs.")
-    year = st.radio("Year", ["2024", "2023"], horizontal=True, key="twins_year")
+    year = st.radio("Year", ["2026", "2025", "2024", "2023"], horizontal=True, key="twins_year")
     embed_html(f"subject_similarity_network_{year}.html", height=950)
 
 

@@ -17,11 +17,11 @@ from pathlib import Path
 
 from pyvis.network import Network
 
-REPO = Path("/sessions/epic-affectionate-davinci/mnt/UTS-handbook-portfolio-management-main")
+REPO = Path(__file__).resolve().parent.parent
 DATASET = REPO / "dataset"
 YEAR = "2026"
 
-OUT = REPO / f"shared_subjects_across_programs_{YEAR}.html"
+OUT = REPO / "visualisations" / f"shared_subjects_across_programs_{YEAR}.html"
 
 
 def collect_subjects(node, found):
@@ -145,7 +145,7 @@ header = f"""
   <div style='font-size:13px;color:#666;margin-top:4px;'>
     Big coloured nodes = degree programs. Small nodes = subjects within them.
     <strong>Gold subjects</strong> appear in 2+ programs and naturally settle in the middle of the layout
-    (they are "shared subjects" - the brief asks for these).
+    (they are "shared subjects").
     Grey subjects appear in only one program.
   </div>
   <div style='margin-top:8px;font-size:12px;color:#444;'>

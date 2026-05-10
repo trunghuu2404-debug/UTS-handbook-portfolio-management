@@ -69,8 +69,8 @@ def get_course_graph(course_code: str, year=None) -> GraphResponse:
 
     Each node gets a 'type' so the frontend can colour-code them.
     """
-    # Build optional year filter clause
-    year_filter = "AND cv.year = $year" if year is not None else ""
+    # Build optional year filter — must use WHERE not AND after MATCH
+    year_filter = "WHERE cv.year = $year" if year is not None else ""
 
     cypher = f"""
     MATCH (c:Course {{code: $code}})-[:HAS_VERSION]->(cv:CourseVersion)

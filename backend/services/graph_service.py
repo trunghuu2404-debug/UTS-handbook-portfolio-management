@@ -194,7 +194,7 @@ def get_aos_graph(aos_code: str, year=None) -> GraphResponse:
     (AreaOfStudyVersion → Structure → Subjects).
     Optionally filter to a single year.
     """
-    year_filter = "AND av.year = $year" if year is not None else ""
+    year_filter = "WHERE av.year = $year" if year is not None else ""
 
     cypher = f"""
     MATCH (a:AreaOfStudy {{code: $code}})-[:HAS_VERSION]->(av:AreaOfStudyVersion)

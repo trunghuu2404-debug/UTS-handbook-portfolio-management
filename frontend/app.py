@@ -713,6 +713,10 @@ with tab_similarity:
                 st.markdown("### Subject 1")
                 st.markdown(f"**{subject_1['name']}**")
                 st.caption(f"{subject_1['code']} · {subject_1['year']}")
+                st.markdown(f"**Study level:** {subject_1.get('study_level') or '—'}")
+                st.markdown(f"**Faculty:** {subject_1.get('faculty') or '—'}")
+                st.markdown(f"**Credit points:** {subject_1.get('credit_points') or '—'}")
+                st.markdown(f"**Workload hours:** {subject_1.get('workload_hours') or '—'}")
 
             with middle:
                 st.metric("Similarity", f"{similarity_percentage}%")
@@ -722,6 +726,10 @@ with tab_similarity:
                 st.markdown("### Subject 2")
                 st.markdown(f"**{subject_2['name']}**")
                 st.caption(f"{subject_2['code']} · {subject_2['year']}")
+                st.markdown(f"**Study level:** {subject_2.get('study_level') or '—'}")
+                st.markdown(f"**Faculty:** {subject_2.get('faculty') or '—'}")
+                st.markdown(f"**Credit points:** {subject_2.get('credit_points') or '—'}")
+                st.markdown(f"**Workload hours:** {subject_2.get('workload_hours') or '—'}")
 
             st.markdown("---")
             st.subheader("Similarity relationship diagram")
@@ -800,6 +808,29 @@ with tab_similarity:
                     st.progress(score)
 
             st.markdown("---")
+
+            st.markdown("---")
+            st.subheader("Source text used for NLP comparison")
+
+            text_col_1, text_col_2 = st.columns(2)
+
+            with text_col_1:
+                st.markdown(f"### {subject_1['code']} · {subject_1['name']}")
+                with st.expander("Description", expanded=False):
+                    st.write(subject_1.get("description") or "No description available.")
+                with st.expander("Learning outcomes", expanded=False):
+                    st.write(subject_1.get("learning_outcomes") or "No learning outcomes available.")
+                with st.expander("Learning and teaching activities", expanded=False):
+                    st.write(subject_1.get("learning_activities") or "No learning activities available.")
+
+            with text_col_2:
+                st.markdown(f"### {subject_2['code']} · {subject_2['name']}")
+                with st.expander("Description", expanded=False):
+                    st.write(subject_2.get("description") or "No description available.")
+                with st.expander("Learning outcomes", expanded=False):
+                    st.write(subject_2.get("learning_outcomes") or "No learning outcomes available.")
+                with st.expander("Learning and teaching activities", expanded=False):
+                    st.write(subject_2.get("learning_activities") or "No learning activities available.")
 
             st.subheader("Interpretation")
             st.success(result["classification"])

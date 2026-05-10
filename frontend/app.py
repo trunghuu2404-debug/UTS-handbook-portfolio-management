@@ -710,8 +710,8 @@ with tab_graph:
             """)
 
             with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp:
-                net.write_html(tmp.name, notebook=False, open_browser=False)
-                html = Path(tmp.name).read_text(encoding="utf-8")
+                html = net.generate_html(notebook=False)
+                Path(tmp.name).write_text(html, encoding="utf-8")
 
             components.html(html, height=700, scrolling=True)
 

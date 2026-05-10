@@ -12,24 +12,50 @@ Ensure the FastAPI backend is running at API_BASE_URL before starting.
 import streamlit as st
 import requests
 import json
+import sys
 import streamlit.components.v1 as components
 from pathlib import Path
 
-# Project root (one level up from this frontend/ folder) — where the standalone
-# visualisation HTML files live.
+# Make the visualisations/ folder importable so we can call the dynamic
+# build_*_html() functions on demand.
+_VIZ_PKG = Path(__file__).resolve().parent.parent / "visualisations"
+if str(_VIZ_PKG) not in sys.path:
+    sys.path.insert(0, str(_VIZ_PKG))
+
+try:
+    from dynamic_viz import (
+        build_evolution_html,
+        build_prereq_tree_html,
+        build_sunburst_html,
+        build_course_tree_html,
+    )
+    _DYNAMIC_OK = True
+except Exception as _exc:
+    _DYNAMIC_OK = False
+    _DYNAMIC_ERR = str(_exc)
+
+# Where the standalone visualisation HTML files live.
+# Looks first in `visualisations/` (the canonical location) then falls back
+# to the project root, so the app keeps working regardless of which layout
+# the team chose for the repo.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+VIZ_DIR = PROJECT_ROOT / "visualisations"
 
 
 def embed_html(filename: str, height: int = 900) -> None:
-    """Read a self-contained HTML viz from PROJECT_ROOT and embed it inline."""
-    path = PROJECT_ROOT / filename
-    if not path.exists():
-        st.error(
-            f"Visualisation file not found: `{filename}`. "
-            f"Make sure the HTML file is in the project root: `{PROJECT_ROOT}`"
-        )
-        return
-    components.html(path.read_text(encoding="utf-8"), height=height, scrolling=True)
+    """Read a self-contained HTML viz and embed it inline."""
+    for candidate in (VIZ_DIR / filename, PROJECT_ROOT / filename):
+        if candidate.exists():
+            components.html(
+                candidate.read_text(encoding="utf-8"),
+                height=height,
+                scrolling=True,
+            )
+            return
+    st.error(
+        f"Visualisation file not found: `{filename}`. "
+        f"Looked in `{VIZ_DIR}` and `{PROJECT_ROOT}`."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -77,6 +103,83 @@ def api_get(path: str, params: dict = None) -> dict | list | None:
         return None
 
 
+def api_get_silent(path: str, params: dict = None):
+    """Like api_get but never displays errors — used for sidebar fallback paths."""
+    try:
+        resp = requests.get(f"{API_BASE_URL}{path}", params=params, timeout=3)
+        if resp.status_code != 200:
+            return None
+        return resp.json()
+    except Exception:
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Local-JSON fallback for the sidebar (works when backend is down so Eden
+# can still drive the dynamic visualisations from the sidebar).
+# ---------------------------------------------------------------------------
+
+_DATASET_DIR = Path(__file__).resolve().parent.parent / "dataset"
+
+
+@st.cache_data(show_spinner=False)
+def _local_courses() -> list:
+    """Scan dataset/ for course folders and return [{'code', 'name'}, ...]."""
+    out = []
+    if not _DATASET_DIR.exists():
+        return out
+    for d in sorted(_DATASET_DIR.iterdir()):
+        if not d.is_dir() or not d.name.startswith("C"):
+            continue
+        # Read most recent year's JSON to get the canonical name
+        year_jsons = sorted(d.glob("*.json"))
+        if not year_jsons:
+            continue
+        try:
+            data = json.loads(year_jsons[-1].read_text(encoding="utf-8"))
+            out.append({"code": data["course_code"], "name": data["course_name"]})
+        except Exception:
+            pass
+    return out
+
+
+@st.cache_data(show_spinner=False)
+def _local_course_versions(course_code: str) -> list:
+    """List the years available for a given course (from filenames)."""
+    out = []
+    for d in _DATASET_DIR.iterdir():
+        if d.is_dir() and d.name.startswith(course_code):
+            for jp in sorted(d.glob("*.json")):
+                stem = jp.stem
+                if stem.isdigit():
+                    out.append({"year": int(stem)})
+            break
+    return sorted(out, key=lambda v: v["year"], reverse=True)
+
+
+@st.cache_data(show_spinner=False)
+def _local_subject_search(query: str, year: int = 2026) -> list:
+    """Filter local subjects_archive JSON by code or name (case-insensitive)."""
+    if not query or len(query) < 2:
+        return []
+    sub_path = _DATASET_DIR / "subjects_archive" / f"{year}_subjects.json"
+    if not sub_path.exists():
+        return []
+    try:
+        subs = json.loads(sub_path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    q = query.lower()
+    out = []
+    for code, sub in subs.items():
+        name = sub.get("name", "")
+        if q in code.lower() or q in name.lower():
+            out.append({"code": code, "name": name})
+        if len(out) >= 50:
+            break
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Sidebar — selectors
 # ---------------------------------------------------------------------------
@@ -87,7 +190,14 @@ with st.sidebar:
 
     # ── Course selector ───────────────────────────────────────────────────
     st.subheader("Course")
-    courses_data = api_get("/courses")
+    courses_data = api_get_silent("/courses")
+    using_local = False
+    if not courses_data:
+        # Fall back to local JSON so the sidebar still works without the backend
+        courses_data = _local_courses()
+        using_local = bool(courses_data)
+        if using_local:
+            st.caption("📂 Using local data (backend offline)")
     course_options = {}
     if courses_data:
         course_options = {f"{c['name']} ({c['code']})": c["code"] for c in courses_data}
@@ -100,7 +210,9 @@ with st.sidebar:
     # Year filter (populated after course is chosen)
     selected_year = None
     if selected_course_code:
-        versions_data = api_get(f"/courses/{selected_course_code}/versions")
+        versions_data = api_get_silent(f"/courses/{selected_course_code}/versions")
+        if not versions_data:
+            versions_data = _local_course_versions(selected_course_code)
         if versions_data:
             year_options = ["All versions"] + [str(v["year"]) for v in versions_data]
             selected_year_str = st.selectbox(
@@ -121,7 +233,9 @@ with st.sidebar:
     )
     subject_options = {}
     if subject_search and len(subject_search) >= 2:
-        search_data = api_get("/subjects/search", params={"q": subject_search})
+        search_data = api_get_silent("/subjects/search", params={"q": subject_search})
+        if not search_data:
+            search_data = _local_subject_search(subject_search)
         if search_data:
             subject_options = {
                 f"{s['name']} ({s['code']})": s["code"] for s in search_data
@@ -533,6 +647,7 @@ with tab_graph:
 
 
 # ===========================================================================
+# ===========================================================================
 # TAB 5 — Subject Similarity
 # ===========================================================================
 
@@ -723,84 +838,69 @@ with tab_similarity:
             with st.expander("Raw API response"):
                 st.json(result)
 
-# ===========================================================================
-# TAB 6 - Subject Twins (similarity NETWORK - Eden's viz)
-# ===========================================================================
-
 with tab_twins:
     st.header("Subject Twins & Siblings")
-    st.markdown(
-        "Network of UTS subjects whose descriptions and learning outcomes are "
-        "textually similar (cosine similarity >= 0.70). Clusters of tightly "
-        "connected subjects are likely 'twins' across programs."
-    )
+    st.markdown("Network of UTS subjects whose descriptions and learning outcomes are textually similar (cosine similarity >= 0.70). Tight clusters are likely 'twins' across programs.")
     year = st.radio("Year", ["2024", "2023"], horizontal=True, key="twins_year")
     embed_html(f"subject_similarity_network_{year}.html", height=950)
 
 
-# ===========================================================================
-# TAB 7 - Course Sunburst (Eden's viz)
-# ===========================================================================
-
 with tab_sunburst:
     st.header("Course Structure (Sunburst)")
-    st.markdown(
-        "Interactive radial chart of a course's structure. Click any wedge to zoom in. "
-        "Grey wedges flag branches present in the handbook but not captured by the scraper."
-    )
-    course_choice = st.radio(
-        "Course",
-        ["Master of AI (C04443)", "Bachelor of AI (C10474)"],
-        horizontal=True,
-        key="sunburst_course",
-    )
-    code = "C04443" if "C04443" in course_choice else "C10474"
-    embed_html(f"course_structure_sunburst_{code}_2026.html", height=900)
+    st.markdown("Interactive radial chart of the selected course. Click any wedge to zoom in. Grey wedges flag scraper-missing branches. **Pick a course in the sidebar.**")
+    if not selected_course_code:
+        st.info("Select a course in the sidebar to render the sunburst.")
+    elif not _DYNAMIC_OK:
+        st.error(f"Dynamic viz module failed to import: {_DYNAMIC_ERR}")
+    else:
+        viz_year = selected_year or 2026
+        with st.spinner(f"Building sunburst for {selected_course_code} ({viz_year})..."):
+            html = build_sunburst_html(selected_course_code, viz_year)
+        components.html(html, height=900, scrolling=True)
 
-
-# ===========================================================================
-# TAB 8 - Course Tree D3 (Eden's viz)
-# ===========================================================================
 
 with tab_tree:
     st.header("Course Structure (D3 Tree)")
-    st.markdown(
-        "Same data as the sunburst, drawn as a top-down D3 hierarchy. "
-        "Default-collapsed to depth 2; click any blue or purple node to expand."
-    )
-    course_choice = st.radio(
-        "Course",
-        ["Master of AI (C04443)", "Bachelor of AI (C10474)"],
-        horizontal=True,
-        key="tree_course",
-    )
-    code = "C04443" if "C04443" in course_choice else "C10474"
-    embed_html(f"course_tree_d3_{code}_2026.html", height=900)
+    st.markdown("Same data as the sunburst, drawn as a top-down D3 hierarchy. Default-collapsed to depth 2; click blue / purple nodes to expand. **Pick a course in the sidebar.**")
+    if not selected_course_code:
+        st.info("Select a course in the sidebar to render the tree.")
+    elif not _DYNAMIC_OK:
+        st.error(f"Dynamic viz module failed to import: {_DYNAMIC_ERR}")
+    else:
+        viz_year = selected_year or 2026
+        with st.spinner(f"Building tree for {selected_course_code} ({viz_year})..."):
+            html = build_course_tree_html(selected_course_code, viz_year)
+        components.html(html, height=900, scrolling=True)
 
-
-# ===========================================================================
-# TAB 9 - Subject Evolution (Eden's viz)
-# ===========================================================================
 
 with tab_evolution:
     st.header("Subject Evolution Across Years")
-    st.markdown(
-        "How a single subject has changed across 2023-2026: credit points, learning "
-        "outcomes, description length, requisite count, plus a colour-coded text diff "
-        "of what was added or removed each year."
-    )
-    embed_html("subject_evolution_41040.html", height=1200)
+    st.markdown("How the selected subject changed across 2023-2026: credit points, learning outcomes, description length, requisite count, plus a colour-coded text diff. **Pick a subject in the sidebar.**")
+    if not selected_subject_code:
+        st.info("Search for a subject in the sidebar, then select it to see its evolution.")
+    elif not _DYNAMIC_OK:
+        st.error(f"Dynamic viz module failed to import: {_DYNAMIC_ERR}")
+    else:
+        with st.spinner(f"Building evolution timeline for {selected_subject_code}..."):
+            html = build_evolution_html(selected_subject_code)
+        components.html(html, height=1200, scrolling=True)
 
 
 with tab_prereq:
     st.header("Prerequisite Tree (D3)")
-    st.markdown("Vertical D3 tree of a subject's prerequisite chain. Click any node to collapse/expand.")
-    subject_choice = st.radio("Subject", ["41001 - Cloud Computing", "41043 - NLP"], horizontal=True, key="prereq_subject")
-    code = subject_choice.split(" - ")[0]
-    embed_html(f"prereq_tree_d3_{code}_2026.html", height=900)
+    st.markdown("Vertical D3 tree of the selected subject's prerequisite chain. Click any node to collapse / expand. **Pick a subject in the sidebar.**")
+    if not selected_subject_code:
+        st.info("Search for a subject in the sidebar, then select it to see its prerequisite tree.")
+    elif not _DYNAMIC_OK:
+        st.error(f"Dynamic viz module failed to import: {_DYNAMIC_ERR}")
+    else:
+        viz_year = int(selected_subject_year or 2026)
+        with st.spinner(f"Building prereq tree for {selected_subject_code} ({viz_year})..."):
+            html = build_prereq_tree_html(selected_subject_code, viz_year)
+        components.html(html, height=900, scrolling=True)
 
 
 with tab_shared:
     st.header("Subjects Shared Across Programs")
-    st.markdown("Bipartite network of programs and their subjects. Gold = subjects in 2+ programs.")
+    st.markdown("Bipartite network of programs and their subjects. Gold = subjects appearing in 2+ programs.")
     embed_html("shared_subjects_across_programs_2026.html", height=950)

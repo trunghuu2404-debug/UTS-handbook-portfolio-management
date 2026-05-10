@@ -91,7 +91,7 @@ function expandAll(d) {
 
 collapseToDepth(root, 2);
 
-const tree = d3.tree().nodeSize([110, 130]);
+const tree = d3.tree().nodeSize([170, 140]);
 
 function update(source) {
   tree(root);
@@ -143,9 +143,16 @@ function update(source) {
 
   nodeEnter.append('text')
     .attr('y', d => d.children || d._children ? -14 : 18)
-    .attr('text-anchor', 'middle')
+    .attr('text-anchor', d => d.data.level === 'subject' || d.data.level === 'missing' ? 'end' : 'middle')
+    .attr('transform', d => d.data.level === 'subject' || d.data.level === 'missing' ? 'rotate(-35)' : null)
     .attr('fill', '#222')
     .text(d => {
+      // Subject leaves: show only the code (full name is in the tooltip).
+      // Internal nodes: show the full label, truncated.
+      if (d.data.level === 'subject') {
+        return d.data.code || (d.data.name || '').split(' ')[0];
+      }
+      if (d.data.level === 'missing') return '(no data)';
       const n = d.data.name || '';
       return n.length > 32 ? n.slice(0, 30) + '...' : n;
     });

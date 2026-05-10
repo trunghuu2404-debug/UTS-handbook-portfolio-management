@@ -787,7 +787,7 @@ with tab_similarity:
 
             st.markdown("---")
 
-            st.subheader("Field-level similarity")
+            st.subheader("Field-level similarity and source comparison")
 
             field_scores = result.get("field_scores", {})
 
@@ -798,14 +798,48 @@ with tab_similarity:
             }
 
             for key, label in field_labels.items():
+
                 field = field_scores.get(key)
 
                 if field:
                     percentage = field["percentage"]
                     score = field["score"]
 
-                    st.markdown(f"**{label}: {percentage}%**")
+                    st.markdown(f"### {label}")
+                    st.markdown(f"**Similarity: {percentage}%**")
                     st.progress(score)
+
+                    metric_col_1, metric_col_2, metric_col_3 = st.columns(3)
+
+                    text_1 = str(subject_1.get(key) or "")
+                    text_2 = str(subject_2.get(key) or "")
+
+                    metric_col_1.metric(
+                        "Subject 1 words",
+                        len(text_1.split())
+                    )
+
+                    metric_col_2.metric(
+                        "Similarity",
+                        f"{percentage}%"
+                    )
+
+                    metric_col_3.metric(
+                        "Subject 2 words",
+                        len(text_2.split())
+                    )
+
+                    col_text_1, col_text_2 = st.columns(2)
+
+                    with col_text_1:
+                        st.markdown(f"**{subject_1['code']} · {subject_1['name']}**")
+                        st.write(subject_1.get(key) or "No data available.")
+
+                    with col_text_2:
+                        st.markdown(f"**{subject_2['code']} · {subject_2['name']}**")
+                        st.write(subject_2.get(key) or "No data available.")
+
+                    st.markdown("---")
 
             st.markdown("---")
 

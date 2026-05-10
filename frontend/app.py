@@ -22,7 +22,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 def embed_html(filename: str, height: int = 900) -> None:
     """Read a self-contained HTML viz from PROJECT_ROOT and embed it inline."""
-    path = PROJECT_ROOT / filename
+    path = PROJECT_ROOT / "visualisations" / filename
     if not path.exists():
         st.error(
             f"Visualisation file not found: `{filename}`. "

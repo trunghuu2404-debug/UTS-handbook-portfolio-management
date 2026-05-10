@@ -1,0 +1,48 @@
+subject_1_code,subject_1_name,subject_2_code,subject_2_name,similarity_score
+41001,Cloud Computing and Software as a Service,42904,Cloud Computing and Software as a Service,0.9642184261398268
+97207,Japanese Films and Popular Culture,97208,Japanese Language and Identity,0.9610372524495123
+99200,Intercultural Communication,99218,Intercultural Communication,0.9579973700398422
+97605,German Today,97606,German Literature,0.9489786152326394
+97111,Chinese Festivals and Ceremonies,97113,Chinese Culture and Heritage,0.9461859835468723
+97605,German Today,97607,German Film,0.9280487798968085
+97114,Developing Chinese Reading and Writing Skills 1,97115,Developing Chinese Reading and Writing Skills 2,0.9279738023188053
+97208,Japanese Language and Identity,97210,Transcultural Communication in Japanese,0.9238507742019875
+97209,Japanese Media and Current Issues,97210,Transcultural Communication in Japanese,0.9209963541257679
+97407,Francophone Identities in Conflict,97410,Places and Spaces of the Francophone World,0.9201762347342133
+97605,German Today,97608,German Popular Music,0.92003010059434
+97606,German Literature,97607,German Film,0.9182484161871484
+97606,German Literature,97608,German Popular Music,0.9118430737953366
+97207,Japanese Films and Popular Culture,97210,Transcultural Communication in Japanese,0.9093178532509592
+31256,Image Processing and Pattern Recognition,42177,Image Processing and Pattern Recognition,0.9044716528793899
+97607,German Film,97608,German Popular Music,0.8961001912087921
+97208,Japanese Language and Identity,97209,Japanese Media and Current Issues,0.8903946525001408
+97407,Francophone Identities in Conflict,97408,Show and Tell: Francophone Cultures on Display,0.8752775000265479
+97207,Japanese Films and Popular Culture,97209,Japanese Media and Current Issues,0.8745089713536187
+97113,Chinese Culture and Heritage,97115,Developing Chinese Reading and Writing Skills 2,0.8695025458563675
+97111,Chinese Festivals and Ceremonies,97115,Developing Chinese Reading and Writing Skills 2,0.8694771118912291
+31005,Machine Learning,32513,Advanced Data Analytics Algorithms,0.8670778760864558
+97408,Show and Tell: Francophone Cultures on Display,97410,Places and Spaces of the Francophone World,0.8657032208685059
+97409,Francophone Cultures of Consumption,97410,Places and Spaces of the Francophone World,0.8629664590427657
+41043,Natural Language Processing,42850,Natural Language Processing Algorithms,0.8569980896408251
+97111,Chinese Festivals and Ceremonies,97114,Developing Chinese Reading and Writing Skills 1,0.855855234399391
+97113,Chinese Culture and Heritage,97114,Developing Chinese Reading and Writing Skills 1,0.8529201150998093
+40002,Architecting on AWS,42049,Architecting on Amazon Web Services,0.8523044723820099
+97407,Francophone Identities in Conflict,97409,Francophone Cultures of Consumption,0.8467843694101796
+977917,In-country Contemporary Society Study,97901,International Internship,0.8462839362708506
+97509,Innocence and Experience in Hispanophone Societies,97510,Diaspora of the Hispanic Imagination,0.8297735525425288
+31250,Introduction to Data Analytics,32130,Fundamentals of Data Analytics,0.8212691408782401
+97408,Show and Tell: Francophone Cultures on Display,97409,Francophone Cultures of Consumption,0.804569460979706
+97507,Human Rights in Hispanophone Societies,97508,US Latin American Relations,0.7793954853511919
+97806,Italian Popular Culture,97808,Italian Language and the Arts,0.7788330964395066
+97805,Italy and Migration,97806,Italian Popular Culture,0.7618060012514588
+41040,Introduction to Artificial Intelligence,42172,Introduction to Artificial Intelligence,0.7308159663539239
+97807,Italophone Literature(s),97808,Italian Language and the Arts,0.7079985879950973
+97805,Italy and Migration,97808,Italian Language and the Arts,0.6955946460386909
+SMJ10188,AWS Industry,SMJ10189,Google Industry,0.6634336895523882
+97109,Communicating About Chinese Media,97112,Language in Chinese Screen Studies,0.655149907084149
+97507,Human Rights in Hispanophone Societies,97509,Innocence and Experience in Hispanophone Societies,0.64945674553195
+41025,Introduction to Software Development,32555,Fundamentals of Software Development,0.640773561344828
+97806,Italian Popular Culture,97807,Italophone Literature(s),0.6351026953892522
+40002,Architecting on AWS,40001,AWS Industry Studio,0.6229259648521923
+41185,Emerging Topics in Cybersecurity and Privacy,41182,System Security,0.6184029094950672
+41891,Cloud Computing Infrastructure,42904,Cloud Computing and Software as a Service,0.6004159421557206

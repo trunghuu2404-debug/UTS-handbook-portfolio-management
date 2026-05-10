@@ -1,0 +1,609 @@
+subject_1_code,subject_1_name,subject_2_code,subject_2_name,similarity_score
+97405,French Language and Culture 5,97406,French Language and Culture 6,0.9968055040209189
+97401,French Language and Culture 1,97402,French Language and Culture 2,0.9963613461940307
+97803,Italian Language and Culture 3,97804,Italian Language and Culture 4,0.9960942292603852
+97603,German Language and Culture 3,97604,German Language and Culture 4,0.9948886399261856
+97601,German Language and Culture 1,97602,German Language and Culture 2,0.9940022702343833
+97403,French Language and Culture 3,97404,French Language and Culture 4,0.9938763767755215
+97505,Spanish Language and Culture 5,97506,Spanish Language and Culture 6,0.9922313995441704
+97601,German Language and Culture 1,97603,German Language and Culture 3,0.9917022379534686
+97105,Chinese Language and Culture 5,97106,Chinese Language and Culture 6,0.989435056781152
+97103,Chinese Language and Culture 3,97104,Chinese Language and Culture 4,0.9867504717855037
+97601,German Language and Culture 1,97604,German Language and Culture 4,0.9866660711764489
+97801,Italian Language and Culture 1,97802,Italian Language and Culture 2,0.9844039678485905
+97205,Japanese Language and Culture 5,97206,Japanese Language and Culture 6,0.9841351894218529
+97102,Chinese Language and Culture 2,97103,Chinese Language and Culture 3,0.9837903075512144
+97202,Japanese Language and Culture 2,97203,Japanese Language and Culture 3,0.9834873304722535
+97602,German Language and Culture 2,97603,German Language and Culture 3,0.9826172087889379
+97401,French Language and Culture 1,97403,French Language and Culture 3,0.9825369598415076
+97503,Spanish Language and Culture 3,97504,Spanish Language and Culture 4,0.9815716697577458
+97203,Japanese Language and Culture 3,97204,Japanese Language and Culture 4,0.9813600329434858
+97501,Spanish Language and Culture 1,97502,Spanish Language and Culture 2,0.9808136962778825
+97402,French Language and Culture 2,97403,French Language and Culture 3,0.9789618479930754
+97104,Chinese Language and Culture 4,97106,Chinese Language and Culture 6,0.9787429773762443
+97202,Japanese Language and Culture 2,97204,Japanese Language and Culture 4,0.9777560608275939
+97401,French Language and Culture 1,97404,French Language and Culture 4,0.9764367355258244
+97103,Chinese Language and Culture 3,97105,Chinese Language and Culture 5,0.9763662511861787
+97602,German Language and Culture 2,97604,German Language and Culture 4,0.9753849536413756
+97802,Italian Language and Culture 2,97803,Italian Language and Culture 3,0.9753828368117752
+97201,Japanese Language and Culture 1,97203,Japanese Language and Culture 3,0.9752373539863002
+97801,Italian Language and Culture 1,97804,Italian Language and Culture 4,0.9741180967350227
+97104,Chinese Language and Culture 4,97105,Chinese Language and Culture 5,0.9731880648938088
+97402,French Language and Culture 2,97404,French Language and Culture 4,0.9728838202818144
+97501,Spanish Language and Culture 1,97503,Spanish Language and Culture 3,0.9721309396471843
+97802,Italian Language and Culture 2,97804,Italian Language and Culture 4,0.9714735178561178
+97801,Italian Language and Culture 1,97803,Italian Language and Culture 3,0.971271790360811
+97102,Chinese Language and Culture 2,97104,Chinese Language and Culture 4,0.9707082610480962
+97201,Japanese Language and Culture 1,97202,Japanese Language and Culture 2,0.9704590013727287
+97102,Chinese Language and Culture 2,97105,Chinese Language and Culture 5,0.9674380810686714
+97502,Spanish Language and Culture 2,97503,Spanish Language and Culture 3,0.9659294796509685
+97103,Chinese Language and Culture 3,97106,Chinese Language and Culture 6,0.9657953701165976
+97401,French Language and Culture 1,97405,French Language and Culture 5,0.9639643348132111
+97204,Japanese Language and Culture 4,97205,Japanese Language and Culture 5,0.962823305058851
+41001,Cloud Computing and Software as a Service,42904,Cloud Computing and Software as a Service,0.9625077427614217
+97404,French Language and Culture 4,97405,French Language and Culture 5,0.9619650788832301
+97401,French Language and Culture 1,97406,French Language and Culture 6,0.9608849546216711
+97207,Japanese Films and Popular Culture,97208,Japanese Language and Identity,0.9608358088173378
+97402,French Language and Culture 2,97405,French Language and Culture 5,0.9604568023175231
+97501,Spanish Language and Culture 1,97504,Spanish Language and Culture 4,0.959543507772441
+97101,Chinese Language and Culture 1,97102,Chinese Language and Culture 2,0.9594190376257058
+97504,Spanish Language and Culture 4,97505,Spanish Language and Culture 5,0.9593207323224484
+97204,Japanese Language and Culture 4,97206,Japanese Language and Culture 6,0.9589303647052002
+97404,French Language and Culture 4,97406,French Language and Culture 6,0.95889208530672
+97203,Japanese Language and Culture 3,97205,Japanese Language and Culture 5,0.9587423403570376
+97402,French Language and Culture 2,97406,French Language and Culture 6,0.9573886269244384
+99200,Intercultural Communication,99218,Intercultural Communication,0.9571141781856429
+97102,Chinese Language and Culture 2,97106,Chinese Language and Culture 6,0.9569828526630147
+97403,French Language and Culture 3,97405,French Language and Culture 5,0.9558981914005807
+97503,Spanish Language and Culture 3,97505,Spanish Language and Culture 5,0.9554184120751171
+97201,Japanese Language and Culture 1,97204,Japanese Language and Culture 4,0.9546499069069766
+97501,Spanish Language and Culture 1,97505,Spanish Language and Culture 5,0.9545512101610405
+97101,Chinese Language and Culture 1,97103,Chinese Language and Culture 3,0.953894484859859
+97502,Spanish Language and Culture 2,97504,Spanish Language and Culture 4,0.9533177236639175
+97403,French Language and Culture 3,97406,French Language and Culture 6,0.9528445784717399
+97503,Spanish Language and Culture 3,97506,Spanish Language and Culture 6,0.9522387794492971
+97504,Spanish Language and Culture 4,97506,Spanish Language and Culture 6,0.9517385000493522
+97501,Spanish Language and Culture 1,97506,Spanish Language and Culture 6,0.951374463583327
+97202,Japanese Language and Culture 2,97206,Japanese Language and Culture 6,0.9505427073687278
+97605,German Today,97606,German Literature,0.9489701487983868
+97101,Chinese Language and Culture 1,97104,Chinese Language and Culture 4,0.9483734944063724
+97502,Spanish Language and Culture 2,97505,Spanish Language and Culture 5,0.9460875504084932
+97111,Chinese Festivals and Ceremonies,97113,Chinese Culture and Heritage,0.9459177570466482
+97603,German Language and Culture 3,97605,German Today,0.9457201771519765
+97502,Spanish Language and Culture 2,97506,Spanish Language and Culture 6,0.9429389708917687
+97601,German Language and Culture 1,97605,German Today,0.9428921144141318
+97201,Japanese Language and Culture 1,97205,Japanese Language and Culture 5,0.9416864129068836
+97202,Japanese Language and Culture 2,97205,Japanese Language and Culture 5,0.9415360226366944
+97203,Japanese Language and Culture 3,97206,Japanese Language and Culture 6,0.941477257270896
+97602,German Language and Culture 2,97605,German Today,0.9407850595607032
+97103,Chinese Language and Culture 3,97115,Developing Chinese Reading and Writing Skills 2,0.9380295812784148
+97201,Japanese Language and Culture 1,97206,Japanese Language and Culture 6,0.9362471166952504
+97604,German Language and Culture 4,97605,German Today,0.9358483519461216
+97101,Chinese Language and Culture 1,97105,Chinese Language and Culture 5,0.9350119281159112
+97104,Chinese Language and Culture 4,97115,Developing Chinese Reading and Writing Skills 2,0.9329171183364487
+97101,Chinese Language and Culture 1,97106,Chinese Language and Culture 6,0.9321622883043585
+97605,German Today,97607,German Film,0.9278747027002153
+97114,Developing Chinese Reading and Writing Skills 1,97115,Developing Chinese Reading and Writing Skills 2,0.9274145384893802
+97208,Japanese Language and Identity,97210,Transcultural Communication in Japanese,0.9238468562816178
+97603,German Language and Culture 3,97606,German Literature,0.9232453684546148
+97102,Chinese Language and Culture 2,97115,Developing Chinese Reading and Writing Skills 2,0.9230224973180918
+97601,German Language and Culture 1,97606,German Literature,0.9205699343603022
+97209,Japanese Media and Current Issues,97210,Transcultural Communication in Japanese,0.9199445264258647
+97407,Francophone Identities in Conflict,97410,Places and Spaces of the Francophone World,0.9199220289352796
+97605,German Today,97608,German Popular Music,0.918902252599017
+97602,German Language and Culture 2,97606,German Literature,0.91851276226345
+97606,German Literature,97607,German Film,0.917973652317481
+97105,Chinese Language and Culture 5,97115,Developing Chinese Reading and Writing Skills 2,0.9164404935194544
+97604,German Language and Culture 4,97606,German Literature,0.9136474948711052
+97106,Chinese Language and Culture 6,97115,Developing Chinese Reading and Writing Skills 2,0.9136474539477408
+97606,German Literature,97608,German Popular Music,0.9108738984922743
+97102,Chinese Language and Culture 2,97114,Developing Chinese Reading and Writing Skills 1,0.9098730697055007
+97207,Japanese Films and Popular Culture,97210,Transcultural Communication in Japanese,0.909086093867154
+31256,Image Processing and Pattern Recognition,42177,Image Processing and Pattern Recognition,0.9062141824520642
+97101,Chinese Language and Culture 1,97115,Developing Chinese Reading and Writing Skills 2,0.9042208400404727
+97103,Chinese Language and Culture 3,97113,Chinese Culture and Heritage,0.9039021177770701
+97603,German Language and Culture 3,97607,German Film,0.9038433967062214
+97103,Chinese Language and Culture 3,97114,Developing Chinese Reading and Writing Skills 1,0.9024550033392145
+97601,German Language and Culture 1,97607,German Film,0.9015050725600661
+97104,Chinese Language and Culture 4,97113,Chinese Culture and Heritage,0.9001110162396665
+97602,German Language and Culture 2,97607,German Film,0.8994905041810437
+97103,Chinese Language and Culture 3,97111,Chinese Festivals and Ceremonies,0.898586966911571
+97102,Chinese Language and Culture 2,97113,Chinese Culture and Heritage,0.8984541863182909
+97104,Chinese Language and Culture 4,97114,Developing Chinese Reading and Writing Skills 1,0.8965796268758927
+97105,Chinese Language and Culture 5,97113,Chinese Culture and Heritage,0.8956495185776638
+97104,Chinese Language and Culture 4,97111,Chinese Festivals and Ceremonies,0.89485753955224
+97607,German Film,97608,German Popular Music,0.8947364270934056
+97603,German Language and Culture 3,97608,German Popular Music,0.8946131262223077
+97604,German Language and Culture 4,97607,German Film,0.8945766160862554
+97102,Chinese Language and Culture 2,97111,Chinese Festivals and Ceremonies,0.8930013183106192
+97106,Chinese Language and Culture 6,97113,Chinese Culture and Heritage,0.8929198437482958
+97601,German Language and Culture 1,97608,German Popular Music,0.8920362105230643
+97105,Chinese Language and Culture 5,97111,Chinese Festivals and Ceremonies,0.8903485882137646
+97602,German Language and Culture 2,97608,German Popular Music,0.8900428019473814
+97208,Japanese Language and Identity,97209,Japanese Media and Current Issues,0.8895870655287635
+97101,Chinese Language and Culture 1,97114,Developing Chinese Reading and Writing Skills 1,0.8883695477960352
+97106,Chinese Language and Culture 6,97111,Chinese Festivals and Ceremonies,0.8876350690523065
+97105,Chinese Language and Culture 5,97114,Developing Chinese Reading and Writing Skills 1,0.88697581868797
+97604,German Language and Culture 4,97608,German Popular Music,0.8853200692663333
+97106,Chinese Language and Culture 6,97114,Developing Chinese Reading and Writing Skills 1,0.8842725787304742
+97101,Chinese Language and Culture 1,97113,Chinese Culture and Heritage,0.8754235542386467
+97407,Francophone Identities in Conflict,97408,Show and Tell: Francophone Cultures on Display,0.8751150435942815
+97207,Japanese Films and Popular Culture,97209,Japanese Media and Current Issues,0.8735241487450552
+97405,French Language and Culture 5,97409,Francophone Cultures of Consumption,0.8695165926446885
+97101,Chinese Language and Culture 1,97111,Chinese Festivals and Ceremonies,0.8686525117968829
+97113,Chinese Culture and Heritage,97115,Developing Chinese Reading and Writing Skills 2,0.8684930800198027
+97111,Chinese Festivals and Ceremonies,97115,Developing Chinese Reading and Writing Skills 2,0.8684737629191887
+97401,French Language and Culture 1,97409,Francophone Cultures of Consumption,0.8678543176901047
+97406,French Language and Culture 6,97409,Francophone Cultures of Consumption,0.8667389253857399
+31005,Machine Learning,32513,Advanced Data Analytics Algorithms,0.8665019092566465
+97408,Show and Tell: Francophone Cultures on Display,97410,Places and Spaces of the Francophone World,0.8653691337442031
+97402,French Language and Culture 2,97409,Francophone Cultures of Consumption,0.8646964962740139
+97409,Francophone Cultures of Consumption,97410,Places and Spaces of the Francophone World,0.8612092464979537
+97403,French Language and Culture 3,97409,Francophone Cultures of Consumption,0.8605923919788029
+97404,French Language and Culture 4,97409,Francophone Cultures of Consumption,0.856729016295827
+41043,Natural Language Processing,42850,Natural Language Processing Algorithms,0.8557661392196975
+97111,Chinese Festivals and Ceremonies,97114,Developing Chinese Reading and Writing Skills 1,0.8550609658456091
+97113,Chinese Culture and Heritage,97114,Developing Chinese Reading and Writing Skills 1,0.8521294615498145
+40002,Architecting on AWS,42049,Architecting on Amazon Web Services,0.8513051570902154
+977917,In-country Contemporary Society Study,97901,International Internship,0.8464650130949547
+97407,Francophone Identities in Conflict,97409,Francophone Cultures of Consumption,0.8449184260412094
+97509,Innocence and Experience in Hispanophone Societies,97510,Diaspora of the Hispanic Imagination,0.8297873717923899
+31250,Introduction to Data Analytics,32130,Fundamentals of Data Analytics,0.8216001612981476
+97408,Show and Tell: Francophone Cultures on Display,97409,Francophone Cultures of Consumption,0.8026721586990777
+97205,Japanese Language and Culture 5,97208,Japanese Language and Identity,0.7927834424651202
+97206,Japanese Language and Culture 6,97208,Japanese Language and Identity,0.7927625129926696
+97507,Human Rights in Hispanophone Societies,97508,US Latin American Relations,0.7791689708820057
+97205,Japanese Language and Culture 5,97207,Japanese Films and Popular Culture,0.775398524376264
+97204,Japanese Language and Culture 4,97208,Japanese Language and Identity,0.7753799614118929
+97206,Japanese Language and Culture 6,97207,Japanese Films and Popular Culture,0.774333276320322
+97806,Italian Popular Culture,97808,Italian Language and the Arts,0.7741599507315415
+97203,Japanese Language and Culture 3,97208,Japanese Language and Identity,0.7707730517586726
+97202,Japanese Language and Culture 2,97208,Japanese Language and Identity,0.7700690960448858
+97805,Italy and Migration,97806,Italian Popular Culture,0.7593349376932778
+97204,Japanese Language and Culture 4,97207,Japanese Films and Popular Culture,0.7560453175812142
+97203,Japanese Language and Culture 3,97207,Japanese Films and Popular Culture,0.7523771007083134
+97202,Japanese Language and Culture 2,97207,Japanese Films and Popular Culture,0.7505967870315436
+97205,Japanese Language and Culture 5,97210,Transcultural Communication in Japanese,0.7503321879255089
+97201,Japanese Language and Culture 1,97208,Japanese Language and Identity,0.7475917735577482
+97206,Japanese Language and Culture 6,97210,Transcultural Communication in Japanese,0.7440729926808254
+97405,French Language and Culture 5,97410,Places and Spaces of the Francophone World,0.7375689948531438
+97402,French Language and Culture 2,97502,Spanish Language and Culture 2,0.7366057853991346
+97406,French Language and Culture 6,97410,Places and Spaces of the Francophone World,0.7352128336647898
+97401,French Language and Culture 1,97410,Places and Spaces of the Francophone World,0.7339414402429149
+97401,French Language and Culture 1,97502,Spanish Language and Culture 2,0.7318068593847779
+97403,French Language and Culture 3,97201,Japanese Language and Culture 1,0.7315879697225447
+97402,French Language and Culture 2,97410,Places and Spaces of the Francophone World,0.7312708814280163
+97201,Japanese Language and Culture 1,97207,Japanese Films and Popular Culture,0.731106875300992
+97401,French Language and Culture 1,97501,Spanish Language and Culture 1,0.7302330243447316
+41040,Introduction to Artificial Intelligence,42172,Introduction to Artificial Intelligence,0.7299368960599599
+97801,Italian Language and Culture 1,97502,Spanish Language and Culture 2,0.7283665059977696
+97403,French Language and Culture 3,97410,Places and Spaces of the Francophone World,0.7278000544056282
+97402,French Language and Culture 2,97501,Spanish Language and Culture 1,0.7275759591714543
+97201,Japanese Language and Culture 1,97502,Spanish Language and Culture 2,0.7270452862620408
+97404,French Language and Culture 4,97201,Japanese Language and Culture 1,0.7263891265410153
+97404,French Language and Culture 4,97410,Places and Spaces of the Francophone World,0.7244082866820671
+97401,French Language and Culture 1,97201,Japanese Language and Culture 1,0.7238013916799476
+97402,French Language and Culture 2,97201,Japanese Language and Culture 1,0.7211677289913462
+97203,Japanese Language and Culture 3,97210,Transcultural Communication in Japanese,0.7205800612101708
+97405,French Language and Culture 5,97407,Francophone Identities in Conflict,0.7204154571698517
+97204,Japanese Language and Culture 4,97210,Transcultural Communication in Japanese,0.7199377507727744
+97201,Japanese Language and Culture 1,97501,Spanish Language and Culture 1,0.7197813744618216
+97401,French Language and Culture 1,97407,Francophone Identities in Conflict,0.7184790862078715
+97406,French Language and Culture 6,97407,Francophone Identities in Conflict,0.718114092888654
+97802,Italian Language and Culture 2,97502,Spanish Language and Culture 2,0.7175402337906713
+97205,Japanese Language and Culture 5,97209,Japanese Media and Current Issues,0.7165757801741102
+97801,Italian Language and Culture 1,97501,Spanish Language and Culture 1,0.7165131418217251
+97403,French Language and Culture 3,97502,Spanish Language and Culture 2,0.7163744902982676
+97402,French Language and Culture 2,97407,Francophone Identities in Conflict,0.7158647895463317
+97804,Italian Language and Culture 4,97201,Japanese Language and Culture 1,0.7156158477114116
+97401,French Language and Culture 1,97801,Italian Language and Culture 1,0.7155122846950314
+97403,French Language and Culture 3,97501,Spanish Language and Culture 1,0.7150145848713452
+97403,French Language and Culture 3,97503,Spanish Language and Culture 3,0.7146728489897429
+97802,Italian Language and Culture 2,97201,Japanese Language and Culture 1,0.7141051022008453
+97405,French Language and Culture 5,97505,Spanish Language and Culture 5,0.7134593499179479
+97202,Japanese Language and Culture 2,97210,Transcultural Communication in Japanese,0.7133936267963125
+97201,Japanese Language and Culture 1,97503,Spanish Language and Culture 3,0.7133004633970764
+97402,French Language and Culture 2,97801,Italian Language and Culture 1,0.7129087831971083
+97403,French Language and Culture 3,97407,Francophone Identities in Conflict,0.7124670843743697
+97801,Italian Language and Culture 1,97201,Japanese Language and Culture 1,0.712182974257445
+97406,French Language and Culture 6,97505,Spanish Language and Culture 5,0.7111802068933959
+97206,Japanese Language and Culture 6,97209,Japanese Media and Current Issues,0.7110986158985688
+97804,Italian Language and Culture 4,97502,Spanish Language and Culture 2,0.7110304669939222
+97404,French Language and Culture 4,97502,Spanish Language and Culture 2,0.7109693645009154
+97406,French Language and Culture 6,97506,Spanish Language and Culture 6,0.7107008453775485
+97404,French Language and Culture 4,97501,Spanish Language and Culture 1,0.7096851915987552
+97404,French Language and Culture 4,97503,Spanish Language and Culture 3,0.7093867267958711
+97404,French Language and Culture 4,97407,Francophone Identities in Conflict,0.7090417099467798
+97803,Italian Language and Culture 3,97201,Japanese Language and Culture 1,0.7089818506967479
+97203,Japanese Language and Culture 3,97502,Spanish Language and Culture 2,0.708681673386036
+97405,French Language and Culture 5,97506,Spanish Language and Culture 6,0.7066179309653701
+97802,Italian Language and Culture 2,97501,Spanish Language and Culture 1,0.7058995710658681
+97404,French Language and Culture 4,97504,Spanish Language and Culture 4,0.7057213176387138
+97401,French Language and Culture 1,97802,Italian Language and Culture 2,0.7049135394424482
+97807,Italophone Literature(s),97808,Italian Language and the Arts,0.704428652685491
+97803,Italian Language and Culture 3,97502,Spanish Language and Culture 2,0.7039757514775923
+97403,French Language and Culture 3,97804,Italian Language and Culture 4,0.7036406186106489
+97602,German Language and Culture 2,97502,Spanish Language and Culture 2,0.7033851179555166
+97201,Japanese Language and Culture 1,97504,Spanish Language and Culture 4,0.7032861797149943
+97403,French Language and Culture 3,97803,Italian Language and Culture 3,0.7030136718956919
+97201,Japanese Language and Culture 1,97210,Transcultural Communication in Japanese,0.7028429055528989
+97403,French Language and Culture 3,97802,Italian Language and Culture 2,0.7027729123091981
+97402,French Language and Culture 2,97802,Italian Language and Culture 2,0.7023486031092772
+97202,Japanese Language and Culture 2,97502,Spanish Language and Culture 2,0.7017759086505782
+97801,Italian Language and Culture 1,97203,Japanese Language and Culture 3,0.7012927417148785
+97404,French Language and Culture 4,97804,Italian Language and Culture 4,0.6998405516477446
+97804,Italian Language and Culture 4,97501,Spanish Language and Culture 1,0.6995662417169319
+97404,French Language and Culture 4,97803,Italian Language and Culture 3,0.6992187545420473
+97404,French Language and Culture 4,97802,Italian Language and Culture 2,0.698991757123754
+97403,French Language and Culture 3,97504,Spanish Language and Culture 4,0.6988282664570409
+97401,French Language and Culture 1,97804,Italian Language and Culture 4,0.6985890567669999
+97802,Italian Language and Culture 2,97203,Japanese Language and Culture 3,0.6970528368867055
+97203,Japanese Language and Culture 3,97501,Spanish Language and Culture 1,0.6966851699369792
+97405,French Language and Culture 5,97205,Japanese Language and Culture 5,0.6964607679991095
+97601,German Language and Culture 1,97502,Spanish Language and Culture 2,0.696075857941153
+97402,French Language and Culture 2,97804,Italian Language and Culture 4,0.6960471330367853
+97405,French Language and Culture 5,97502,Spanish Language and Culture 2,0.6959126069024353
+97804,Italian Language and Culture 4,97504,Spanish Language and Culture 4,0.695737228208004
+97401,French Language and Culture 1,97203,Japanese Language and Culture 3,0.6957120093950525
+97405,French Language and Culture 5,97501,Spanish Language and Culture 1,0.6950647955050715
+97401,French Language and Culture 1,97503,Spanish Language and Culture 3,0.6948865843697379
+97804,Italian Language and Culture 4,97503,Spanish Language and Culture 3,0.6945199303400237
+97403,French Language and Culture 3,97801,Italian Language and Culture 1,0.6942896859098127
+97406,French Language and Culture 6,97205,Japanese Language and Culture 5,0.6942359268761473
+97803,Italian Language and Culture 3,97503,Spanish Language and Culture 3,0.69390794870524
+97405,French Language and Culture 5,97201,Japanese Language and Culture 1,0.693863415801827
+97802,Italian Language and Culture 2,97503,Spanish Language and Culture 3,0.6937186283941502
+97406,French Language and Culture 6,97502,Spanish Language and Culture 2,0.6936895168778912
+97402,French Language and Culture 2,97203,Japanese Language and Culture 3,0.693180554244209
+97406,French Language and Culture 6,97501,Spanish Language and Culture 1,0.6928444138106292
+97803,Italian Language and Culture 3,97501,Spanish Language and Culture 1,0.6926563470128226
+97404,French Language and Culture 4,97604,German Language and Culture 4,0.6926358783771055
+97402,French Language and Culture 2,97503,Spanish Language and Culture 3,0.6923581326548032
+97401,French Language and Culture 1,97803,Italian Language and Culture 3,0.6916888141082694
+97406,French Language and Culture 6,97201,Japanese Language and Culture 1,0.6916468719100166
+97805,Italy and Migration,97808,Italian Language and the Arts,0.6901087224554593
+97205,Japanese Language and Culture 5,97505,Spanish Language and Culture 5,0.6898027376028096
+97601,German Language and Culture 1,97201,Japanese Language and Culture 1,0.6896625765546774
+97203,Japanese Language and Culture 3,97209,Japanese Media and Current Issues,0.6894159568625409
+97402,French Language and Culture 2,97803,Italian Language and Culture 3,0.6891719979722681
+97204,Japanese Language and Culture 4,97209,Japanese Media and Current Issues,0.6891256978143258
+97803,Italian Language and Culture 3,97504,Spanish Language and Culture 4,0.6889576028227461
+97404,French Language and Culture 4,97801,Italian Language and Culture 1,0.6887699532547586
+97405,French Language and Culture 5,97804,Italian Language and Culture 4,0.6883958035102592
+97801,Italian Language and Culture 1,97202,Japanese Language and Culture 2,0.6882048151889733
+97402,French Language and Culture 2,97602,German Language and Culture 2,0.6881286017087115
+97406,French Language and Culture 6,97206,Japanese Language and Culture 6,0.6870640937508686
+97403,French Language and Culture 3,97203,Japanese Language and Culture 3,0.6868334560607943
+97402,French Language and Culture 2,97202,Japanese Language and Culture 2,0.6865409394343075
+97204,Japanese Language and Culture 4,97502,Spanish Language and Culture 2,0.6865260749359621
+97406,French Language and Culture 6,97804,Italian Language and Culture 4,0.6861967258839281
+97403,French Language and Culture 3,97604,German Language and Culture 4,0.686042741988328
+97804,Italian Language and Culture 4,97203,Japanese Language and Culture 3,0.6859017508390919
+97403,French Language and Culture 3,97603,German Language and Culture 3,0.6857937105030273
+97803,Italian Language and Culture 3,97203,Japanese Language and Culture 3,0.6852571706919093
+97801,Italian Language and Culture 1,97503,Spanish Language and Culture 3,0.6852263999012836
+97401,French Language and Culture 1,97504,Spanish Language and Culture 4,0.6848443024052224
+97602,German Language and Culture 2,97501,Spanish Language and Culture 1,0.6846545367460675
+97603,German Language and Culture 3,97201,Japanese Language and Culture 1,0.684553255043963
+97604,German Language and Culture 4,97201,Japanese Language and Culture 1,0.684521589026709
+97601,German Language and Culture 1,97501,Spanish Language and Culture 1,0.6844636488945122
+97404,French Language and Culture 4,97603,German Language and Culture 3,0.6840394007265524
+97802,Italian Language and Culture 2,97504,Spanish Language and Culture 4,0.6839913965550799
+97603,German Language and Culture 3,97502,Spanish Language and Culture 2,0.6838580785977042
+97401,French Language and Culture 1,97602,German Language and Culture 2,0.6836981811226619
+97401,French Language and Culture 1,97601,German Language and Culture 1,0.6835075599116686
+97205,Japanese Language and Culture 5,97506,Spanish Language and Culture 6,0.6834202750231867
+97405,French Language and Culture 5,97801,Italian Language and Culture 1,0.6833344380796814
+97405,French Language and Culture 5,97206,Japanese Language and Culture 6,0.6832435825764914
+97202,Japanese Language and Culture 2,97501,Spanish Language and Culture 1,0.683102271685185
+97202,Japanese Language and Culture 2,97209,Japanese Media and Current Issues,0.683089487344922
+97602,German Language and Culture 2,97801,Italian Language and Culture 1,0.6828712970318848
+97402,French Language and Culture 2,97504,Spanish Language and Culture 4,0.6823523910777809
+97401,French Language and Culture 1,97202,Japanese Language and Culture 2,0.6821480843340109
+97404,French Language and Culture 4,97203,Japanese Language and Culture 3,0.6818518205494714
+97405,French Language and Culture 5,97803,Italian Language and Culture 3,0.6815337345655634
+97804,Italian Language and Culture 4,97505,Spanish Language and Culture 5,0.6813098609656443
+97406,French Language and Culture 6,97801,Italian Language and Culture 1,0.681151528964868
+97402,French Language and Culture 2,97601,German Language and Culture 1,0.6810205125273875
+97405,French Language and Culture 5,97408,Show and Tell: Francophone Cultures on Display,0.6808466149174367
+97403,French Language and Culture 3,97601,German Language and Culture 1,0.6804179899001086
+97801,Italian Language and Culture 1,97504,Spanish Language and Culture 4,0.679967935490749
+97601,German Language and Culture 1,97801,Italian Language and Culture 1,0.6799413807588095
+97801,Italian Language and Culture 1,97204,Japanese Language and Culture 4,0.6795556842173198
+97604,German Language and Culture 4,97502,Spanish Language and Culture 2,0.6794356667124656
+97406,French Language and Culture 6,97803,Italian Language and Culture 3,0.6793565777908848
+97602,German Language and Culture 2,97201,Japanese Language and Culture 1,0.6790051941655626
+97203,Japanese Language and Culture 3,97503,Spanish Language and Culture 3,0.6787957637214406
+97406,French Language and Culture 6,97408,Show and Tell: Francophone Cultures on Display,0.6786716531437113
+97802,Italian Language and Culture 2,97202,Japanese Language and Culture 2,0.6781376082976777
+97604,German Language and Culture 4,97503,Spanish Language and Culture 3,0.6778641780260691
+97404,French Language and Culture 4,97505,Spanish Language and Culture 5,0.6778617917403579
+97603,German Language and Culture 3,97503,Spanish Language and Culture 3,0.6775620864569429
+97401,French Language and Culture 1,97408,Show and Tell: Francophone Cultures on Display,0.6773460632533188
+97404,French Language and Culture 4,97204,Japanese Language and Culture 4,0.677213851064401
+97201,Japanese Language and Culture 1,97505,Spanish Language and Culture 5,0.6771665449154455
+97802,Italian Language and Culture 2,97204,Japanese Language and Culture 4,0.6770854136362784
+97401,French Language and Culture 1,97505,Spanish Language and Culture 5,0.6766837765945197
+97405,French Language and Culture 5,97802,Italian Language and Culture 2,0.6766254647249592
+97206,Japanese Language and Culture 6,97505,Spanish Language and Culture 5,0.6765993262072322
+97801,Italian Language and Culture 1,97505,Spanish Language and Culture 5,0.6762903187536434
+97206,Japanese Language and Culture 6,97506,Spanish Language and Culture 6,0.676123895098149
+97804,Italian Language and Culture 4,97205,Japanese Language and Culture 5,0.6759657090380489
+97601,German Language and Culture 1,97802,Italian Language and Culture 2,0.6759647459293905
+97405,French Language and Culture 5,97504,Spanish Language and Culture 4,0.6758964298522894
+97404,French Language and Culture 4,97506,Spanish Language and Culture 6,0.675605867590714
+97404,French Language and Culture 4,97601,German Language and Culture 1,0.6753526571832118
+97803,Italian Language and Culture 3,97205,Japanese Language and Culture 5,0.6753343868049597
+97204,Japanese Language and Culture 4,97501,Spanish Language and Culture 1,0.6750927315354844
+97205,Japanese Language and Culture 5,97502,Spanish Language and Culture 2,0.6749751133702113
+97201,Japanese Language and Culture 1,97506,Spanish Language and Culture 6,0.6749129345473447
+97402,French Language and Culture 2,97408,Show and Tell: Francophone Cultures on Display,0.674881435422304
+97803,Italian Language and Culture 3,97505,Spanish Language and Culture 5,0.6744940902644813
+97406,French Language and Culture 6,97802,Italian Language and Culture 2,0.674463987398551
+97401,French Language and Culture 1,97506,Spanish Language and Culture 6,0.6744317728794671
+97604,German Language and Culture 4,97504,Spanish Language and Culture 4,0.6743545373608929
+97402,French Language and Culture 2,97505,Spanish Language and Culture 5,0.6742215585953761
+97804,Italian Language and Culture 4,97506,Spanish Language and Culture 6,0.6741897764277793
+97401,French Language and Culture 1,97204,Japanese Language and Culture 4,0.6741497322628985
+97801,Italian Language and Culture 1,97506,Spanish Language and Culture 6,0.6740396244663468
+97406,French Language and Culture 6,97504,Spanish Language and Culture 4,0.6737372814248507
+97601,German Language and Culture 1,97804,Italian Language and Culture 4,0.6735470712549814
+97603,German Language and Culture 3,97804,Italian Language and Culture 4,0.6734363726490431
+97603,German Language and Culture 3,97803,Italian Language and Culture 3,0.6728376309751891
+97602,German Language and Culture 2,97802,Italian Language and Culture 2,0.6727928971349018
+97603,German Language and Culture 3,97802,Italian Language and Culture 2,0.6726163415646043
+97603,German Language and Culture 3,97501,Spanish Language and Culture 1,0.6725088069294741
+97601,German Language and Culture 1,97503,Spanish Language and Culture 3,0.672202907141471
+97402,French Language and Culture 2,97506,Spanish Language and Culture 6,0.6719777491422122
+97804,Italian Language and Culture 4,97202,Japanese Language and Culture 2,0.6719035262895221
+97402,French Language and Culture 2,97204,Japanese Language and Culture 4,0.6716967347738078
+97403,French Language and Culture 3,97408,Show and Tell: Francophone Cultures on Display,0.6716782493219666
+97401,French Language and Culture 1,97603,German Language and Culture 3,0.6715694169966271
+97801,Italian Language and Culture 1,97205,Japanese Language and Culture 5,0.6711531467464463
+97403,French Language and Culture 3,97505,Spanish Language and Culture 5,0.6710215044648469
+97604,German Language and Culture 4,97804,Italian Language and Culture 4,0.6708851883572265
+97803,Italian Language and Culture 3,97204,Japanese Language and Culture 4,0.6708392506519608
+97403,French Language and Culture 3,97204,Japanese Language and Culture 4,0.670565639725799
+97804,Italian Language and Culture 4,97204,Japanese Language and Culture 4,0.6705607215564404
+97802,Italian Language and Culture 2,97205,Japanese Language and Culture 5,0.6704587195542201
+97604,German Language and Culture 4,97803,Italian Language and Culture 3,0.6702852023212273
+97604,German Language and Culture 4,97802,Italian Language and Culture 2,0.670039932560329
+97802,Italian Language and Culture 2,97505,Spanish Language and Culture 5,0.669637217724825
+97201,Japanese Language and Culture 1,97209,Japanese Media and Current Issues,0.6695725240721646
+97403,French Language and Culture 3,97602,German Language and Culture 2,0.6693464820270684
+97405,French Language and Culture 5,97503,Spanish Language and Culture 3,0.6692974653314024
+97402,French Language and Culture 2,97603,German Language and Culture 3,0.6691258083815008
+97403,French Language and Culture 3,97506,Spanish Language and Culture 6,0.6687883447923334
+97404,French Language and Culture 4,97205,Japanese Language and Culture 5,0.6686319373091533
+97404,French Language and Culture 4,97408,Show and Tell: Francophone Cultures on Display,0.6684768267672411
+97604,German Language and Culture 4,97501,Spanish Language and Culture 1,0.6681512289313436
+97403,French Language and Culture 3,97202,Japanese Language and Culture 2,0.6678632571611224
+97802,Italian Language and Culture 2,97506,Spanish Language and Culture 6,0.6674086649588012
+97803,Italian Language and Culture 3,97506,Spanish Language and Culture 6,0.6674058735559298
+97401,French Language and Culture 1,97604,German Language and Culture 4,0.667217925855443
+97406,French Language and Culture 6,97503,Spanish Language and Culture 3,0.6671593972695917
+97603,German Language and Culture 3,97801,Italian Language and Culture 1,0.6670768099435997
+97601,German Language and Culture 1,97803,Italian Language and Culture 3,0.6669673190843939
+97602,German Language and Culture 2,97804,Italian Language and Culture 4,0.6668280568064259
+97803,Italian Language and Culture 3,97202,Japanese Language and Culture 2,0.6662484596642764
+97603,German Language and Culture 3,97504,Spanish Language and Culture 4,0.6657339527325105
+97402,French Language and Culture 2,97604,German Language and Culture 4,0.664790150810118
+97404,French Language and Culture 4,97602,German Language and Culture 2,0.6643201510535383
+97203,Japanese Language and Culture 3,97504,Spanish Language and Culture 4,0.663955299030087
+97205,Japanese Language and Culture 5,97501,Spanish Language and Culture 1,0.6636776417874886
+97602,German Language and Culture 2,97203,Japanese Language and Culture 3,0.6635066787296315
+97601,German Language and Culture 1,97203,Japanese Language and Culture 3,0.663409290853102
+97405,French Language and Culture 5,97203,Japanese Language and Culture 3,0.6633317371998358
+97404,French Language and Culture 4,97202,Japanese Language and Culture 2,0.662860499972757
+97401,French Language and Culture 1,97205,Japanese Language and Culture 5,0.6627505876152213
+97601,German Language and Culture 1,97504,Spanish Language and Culture 4,0.6625484171621037
+97403,French Language and Culture 3,97205,Japanese Language and Culture 5,0.6624668060352894
+97204,Japanese Language and Culture 4,97503,Spanish Language and Culture 3,0.6624304630504202
+97804,Italian Language and Culture 4,97206,Japanese Language and Culture 6,0.6619403140244555
+97405,French Language and Culture 5,97603,German Language and Culture 3,0.6618082099733451
+97406,French Language and Culture 6,97203,Japanese Language and Culture 3,0.6612127266325541
+97602,German Language and Culture 2,97503,Spanish Language and Culture 3,0.6611808970897065
+97206,Japanese Language and Culture 6,97502,Spanish Language and Culture 2,0.6603800769172619
+97402,French Language and Culture 2,97205,Japanese Language and Culture 5,0.6603390676671869
+97604,German Language and Culture 4,97801,Italian Language and Culture 1,0.6603189282300003
+97602,German Language and Culture 2,97803,Italian Language and Culture 3,0.6602728767794205
+97202,Japanese Language and Culture 2,97503,Spanish Language and Culture 3,0.6597398751715391
+97406,French Language and Culture 6,97603,German Language and Culture 3,0.6596940663076621
+97204,Japanese Language and Culture 4,97504,Spanish Language and Culture 4,0.6590654354688279
+97405,French Language and Culture 5,97204,Japanese Language and Culture 4,0.6578080404434947
+97801,Italian Language and Culture 1,97206,Japanese Language and Culture 6,0.6575198425060395
+97603,German Language and Culture 3,97203,Japanese Language and Culture 3,0.6575142375982659
+97602,German Language and Culture 2,97202,Japanese Language and Culture 2,0.6572680823665544
+97203,Japanese Language and Culture 3,97505,Spanish Language and Culture 5,0.6568479624286804
+97803,Italian Language and Culture 3,97206,Japanese Language and Culture 6,0.6563415840540724
+97406,French Language and Culture 6,97204,Japanese Language and Culture 4,0.6557066753032892
+97603,German Language and Culture 3,97505,Spanish Language and Culture 5,0.6552463409820444
+97205,Japanese Language and Culture 5,97504,Spanish Language and Culture 4,0.6550114554356149
+97203,Japanese Language and Culture 3,97506,Spanish Language and Culture 6,0.6546619723062949
+97205,Japanese Language and Culture 5,97503,Spanish Language and Culture 3,0.6545577769992952
+97405,French Language and Culture 5,97604,German Language and Culture 4,0.6543171308020901
+97604,German Language and Culture 4,97203,Japanese Language and Culture 3,0.6531537330332453
+97603,German Language and Culture 3,97506,Spanish Language and Culture 6,0.653065681056085
+97406,French Language and Culture 6,97604,German Language and Culture 4,0.6522269173586981
+97405,French Language and Culture 5,97601,German Language and Culture 1,0.6518577668778037
+97602,German Language and Culture 2,97504,Spanish Language and Culture 4,0.6516351990597297
+97204,Japanese Language and Culture 4,97505,Spanish Language and Culture 5,0.6512904943847779
+97802,Italian Language and Culture 2,97206,Japanese Language and Culture 6,0.651137275360379
+97601,German Language and Culture 1,97202,Japanese Language and Culture 2,0.6505541885255626
+97101,Chinese Language and Culture 1,97502,Spanish Language and Culture 2,0.6504912577327648
+97405,French Language and Culture 5,97602,German Language and Culture 2,0.6504010784078847
+97202,Japanese Language and Culture 2,97504,Spanish Language and Culture 4,0.6502291640265554
+97109,Communicating About Chinese Media,97112,Language in Chinese Screen Studies,0.6499416927453885
+97101,Chinese Language and Culture 1,97201,Japanese Language and Culture 1,0.6499079069795902
+97406,French Language and Culture 6,97601,German Language and Culture 1,0.6497754098625791
+97404,French Language and Culture 4,97206,Japanese Language and Culture 6,0.6495721695481218
+97206,Japanese Language and Culture 6,97501,Spanish Language and Culture 1,0.6494800992902888
+97204,Japanese Language and Culture 4,97506,Spanish Language and Culture 6,0.6491229995169181
+97405,French Language and Culture 5,97202,Japanese Language and Culture 2,0.6490497249245585
+97507,Human Rights in Hispanophone Societies,97509,Innocence and Experience in Hispanophone Societies,0.6488808527456064
+97604,German Language and Culture 4,97204,Japanese Language and Culture 4,0.648819457190798
+97401,French Language and Culture 1,97206,Japanese Language and Culture 6,0.6485728768709378
+97406,French Language and Culture 6,97602,German Language and Culture 2,0.6483233747781193
+97604,German Language and Culture 4,97505,Spanish Language and Culture 5,0.6478233588228635
+97603,German Language and Culture 3,97205,Japanese Language and Culture 5,0.6477597220799612
+97101,Chinese Language and Culture 1,97403,French Language and Culture 3,0.6476150744065203
+97406,French Language and Culture 6,97202,Japanese Language and Culture 2,0.6469763381880618
+97402,French Language and Culture 2,97206,Japanese Language and Culture 6,0.6462129447040614
+97101,Chinese Language and Culture 1,97804,Italian Language and Culture 4,0.6460948329216553
+97604,German Language and Culture 4,97506,Spanish Language and Culture 6,0.6456674025826994
+97601,German Language and Culture 1,97505,Spanish Language and Culture 5,0.6453543271814405
+97603,German Language and Culture 3,97204,Japanese Language and Culture 4,0.6450601552990199
+SMJ10188,AWS Industry,SMJ10189,Google Industry,0.6444917495385255
+97602,German Language and Culture 2,97505,Spanish Language and Culture 5,0.6439121717678127
+97601,German Language and Culture 1,97506,Spanish Language and Culture 6,0.6432065878789679
+97403,French Language and Culture 3,97206,Japanese Language and Culture 6,0.6431458277058912
+97602,German Language and Culture 2,97204,Japanese Language and Culture 4,0.6431324570134912
+97601,German Language and Culture 1,97204,Japanese Language and Culture 4,0.6429483321801056
+97101,Chinese Language and Culture 1,97404,French Language and Culture 4,0.6427085465296958
+97202,Japanese Language and Culture 2,97505,Spanish Language and Culture 5,0.6425853081403728
+97602,German Language and Culture 2,97506,Spanish Language and Culture 6,0.6417692319587841
+97206,Japanese Language and Culture 6,97504,Spanish Language and Culture 4,0.641277636437518
+97102,Chinese Language and Culture 2,97502,Spanish Language and Culture 2,0.6405602937132484
+97604,German Language and Culture 4,97205,Japanese Language and Culture 5,0.640526348284644
+97202,Japanese Language and Culture 2,97506,Spanish Language and Culture 6,0.640446784133704
+97103,Chinese Language and Culture 3,97502,Spanish Language and Culture 2,0.6402892157383686
+97101,Chinese Language and Culture 1,97801,Italian Language and Culture 1,0.6399187944350558
+97101,Chinese Language and Culture 1,97501,Spanish Language and Culture 1,0.6397921083933028
+97101,Chinese Language and Culture 1,97803,Italian Language and Culture 3,0.6396763376758977
+97101,Chinese Language and Culture 1,97503,Spanish Language and Culture 3,0.6396304905345741
+97101,Chinese Language and Culture 1,97802,Italian Language and Culture 2,0.6396038496085118
+97603,German Language and Culture 3,97202,Japanese Language and Culture 2,0.6392956558164703
+41025,Introduction to Software Development,32555,Fundamentals of Software Development,0.6389095186556722
+97101,Chinese Language and Culture 1,97401,French Language and Culture 1,0.6388984185864979
+97102,Chinese Language and Culture 2,97201,Japanese Language and Culture 1,0.6374894681255632
+97101,Chinese Language and Culture 1,97402,French Language and Culture 2,0.6365736884240806
+97104,Chinese Language and Culture 4,97502,Spanish Language and Culture 2,0.6354018329183617
+97206,Japanese Language and Culture 6,97503,Spanish Language and Culture 3,0.635153873029354
+97604,German Language and Culture 4,97202,Japanese Language and Culture 2,0.6351382201350666
+97806,Italian Popular Culture,97807,Italophone Literature(s),0.6346859904383416
+97101,Chinese Language and Culture 1,97504,Spanish Language and Culture 4,0.6346508650384441
+97106,Chinese Language and Culture 6,97406,French Language and Culture 6,0.6342700746693857
+97601,German Language and Culture 1,97205,Japanese Language and Culture 5,0.6336166850327378
+97105,Chinese Language and Culture 5,97405,French Language and Culture 5,0.6324813573881468
+97602,German Language and Culture 2,97205,Japanese Language and Culture 5,0.6322007594024329
+97102,Chinese Language and Culture 2,97403,French Language and Culture 3,0.6308079235619228
+97106,Chinese Language and Culture 6,97405,French Language and Culture 5,0.6305537412777197
+97105,Chinese Language and Culture 5,97406,French Language and Culture 6,0.6304608982351265
+97103,Chinese Language and Culture 3,97501,Spanish Language and Culture 1,0.6297137660089681
+97603,German Language and Culture 3,97206,Japanese Language and Culture 6,0.6295503033284894
+97103,Chinese Language and Culture 3,97801,Italian Language and Culture 1,0.628902339060491
+97103,Chinese Language and Culture 3,97401,French Language and Culture 1,0.6288341540748675
+97106,Chinese Language and Culture 6,97506,Spanish Language and Culture 6,0.6279574811266867
+97102,Chinese Language and Culture 2,97402,French Language and Culture 2,0.6267724796872174
+97103,Chinese Language and Culture 3,97402,French Language and Culture 2,0.6265460442868187
+97105,Chinese Language and Culture 5,97505,Spanish Language and Culture 5,0.6262479301370024
+97102,Chinese Language and Culture 2,97404,French Language and Culture 4,0.6260720037340787
+97103,Chinese Language and Culture 3,97201,Japanese Language and Culture 1,0.6250097746560156
+97104,Chinese Language and Culture 4,97501,Spanish Language and Culture 1,0.6249224398238165
+97106,Chinese Language and Culture 6,97505,Spanish Language and Culture 5,0.6243393116691968
+97105,Chinese Language and Culture 5,97506,Spanish Language and Culture 6,0.6241637769269021
+97104,Chinese Language and Culture 4,97401,French Language and Culture 1,0.6240495206252404
+97104,Chinese Language and Culture 4,97801,Italian Language and Culture 1,0.6238849513571215
+97102,Chinese Language and Culture 2,97804,Italian Language and Culture 4,0.6237156967774256
+97102,Chinese Language and Culture 2,97501,Spanish Language and Culture 1,0.6233908266102008
+97405,French Language and Culture 5,97605,German Today,0.6231899228822946
+97102,Chinese Language and Culture 2,97503,Spanish Language and Culture 3,0.6231144476621865
+97102,Chinese Language and Culture 2,97401,French Language and Culture 1,0.6225200468364464
+97604,German Language and Culture 4,97206,Japanese Language and Culture 6,0.6224446760785101
+97104,Chinese Language and Culture 4,97402,French Language and Culture 2,0.6217788204619039
+97406,French Language and Culture 6,97605,German Today,0.6211991451794432
+97105,Chinese Language and Culture 5,97205,Japanese Language and Culture 5,0.6207800108537641
+97104,Chinese Language and Culture 4,97201,Japanese Language and Culture 1,0.6203949430745573
+97601,German Language and Culture 1,97206,Japanese Language and Culture 6,0.6202172038128301
+97605,German Today,97502,Spanish Language and Culture 2,0.6200984286446697
+97101,Chinese Language and Culture 1,97203,Japanese Language and Culture 3,0.6200322973480954
+97101,Chinese Language and Culture 1,97405,French Language and Culture 5,0.6195488873922591
+97106,Chinese Language and Culture 6,97205,Japanese Language and Culture 5,0.6188880569867053
+97602,German Language and Culture 2,97206,Japanese Language and Culture 6,0.6188312216315214
+41185,Emerging Topics in Cybersecurity and Privacy,41182,System Security,0.6184565941431666
+97605,German Today,97804,Italian Language and Culture 4,0.6181862431112336
+97102,Chinese Language and Culture 2,97801,Italian Language and Culture 1,0.6177738960476105
+97101,Chinese Language and Culture 1,97406,French Language and Culture 6,0.6175697409626394
+97102,Chinese Language and Culture 2,97803,Italian Language and Culture 3,0.6175486094382783
+97104,Chinese Language and Culture 4,97404,French Language and Culture 4,0.6174924940626043
+97102,Chinese Language and Culture 2,97802,Italian Language and Culture 2,0.617452198481376
+40002,Architecting on AWS,40001,AWS Industry Studio,0.6174481242297761
+97605,German Today,97505,Spanish Language and Culture 5,0.6170349623625058
+97103,Chinese Language and Culture 3,97802,Italian Language and Culture 2,0.6169525434163744
+97103,Chinese Language and Culture 3,97804,Italian Language and Culture 4,0.6164739467958131
+97105,Chinese Language and Culture 5,97502,Spanish Language and Culture 2,0.6162646521725612
+97101,Chinese Language and Culture 1,97601,German Language and Culture 1,0.6160547492404146
+97101,Chinese Language and Culture 1,97603,German Language and Culture 3,0.6159534995953145
+97103,Chinese Language and Culture 3,97403,French Language and Culture 3,0.6157724511147468
+97605,German Today,97506,Spanish Language and Culture 6,0.6152895735964115
+97105,Chinese Language and Culture 5,97201,Japanese Language and Culture 1,0.6150563348470277
+97505,Spanish Language and Culture 5,97509,Innocence and Experience in Hispanophone Societies,0.6144680154894422
+97106,Chinese Language and Culture 6,97502,Spanish Language and Culture 2,0.6143864597832693
+97101,Chinese Language and Culture 1,97604,German Language and Culture 4,0.614213662328734
+97102,Chinese Language and Culture 2,97504,Spanish Language and Culture 4,0.6141194835807355
+97104,Chinese Language and Culture 4,97802,Italian Language and Culture 2,0.6135779568810189
+97103,Chinese Language and Culture 3,97203,Japanese Language and Culture 3,0.613500069383525
+97101,Chinese Language and Culture 1,97505,Spanish Language and Culture 5,0.6132911194586723
+97106,Chinese Language and Culture 6,97201,Japanese Language and Culture 1,0.6131818250515658
+97104,Chinese Language and Culture 4,97804,Italian Language and Culture 4,0.6130857876349969
+97104,Chinese Language and Culture 4,97405,French Language and Culture 5,0.6130586177637786
+97506,Spanish Language and Culture 6,97509,Innocence and Experience in Hispanophone Societies,0.6124230658371437
+97106,Chinese Language and Culture 6,97206,Japanese Language and Culture 6,0.6123229731594937
+97605,German Today,97803,Italian Language and Culture 3,0.6120697576947953
+97101,Chinese Language and Culture 1,97506,Spanish Language and Culture 6,0.6112500865165486
+97104,Chinese Language and Culture 4,97406,French Language and Culture 6,0.6111002044743911
+97104,Chinese Language and Culture 4,97403,French Language and Culture 3,0.6110504028521433
+97103,Chinese Language and Culture 3,97404,French Language and Culture 4,0.6110458533398214
+97103,Chinese Language and Culture 3,97803,Italian Language and Culture 3,0.6102618164463466
+97605,German Today,97501,Spanish Language and Culture 1,0.6098950520168573
+97503,Spanish Language and Culture 3,97509,Innocence and Experience in Hispanophone Societies,0.6093556515798026
+97605,German Today,97801,Italian Language and Culture 1,0.6093195262376631
+97401,French Language and Culture 1,97605,German Today,0.6090431237356898
+97104,Chinese Language and Culture 4,97203,Japanese Language and Culture 3,0.6089983170589359
+97105,Chinese Language and Culture 5,97206,Japanese Language and Culture 6,0.6087852220346718
+97103,Chinese Language and Culture 3,97503,Spanish Language and Culture 3,0.6080615854215768
+97101,Chinese Language and Culture 1,97602,German Language and Culture 2,0.6079495830248318
+97104,Chinese Language and Culture 4,97505,Spanish Language and Culture 5,0.6069215246723779
+97104,Chinese Language and Culture 4,97803,Italian Language and Culture 3,0.6068946559530599
+97402,French Language and Culture 2,97605,German Today,0.6068270266555095
+97103,Chinese Language and Culture 3,97405,French Language and Culture 5,0.6067517178656525
+97101,Chinese Language and Culture 1,97202,Japanese Language and Culture 2,0.606686106707056
+97105,Chinese Language and Culture 5,97804,Italian Language and Culture 4,0.6066259024139519
+97105,Chinese Language and Culture 5,97801,Italian Language and Culture 1,0.6065079391224931
+97105,Chinese Language and Culture 5,97404,French Language and Culture 4,0.6064607312265959
+97105,Chinese Language and Culture 5,97501,Spanish Language and Culture 1,0.606174139140014
+97102,Chinese Language and Culture 2,97203,Japanese Language and Culture 3,0.6058869374741751
+97104,Chinese Language and Culture 4,97504,Spanish Language and Culture 4,0.6055685979151212
+97505,Spanish Language and Culture 5,97510,Diaspora of the Hispanic Imagination,0.6055062420031055
+97105,Chinese Language and Culture 5,97401,French Language and Culture 1,0.6053274083938992
+97104,Chinese Language and Culture 4,97506,Spanish Language and Culture 6,0.6049016897427067
+97103,Chinese Language and Culture 3,97406,French Language and Culture 6,0.6048134519426298
+97106,Chinese Language and Culture 6,97804,Italian Language and Culture 4,0.6047770860831035
+97106,Chinese Language and Culture 6,97801,Italian Language and Culture 1,0.6046594823088663
+97106,Chinese Language and Culture 6,97404,French Language and Culture 4,0.6046124182886755
+97104,Chinese Language and Culture 4,97204,Japanese Language and Culture 4,0.6044317466636686
+97106,Chinese Language and Culture 6,97501,Spanish Language and Culture 1,0.6043266996500091
+97101,Chinese Language and Culture 1,97204,Japanese Language and Culture 4,0.6040998552001406
+97403,French Language and Culture 3,97605,German Today,0.6039468468267736
+97102,Chinese Language and Culture 2,97405,French Language and Culture 5,0.603917487711216
+97404,French Language and Culture 4,97605,German Today,0.6038561241328418
+97605,German Today,97201,Japanese Language and Culture 1,0.6035009782415736
+97506,Spanish Language and Culture 6,97510,Diaspora of the Hispanic Imagination,0.6034911171343804
+97106,Chinese Language and Culture 6,97401,French Language and Culture 1,0.603482549488774
+97104,Chinese Language and Culture 4,97503,Spanish Language and Culture 3,0.6033714205280692
+97605,German Today,97802,Italian Language and Culture 2,0.6033429784371726
+97105,Chinese Language and Culture 5,97402,French Language and Culture 2,0.6031248315154893
+97502,Spanish Language and Culture 2,97509,Innocence and Experience in Hispanophone Societies,0.6020946099586073
+97102,Chinese Language and Culture 2,97406,French Language and Culture 6,0.601988275725026
+97504,Spanish Language and Culture 4,97509,Innocence and Experience in Hispanophone Societies,0.6017402254867327
+42173,Advanced Natural Language Processing,SMJ10170,Natural Language Processing,0.6016704230297165
+97106,Chinese Language and Culture 6,97402,French Language and Culture 2,0.6012866854132406
+97605,German Today,97205,Japanese Language and Culture 5,0.6008348997722723
+97103,Chinese Language and Culture 3,97202,Japanese Language and Culture 2,0.6008301434574279
+97103,Chinese Language and Culture 3,97505,Spanish Language and Culture 5,0.600644656380499
+97503,Spanish Language and Culture 3,97510,Diaspora of the Hispanic Imagination,0.6005909428006401
+97105,Chinese Language and Culture 5,97802,Italian Language and Culture 2,0.6005209255338154
+97105,Chinese Language and Culture 5,97803,Italian Language and Culture 3,0.6004842031221161
+97105,Chinese Language and Culture 5,97403,French Language and Culture 3,0.6002622233954874
+97102,Chinese Language and Culture 2,97601,German Language and Culture 1,0.6001388101290498
+97102,Chinese Language and Culture 2,97603,German Language and Culture 3,0.6000401762955927

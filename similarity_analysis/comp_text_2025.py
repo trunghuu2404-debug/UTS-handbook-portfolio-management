@@ -13,6 +13,9 @@ pd.set_option("display.max_colwidth", 60)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+OUTPUT_DIR = BASE_DIR / "similarity_analysis"
+OUTPUT_DIR.mkdir(exist_ok=True)
+
 SUBJECTS_FILE = (
     BASE_DIR
     / "dataset"
@@ -136,17 +139,17 @@ filtered_matches = strong_matches[
 ]
 
 similarity_df.to_csv(
-    BASE_DIR / f"{YEAR}_subject_similarity_results.csv",
+    OUTPUT_DIR / f"{YEAR}_subject_similarity_results.csv",
     index=False
 )
 
 strong_matches.to_csv(
-    BASE_DIR / f"{YEAR}_strong_subject_similarity_matches.csv",
+    OUTPUT_DIR / f"{YEAR}_strong_subject_similarity_matches.csv",
     index=False
 )
 
 filtered_matches.to_csv(
-    BASE_DIR / f"{YEAR}_filtered_subject_similarity_matches.csv",
+    OUTPUT_DIR / f"{YEAR}_filtered_subject_similarity_matches.csv",
     index=False
 )
 

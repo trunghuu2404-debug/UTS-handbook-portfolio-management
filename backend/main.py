@@ -21,6 +21,7 @@ from routes.course_routes import router as course_router
 from routes.subject_routes import router as subject_router
 from routes.graph_routes import router as graph_router
 from routes.similarity_routes import router as similarity_router
+from routes.viz_routes import router as viz_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -74,6 +75,8 @@ app.include_router(course_router)
 app.include_router(subject_router)
 app.include_router(graph_router)
 app.include_router(similarity_router)
+app.include_router(viz_router)
+
 
 @app.get("/", tags=["Health"])
 def health_check():

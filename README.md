@@ -26,7 +26,7 @@ The UTS Curriculum Digital Twin ingests UTS handbook data into a Neo4j graph dat
 ## Project Structure
  
 ```
-uts-digital-twin/
+UTS-HANDBOOK-PORTFOLIO-MANAGEMENT/
 │
 ├── dataset/                                   # Source JSON files from UTS handbook scraper
 │   ├── C04443_Master of Artificial Intelligence/
@@ -73,7 +73,11 @@ uts-digital-twin/
 ├── frontend/
 │   └── app.py                                 # Streamlit testing frontend
 │
-└── neo4j_importer.py                          # Imports dataset JSON files into Neo4j
+├──post_2025_scrapping.py                      # Post-2025 Handbook scrapper 
+│
+├──pre_2025_scrapping.py                       # Pre-2025 Handbook scrapper
+│
+└── database_importer.py                       # Imports dataset JSON files into Neo4j
 ```
  
 ---

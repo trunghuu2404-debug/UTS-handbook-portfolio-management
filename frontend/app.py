@@ -14,7 +14,6 @@ from pathlib import Path
 
 import requests
 import streamlit as st
-import streamlit.components.v1 as components
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -65,15 +64,13 @@ def api_get_silent(path: str, params: dict = None):
 
 
 def show_viz(path: str, height: int = 900, params: dict = None) -> None:
-    """Fetch an HTML viz from the API and embed it inline."""
+    """Embed a viz endpoint directly via st.iframe — browser loads it in parallel."""
+    url = f"{API_BASE_URL}{path}"
+    if params:
+        query = "&".join(f"{k}={v}" for k, v in params.items())
+        url = f"{url}?{query}"
     try:
-        resp = requests.get(f"{API_BASE_URL}{path}", params=params, timeout=30)
-        if resp.status_code == 200:
-            components.html(resp.text, height=height, scrolling=True)
-        else:
-            st.warning(f"Visualization not available ({resp.status_code}): {path}")
-    except requests.exceptions.ConnectionError:
-        st.error(f"Cannot connect to **{API_BASE_URL}**.")
+        st.iframe(url, height=height)
     except Exception as exc:
         st.error(f"Failed to load visualization: {exc}")
 
@@ -151,7 +148,7 @@ with st.sidebar:
     if not courses_data:
         courses_data = _local_courses()
         if courses_data:
-            st.caption("📂 Using local data (backend offline)")
+            st.caption("Using local data (backend offline)")
     course_options = {}
     if courses_data:
         course_options = {f"{c['name']} ({c['code']})": c["code"] for c in courses_data}
@@ -161,18 +158,18 @@ with st.sidebar:
     )
     selected_course_code = course_options.get(selected_course_label)
 
-    selected_year = None
+    selected_year = 2026
     if selected_course_code:
         versions_data = api_get_silent(f"/courses/{selected_course_code}/versions")
         if not versions_data:
             versions_data = _local_course_versions(selected_course_code)
         if versions_data:
-            year_options = ["All versions"] + [str(v["year"]) for v in versions_data]
-            selected_year_str = st.selectbox(
-                "Version (year)", year_options, key="year_select"
-            )
-            selected_year = (
-                int(selected_year_str) if selected_year_str != "All versions" else None
+            year_options = [v["year"] for v in versions_data]
+            selected_year = st.selectbox(
+                "Version (year)",
+                options=year_options,
+                index=year_options.index(2026) if 2026 in year_options else 0,
+                key="year_select",
             )
 
     st.markdown("---")
@@ -239,15 +236,11 @@ with sec_course:
     if not selected_course_code:
         st.info("Select a course in the sidebar to begin.")
     else:
-        year_label = str(selected_year) if selected_year else "all versions"
-        viz_year = selected_year or 2026
-
         # ── Overview metrics ─────────────────────────────────────────────────
-        st.subheader(f"Overview · {selected_course_label} · {year_label}")
+        st.subheader(f"Overview · {selected_course_label} · {selected_year}")
         with st.spinner("Loading course graph …"):
-            params = {"year": selected_year} if selected_year else {}
             graph_data = api_get(
-                f"/courses/{selected_course_code}/graph", params=params
+                f"/courses/{selected_course_code}/graph", params={"year": selected_year}
             )
 
         if graph_data:
@@ -279,43 +272,43 @@ with sec_course:
                 props_str = "  ·  ".join(f"`{k}`: {v}" for k, v in props.items() if v)
                 st.markdown(f"- **{node['label']}** `{node['type']}` {props_str}")
 
-        if selected_year:
-            with st.spinner("Loading version metadata …"):
-                versions = api_get(f"/courses/{selected_course_code}/versions")
-            if versions:
-                version = next(
-                    (v for v in versions if v["year"] == selected_year), None
-                )
-                if version:
-                    st.markdown(f"**URL:** {version.get('course_url') or '—'}")
-                    if version.get("course_details"):
-                        with st.expander("Course details"):
-                            st.write(version["course_details"])
-                    clo = version.get("course_learning_outcomes") or []
-                    if clo:
-                        with st.expander(f"Learning outcomes ({len(clo)})"):
-                            for i, lo in enumerate(clo, 1):
-                                st.markdown(f"{i}. {lo}")
+        with st.spinner("Loading version metadata …"):
+            versions = api_get(f"/courses/{selected_course_code}/versions")
+        if versions:
+            version = next((v for v in versions if v["year"] == selected_year), None)
+            if version:
+                st.markdown(f"**URL:** {version.get('course_url') or '—'}")
+                if version.get("course_details"):
+                    with st.expander("Course details"):
+                        st.write(version["course_details"])
+                clo = version.get("course_learning_outcomes") or []
+                if clo:
+                    with st.expander(f"Learning outcomes ({len(clo)})"):
+                        for i, lo in enumerate(clo, 1):
+                            st.markdown(f"{i}. {lo}")
 
         st.divider()
 
         # ── Sunburst ──────────────────────────────────────────────────────────
-        st.subheader(f"Sunburst · {selected_course_label} · {viz_year}")
+        st.subheader(f"Sunburst · {selected_course_label} · {selected_year}")
         st.caption("Click any wedge to zoom in. Grey = no subject data in that branch.")
         with st.spinner("Building sunburst …"):
             show_viz(
-                f"/viz/course/{selected_course_code}/{viz_year}/sunburst", height=900
+                f"/viz/course/{selected_course_code}/{selected_year}/sunburst",
+                height=900,
             )
 
         st.divider()
 
         # ── D3 Tree ───────────────────────────────────────────────────────────
-        st.subheader(f"Course Tree (D3) · {selected_course_label} · {viz_year}")
+        st.subheader(f"Course Tree (D3) · {selected_course_label} · {selected_year}")
         st.caption(
             "Top-down hierarchy. Click blue/purple nodes to expand. Scroll to zoom."
         )
         with st.spinner("Building course tree …"):
-            show_viz(f"/viz/course/{selected_course_code}/{viz_year}/tree", height=900)
+            show_viz(
+                f"/viz/course/{selected_course_code}/{selected_year}/tree", height=900
+            )
 
 
 # ===========================================================================
@@ -623,7 +616,7 @@ with sec_similarity:
               </div>
             </div>
             """
-            components.html(diagram_html, height=220)
+            st.html(diagram_html)
 
             st.divider()
             st.subheader("Field-level similarity")

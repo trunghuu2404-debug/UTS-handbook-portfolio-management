@@ -22,6 +22,7 @@ from routes.subject_routes import router as subject_router
 from routes.graph_routes import router as graph_router
 from routes.similarity_routes import router as similarity_router
 from routes.viz_routes import router as viz_router
+from services.cache_warmer import start_cache_warmer
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,23 +32,15 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Lifespan: initialise and tear down the Neo4j driver
-# ---------------------------------------------------------------------------
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    log.info("Starting up — connecting to Neo4j …")
-    get_driver()  # eagerly open connection on startup
+    log.info("Starting up — connecting to Neo4j ...")
+    get_driver()
+    start_cache_warmer()
     yield
-    log.info("Shutting down — closing Neo4j driver …")
+    log.info("Shutting down — closing Neo4j driver ...")
     close_driver()
 
-
-# ---------------------------------------------------------------------------
-# App
-# ---------------------------------------------------------------------------
 
 app = FastAPI(
     title="UTS Curriculum Digital Twin API",
@@ -59,17 +52,12 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Allow the Streamlit frontend (running on any localhost port) to call the API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten to ["http://localhost:8501"] in production
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# ---------------------------------------------------------------------------
-# Register routers
-# ---------------------------------------------------------------------------
 
 app.include_router(course_router)
 app.include_router(subject_router)

@@ -12,9 +12,11 @@ Behaviour:
 
 from __future__ import annotations
 import json
+from functools import lru_cache
 from services.viz_service import get_prereq_subgraph
 
 
+@lru_cache(maxsize=128)
 def build_prereq_graph_html(subject_code: str, year: int = 2026) -> str:
     data = get_prereq_subgraph(subject_code, year)
 
@@ -36,7 +38,7 @@ def build_prereq_graph_html(subject_code: str, year: int = 2026) -> str:
     for pre, tgt in prereq_edges:
         prereqs_of.setdefault(tgt, []).append(pre)
 
-    # ── Build node list ──────────────────────────────────────────────────────
+    # Build node list
 
     vis_nodes = []
 
@@ -75,7 +77,7 @@ def build_prereq_graph_html(subject_code: str, year: int = 2026) -> str:
                     "hover": {"background": "#3498db", "border": "#2176ae"},
                 },
                 "font": {
-                    "color": "#080808",
+                    "color": "#171313",
                     "size": 14,
                     "face": "Inter, Arial, sans-serif",
                 },
@@ -104,7 +106,7 @@ def build_prereq_graph_html(subject_code: str, year: int = 2026) -> str:
                         "highlight": {"background": "#e67e22", "border": "#d35400"},
                     },
                     "font": {
-                        "color": "#080808",
+                        "color": "#171313",
                         "size": 12,
                         "face": "Inter, Arial, sans-serif",
                     },
@@ -132,7 +134,7 @@ def build_prereq_graph_html(subject_code: str, year: int = 2026) -> str:
                         "highlight": {"background": "#808b96", "border": "#616a6b"},
                     },
                     "font": {
-                        "color": "#ffffff",
+                        "color": "#171313",
                         "size": 12,
                         "face": "Inter, Arial, sans-serif",
                     },

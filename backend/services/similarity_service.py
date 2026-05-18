@@ -6,7 +6,6 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-
 BASE_DIR = Path(__file__).resolve().parents[2]
 SUBJECTS_DIR = BASE_DIR / "dataset" / "subjects_archive"
 YEARS = ["2023", "2024", "2025", "2026"]
@@ -19,12 +18,14 @@ def list_to_text(value) -> str:
 
 
 def build_subject_text(subject: dict) -> str:
-    return " ".join([
-        str(subject.get("name", "") or ""),
-        str(subject.get("description", "") or ""),
-        list_to_text(subject.get("learning_outcomes", [])),
-        str(subject.get("learning_and_teaching_activities", "") or ""),
-    ]).strip()
+    return " ".join(
+        [
+            str(subject.get("name", "") or ""),
+            str(subject.get("description", "") or ""),
+            list_to_text(subject.get("learning_outcomes", [])),
+            str(subject.get("learning_and_teaching_activities", "") or ""),
+        ]
+    ).strip()
 
 
 @lru_cache(maxsize=1)
@@ -41,21 +42,25 @@ def load_subject_dataframe():
             subjects = json.load(f)
 
         for subject_code, subject in subjects.items():
-            rows.append({
-                "year": str(year),
-                "subject_code": str(subject_code),
-                "subject_name": subject.get("name", ""),
-                "study_level": subject.get("study_level", ""),
-                "faculty": subject.get("faculty", ""),
-                "credit_points": subject.get("credit_points", ""),
-                "total_workload_hours": subject.get("total_workload_hours", ""),
-                "description": str(subject.get("description", "") or ""),
-                "learning_outcomes": list_to_text(subject.get("learning_outcomes", [])),
-                "learning_activities": str(
-                    subject.get("learning_and_teaching_activities", "") or ""
-                ),
-                "combined_text": build_subject_text(subject),
-            })
+            rows.append(
+                {
+                    "year": str(year),
+                    "subject_code": str(subject_code),
+                    "subject_name": subject.get("name", ""),
+                    "study_level": subject.get("study_level", ""),
+                    "faculty": subject.get("faculty", ""),
+                    "credit_points": subject.get("credit_points", ""),
+                    "total_workload_hours": subject.get("total_workload_hours", ""),
+                    "description": str(subject.get("description", "") or ""),
+                    "learning_outcomes": list_to_text(
+                        subject.get("learning_outcomes", [])
+                    ),
+                    "learning_activities": str(
+                        subject.get("learning_and_teaching_activities", "") or ""
+                    ),
+                    "combined_text": build_subject_text(subject),
+                }
+            )
 
     df = pd.DataFrame(rows)
 
@@ -92,17 +97,17 @@ def classify_similarity(score: float) -> str:
     return "Weak similarity / likely unrelated"
 
 
-def compare_subjects(subject_code_1: str, subject_code_2: str, year_1: str, year_2: str):
+def compare_subjects(
+    subject_code_1: str, subject_code_2: str, year_1: str, year_2: str
+):
     df = load_subject_dataframe()
 
     match_1 = df[
-        (df["subject_code"] == str(subject_code_1))
-        & (df["year"] == str(year_1))
+        (df["subject_code"] == str(subject_code_1)) & (df["year"] == str(year_1))
     ]
 
     match_2 = df[
-        (df["subject_code"] == str(subject_code_2))
-        & (df["year"] == str(year_2))
+        (df["subject_code"] == str(subject_code_2)) & (df["year"] == str(year_2))
     ]
 
     if match_1.empty:
@@ -117,7 +122,9 @@ def compare_subjects(subject_code_1: str, subject_code_2: str, year_1: str, year
     overall_score = tfidf_similarity(s1["combined_text"], s2["combined_text"])
     description_score = tfidf_similarity(s1["description"], s2["description"])
     outcomes_score = tfidf_similarity(s1["learning_outcomes"], s2["learning_outcomes"])
-    activities_score = tfidf_similarity(s1["learning_activities"], s2["learning_activities"])
+    activities_score = tfidf_similarity(
+        s1["learning_activities"], s2["learning_activities"]
+    )
 
     result = {
         "subject_1": {
@@ -166,12 +173,12 @@ def compare_subjects(subject_code_1: str, subject_code_2: str, year_1: str, year
 
     return result, None
 
+
 def get_top_similar_subjects(subject_code: str, year: str, limit: int = 5):
     df = load_subject_dataframe()
 
     target_match = df[
-        (df["subject_code"] == str(subject_code))
-        & (df["year"] == str(year))
+        (df["subject_code"] == str(subject_code)) & (df["year"] == str(year))
     ]
 
     if target_match.empty:
@@ -181,24 +188,25 @@ def get_top_similar_subjects(subject_code: str, year: str, limit: int = 5):
     results = []
 
     for _, candidate in df.iterrows():
-        same_subject = (
-            candidate["subject_code"] == str(subject_code)
-            and candidate["year"] == str(year)
-        )
+        same_subject = candidate["subject_code"] == str(subject_code) and candidate[
+            "year"
+        ] == str(year)
 
         if same_subject:
             continue
 
         score = tfidf_similarity(target["combined_text"], candidate["combined_text"])
 
-        results.append({
-            "code": candidate["subject_code"],
-            "name": candidate["subject_name"],
-            "year": candidate["year"],
-            "similarity_score": round(score, 4),
-            "similarity_percentage": round(score * 100, 2),
-            "classification": classify_similarity(score),
-        })
+        results.append(
+            {
+                "code": candidate["subject_code"],
+                "name": candidate["subject_name"],
+                "year": candidate["year"],
+                "similarity_score": round(score, 4),
+                "similarity_percentage": round(score * 100, 2),
+                "classification": classify_similarity(score),
+            }
+        )
 
     results = sorted(
         results,

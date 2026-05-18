@@ -7,7 +7,7 @@ All other layers call run_query() — nothing else talks to the driver directly.
 
 import os
 import logging
-from typing import Any, Optional
+from typing import Optional
 
 from neo4j import GraphDatabase, Driver
 

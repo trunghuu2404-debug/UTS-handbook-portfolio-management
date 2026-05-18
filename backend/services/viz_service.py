@@ -117,7 +117,8 @@ def get_subject_versions_all(subject_code: str) -> dict:
 # ============================================================================
 
 
-def get_prereq_subgraph(subject_code: str, year: int, max_depth: int = 4) -> dict:
+@lru_cache(maxsize=64)
+def get_prereq_subgraph(subject_code: str, year: int) -> dict:
     """
     Return the full prerequisite subgraph for a subject:
         {
@@ -216,7 +217,7 @@ def build_prereq_tree_dict(
     Root = subject_code, children = its prerequisites (recursively).
     Depth is controlled here in Python (not in Cypher).
     """
-    data = get_prereq_subgraph(subject_code, year, max_depth)
+    data = get_prereq_subgraph(subject_code, year)
     if subject_code not in data["nodes"]:
         return None
 

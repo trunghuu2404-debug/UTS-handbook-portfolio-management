@@ -12,6 +12,7 @@ Public API:
 from __future__ import annotations
 
 import os
+from functools import lru_cache
 from pathlib import Path
 
 import pandas as pd
@@ -37,6 +38,7 @@ _FACULTY_COLOURS: dict = {
 _DEFAULT_COLOUR = "#bbbbbb"
 
 
+@lru_cache(maxsize=8)
 def build_similarity_network_html(year: str = "2026") -> str:
     """
     Return a self-contained pyvis similarity-network HTML page.

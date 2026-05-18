@@ -18,7 +18,6 @@ import json
 import re
 from collections import defaultdict
 from functools import lru_cache
-from typing import Iterable
 
 import pandas as pd
 import plotly.express as px
@@ -96,9 +95,10 @@ def _patch_missing_tree(node: dict) -> None:
 # ============================================================================
 
 
+@lru_cache(maxsize=128)
 def build_evolution_html(
     subject_code: str,
-    years: Iterable[int] = (2023, 2024, 2025, 2026),
+    years: tuple = (2023, 2024, 2025, 2026),
 ) -> str:
     """Return a self-contained HTML page showing how a subject changed across years."""
     all_versions = get_subject_versions_all(subject_code)
@@ -429,6 +429,7 @@ def _walk_course(
         )
 
 
+@lru_cache(maxsize=32)
 def build_sunburst_html(course_code: str, year: int = 2026) -> str:
     """Return a self-contained Plotly sunburst HTML page for the given course."""
     course = get_course_data(course_code, year)
@@ -532,6 +533,7 @@ def _build_course_tree_node(node: dict) -> dict:
     }
 
 
+@lru_cache(maxsize=32)
 def build_course_tree_html(course_code: str, year: int = 2026) -> str:
     """Return a self-contained D3 course-tree HTML page for the given course."""
     course = get_course_data(course_code, year)

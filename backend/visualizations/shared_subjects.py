@@ -11,6 +11,8 @@ Public API:
 
 from __future__ import annotations
 
+from functools import lru_cache
+
 from pyvis.network import Network
 
 from services.viz_service import get_shared_subjects_data
@@ -25,6 +27,7 @@ _COURSE_COLOURS = [
 ]
 
 
+@lru_cache(maxsize=8)
 def build_shared_subjects_html(year: int = 2026) -> str:
     """
     Return a self-contained pyvis bipartite HTML page.
@@ -138,7 +141,7 @@ def build_shared_subjects_html(year: int = 2026) -> str:
         f"Subjects shared across UTS programs &middot; {year}</div>"
         f"<div style='font-size:13px;color:#666;margin-top:4px;'>"
         f"Coloured nodes = programs. "
-        f"<strong style='color:#f1c40f;'>Gold</strong> = shared across 2+ programs. "
+        f"Gold = shared across 2 programs. "
         f"Grey = unique to one program.</div>"
         f"<div style='margin-top:6px;font-size:12px;color:#444;'>"
         f"{len(courses)} programs &nbsp;&bull;&nbsp; "

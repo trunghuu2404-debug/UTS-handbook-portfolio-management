@@ -265,30 +265,55 @@ def get_shared_subjects_data(year: int) -> dict:
     """
     Return all courses for a year with the subjects they contain:
         {course_code: {name: str, subjects: {subj_code: subj_name}}}
+
+    Reads from JSON files (same reason as get_course_data) — Neo4j HAS_CHILD
+    traversal misses subjects nested under AreaOfStudy nodes, so this approach
+    guarantees the full subject list including those under Sub-Majors and electives.
     """
-    rows = run_query(
-        """
-        MATCH (c:Course)-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
-        MATCH (cv)-[:HAS_STRUCTURE]->(root:Structure)
-        OPTIONAL MATCH (root)-[:HAS_CHILD*0..10]->(s:Structure)-[:CONTAINS]->(subj:Subject)
-        WHERE subj IS NOT NULL
-        RETURN c.code AS course_code, cv.course_name AS course_name,
-               subj.code AS subj_code, subj.name AS subj_name
-        """,
-        {"year": year},
-    )
+
+    def _collect(node, found: dict) -> None:
+        """Recursively walk any JSON node and collect every subject leaf."""
+        if isinstance(node, dict):
+            # Subject leaf: has code + name + credit_points but no structure_name
+            if (
+                "code" in node
+                and "name" in node
+                and "credit_points" in node
+                and "structure_name" not in node
+                and "have_structure" not in node
+            ):
+                code = str(node["code"]).strip()
+                if code:
+                    found[code] = node.get("name", code)
+                return
+            for v in node.values():
+                if isinstance(v, (dict, list)):
+                    _collect(v, found)
+        elif isinstance(node, list):
+            for item in node:
+                _collect(item, found)
 
     courses: dict = {}
-    for r in rows:
-        ccode = r["course_code"]
-        if not ccode:
+    if not _DATASET_DIR.exists():
+        return courses
+
+    for course_dir in sorted(_DATASET_DIR.iterdir()):
+        if not course_dir.is_dir() or not course_dir.name.startswith("C"):
             continue
-        if ccode not in courses:
-            courses[ccode] = {"name": r["course_name"] or ccode, "subjects": {}}
-        if r["subj_code"]:
-            courses[ccode]["subjects"][r["subj_code"]] = (
-                r["subj_name"] or r["subj_code"]
-            )
+        json_path = course_dir / f"{year}.json"
+        if not json_path.exists():
+            continue
+        try:
+            data = json.loads(json_path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        subjects: dict = {}
+        _collect(data.get("structure", []), subjects)
+        if subjects:
+            courses[data["course_code"]] = {
+                "name": data["course_name"],
+                "subjects": subjects,
+            }
 
     return courses
 

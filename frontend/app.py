@@ -14,6 +14,7 @@ st.set_page_config(
     layout="wide",
 )
 
+
 # API helpers
 
 
@@ -118,7 +119,6 @@ def _local_subject_search(query: str) -> list:
 
 # Sidebar — navigation only
 
-
 with st.sidebar:
     st.title("🎓 UTS Digital Twin")
     st.markdown("---")
@@ -133,12 +133,23 @@ with st.sidebar:
     st.markdown("---")
     st.caption(f"FastAPI backend: {API_BASE_URL}")
 
-
 # Main
+
 
 st.title("UTS Curriculum Digital Twin")
 st.markdown("Explore course structures and subject requisites stored in Neo4j.")
 st.divider()
+
+
+for key, default in [
+    ("course_select", None),
+    ("year_select", 2026),
+    ("subj_search", ""),
+    ("subject_select", None),
+    ("subject_version_slider", 2026),
+]:
+    if key not in st.session_state:
+        st.session_state[key] = default
 
 
 # SECTION 1 — Course Structure
@@ -154,8 +165,13 @@ if section == "Course Structure":
 
     col_sel, col_year = st.columns([3, 1])
     with col_sel:
+        course_keys = list(course_options.keys())
+        saved_course = st.session_state.get("course_select")
+        course_idx = (
+            course_keys.index(saved_course) if saved_course in course_keys else 0
+        )
         selected_course_label = st.selectbox(
-            "Select course", options=list(course_options.keys()), key="course_select"
+            "Select course", options=course_keys, index=course_idx, key="course_select"
         )
     selected_course_code = course_options.get(selected_course_label)
 
@@ -253,8 +269,9 @@ if section == "Course Structure":
 
 
 # SECTION 2 — Subject Details
-elif section == "Subject Details":
-    st.header("Subject Details")
+
+elif section == "📖 Subject Details":
+    st.header("📖 Subject Details")
 
     # Subject selector
     subject_search = st.text_input(
@@ -272,15 +289,18 @@ elif section == "Subject Details":
                 f"{s['name']} ({s['code']})": s["code"] for s in search_data
             }
 
+    subj_keys = list(subject_options.keys())
+    saved_subj = st.session_state.get("subject_select")
+    subj_idx = subj_keys.index(saved_subj) if saved_subj in subj_keys else 0
     selected_subject_label = st.selectbox(
-        "Select subject", options=list(subject_options.keys()), key="subject_select"
+        "Select subject", options=subj_keys, index=subj_idx, key="subject_select"
     )
     selected_subject_code = subject_options.get(selected_subject_label)
 
     if not selected_subject_code:
         st.info("Search for a subject above, then select it.")
     else:
-        # ── Subject metadata + version slider ────────────────────────────────
+        # Subject metadata + version slider
         with st.spinner(f"Loading subject {selected_subject_code} …"):
             detail = api_get(f"/subjects/{selected_subject_code}")
 
@@ -293,10 +313,18 @@ elif section == "Subject Details":
 
             version_years = sorted([v["year"] for v in all_versions])
             if version_years:
+                saved_slider = st.session_state.get(
+                    "subject_version_slider", max(version_years)
+                )
+                slider_val = (
+                    saved_slider
+                    if saved_slider in version_years
+                    else max(version_years)
+                )
                 chosen_year = st.select_slider(
                     "View version",
                     options=version_years,
-                    value=max(version_years),
+                    value=slider_val,
                     key="subject_version_slider",
                 )
 
@@ -441,7 +469,6 @@ elif section == "Subject Details":
         with st.spinner("Building evolution timeline …"):
             show_viz(f"/viz/subject/{selected_subject_code}/evolution", height=1200)
 
-
 # SECTION 3 — Subject Twin
 
 elif section == "Subject Twin":
@@ -472,9 +499,7 @@ elif section == "Subject Twin":
         show_viz(f"/viz/shared-subjects/{shared_year}", height=950)
 
 
-# ===========================================================================
 # SECTION 4 — Subject Similarity
-# ===========================================================================
 
 elif section == "Subject Similarity":
     st.header("Subject Similarity")

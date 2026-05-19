@@ -120,7 +120,7 @@ def _local_subject_search(query: str) -> list:
 # Sidebar — navigation only
 
 with st.sidebar:
-    st.title("🎓 UTS Digital Twin")
+    st.title("UTS Digital Twin")
     st.markdown("---")
 
     section = st.radio(
@@ -270,8 +270,8 @@ if section == "Course Structure":
 
 # SECTION 2 — Subject Details
 
-elif section == "📖 Subject Details":
-    st.header("📖 Subject Details")
+elif section == "Subject Details":
+    st.header("Subject Details")
 
     # Subject selector
     subject_search = st.text_input(

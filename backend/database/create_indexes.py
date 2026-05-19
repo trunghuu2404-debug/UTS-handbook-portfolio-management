@@ -52,8 +52,8 @@ def create_indexes():
                 skipped += 1
 
     log.info(f"\nDone — {created} index(es) created/verified, {skipped} skipped.")
-    close_driver()
 
 
 if __name__ == "__main__":
     create_indexes()
+    close_driver()

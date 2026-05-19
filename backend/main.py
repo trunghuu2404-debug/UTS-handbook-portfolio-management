@@ -17,6 +17,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from database.neo4j import get_driver, close_driver
+from database.create_indexes import create_indexes
 from routes.course_routes import router as course_router
 from routes.subject_routes import router as subject_router
 from routes.graph_routes import router as graph_router
@@ -36,6 +37,7 @@ log = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     log.info("Starting up — connecting to Neo4j ...")
     get_driver()
+    create_indexes()
     start_cache_warmer()
     yield
     log.info("Shutting down — closing Neo4j driver ...")

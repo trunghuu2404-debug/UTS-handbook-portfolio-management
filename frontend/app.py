@@ -1,23 +1,10 @@
-"""
-frontend/app.py
----------------
-Streamlit testing frontend for the UTS Curriculum Digital Twin API.
-
-Run:
-    streamlit run app.py
-
-Ensure the FastAPI backend is running at API_BASE_URL before starting.
-"""
-
 import json
 from pathlib import Path
 
 import requests
 import streamlit as st
 
-# ---------------------------------------------------------------------------
 # Configuration
-# ---------------------------------------------------------------------------
 
 API_BASE_URL = "http://localhost:8000"
 
@@ -27,10 +14,7 @@ st.set_page_config(
     layout="wide",
 )
 
-
-# ---------------------------------------------------------------------------
 # API helpers
-# ---------------------------------------------------------------------------
 
 
 def api_get(path: str, params: dict = None):
@@ -64,7 +48,6 @@ def api_get_silent(path: str, params: dict = None):
 
 
 def show_viz(path: str, height: int = 900, params: dict = None) -> None:
-    """Embed a viz endpoint directly via st.iframe — browser loads it in parallel."""
     url = f"{API_BASE_URL}{path}"
     if params:
         query = "&".join(f"{k}={v}" for k, v in params.items())
@@ -75,9 +58,7 @@ def show_viz(path: str, height: int = 900, params: dict = None) -> None:
         st.error(f"Failed to load visualization: {exc}")
 
 
-# ---------------------------------------------------------------------------
-# Local-JSON fallbacks for sidebar
-# ---------------------------------------------------------------------------
+# Local-JSON fallbacks
 
 _DATASET_DIR = Path(__file__).resolve().parent.parent / "dataset"
 
@@ -114,10 +95,10 @@ def _local_course_versions(course_code: str) -> list:
 
 
 @st.cache_data(show_spinner=False)
-def _local_subject_search(query: str, year: int = 2026) -> list:
+def _local_subject_search(query: str) -> list:
     if not query or len(query) < 2:
         return []
-    sub_path = _DATASET_DIR / "subjects_archive" / f"{year}_subjects.json"
+    sub_path = _DATASET_DIR / "subjects_archive" / "2026_subjects.json"
     if not sub_path.exists():
         return []
     try:
@@ -135,108 +116,68 @@ def _local_subject_search(query: str, year: int = 2026) -> list:
     return out
 
 
-# ---------------------------------------------------------------------------
-# Sidebar
-# ---------------------------------------------------------------------------
+# Sidebar — navigation only
+
 
 with st.sidebar:
     st.title("🎓 UTS Digital Twin")
     st.markdown("---")
 
-    st.subheader("Course")
-    courses_data = api_get_silent("/courses")
-    if not courses_data:
-        courses_data = _local_courses()
-        if courses_data:
-            st.caption("Using local data (backend offline)")
-    course_options = {}
-    if courses_data:
-        course_options = {f"{c['name']} ({c['code']})": c["code"] for c in courses_data}
-
-    selected_course_label = st.selectbox(
-        "Select course", options=list(course_options.keys()), key="course_select"
-    )
-    selected_course_code = course_options.get(selected_course_label)
-
-    selected_year = 2026
-    if selected_course_code:
-        versions_data = api_get_silent(f"/courses/{selected_course_code}/versions")
-        if not versions_data:
-            versions_data = _local_course_versions(selected_course_code)
-        if versions_data:
-            year_options = [v["year"] for v in versions_data]
-            selected_year = st.selectbox(
-                "Version (year)",
-                options=year_options,
-                index=year_options.index(2026) if 2026 in year_options else 0,
-                key="year_select",
-            )
-
-    st.markdown("---")
-
-    st.subheader("Subject")
-    subject_search = st.text_input(
-        "Search by code or name",
-        placeholder="e.g. 31265 or Communication",
-        key="subj_search",
-    )
-    subject_options = {}
-    if subject_search and len(subject_search) >= 2:
-        search_data = api_get_silent("/subjects/search", params={"q": subject_search})
-        if not search_data:
-            search_data = _local_subject_search(subject_search)
-        if search_data:
-            subject_options = {
-                f"{s['name']} ({s['code']})": s["code"] for s in search_data
-            }
-
-    selected_subject_label = st.selectbox(
-        "Select subject", options=list(subject_options.keys()), key="subject_select"
-    )
-    selected_subject_code = subject_options.get(selected_subject_label)
-
-    selected_subject_year = st.number_input(
-        "Subject version year",
-        min_value=2023,
-        max_value=2026,
-        value=2026,
-        step=1,
-        key="subj_year",
+    section = st.radio(
+        "Navigate to",
+        ["Course Structure", "Subject Details", "Subject Twin", "Subject Similarity"],
+        key="nav",
+        label_visibility="collapsed",
     )
 
     st.markdown("---")
     st.caption(f"FastAPI backend: {API_BASE_URL}")
 
 
-# ---------------------------------------------------------------------------
-# Main — 4 flat sections
-# ---------------------------------------------------------------------------
+# Main
 
 st.title("UTS Curriculum Digital Twin")
 st.markdown("Explore course structures and subject requisites stored in Neo4j.")
-
-sec_course, sec_subject, sec_twin, sec_similarity = st.tabs(
-    [
-        "Course Structure",
-        "Subject Details",
-        "Subject Twin",
-        "Subject Similarity",
-    ]
-)
+st.divider()
 
 
-# ===========================================================================
 # SECTION 1 — Course Structure
-# Course overview metrics · Sunburst · D3 Tree
-# ===========================================================================
 
-with sec_course:
+if section == "Course Structure":
     st.header("Course Structure")
 
+    # Course selector
+    courses_data = api_get_silent("/courses") or _local_courses()
+    course_options = {
+        f"{c['name']} ({c['code']})": c["code"] for c in (courses_data or [])
+    }
+
+    col_sel, col_year = st.columns([3, 1])
+    with col_sel:
+        selected_course_label = st.selectbox(
+            "Select course", options=list(course_options.keys()), key="course_select"
+        )
+    selected_course_code = course_options.get(selected_course_label)
+
+    selected_year = 2026
+    with col_year:
+        if selected_course_code:
+            versions_data = api_get_silent(f"/courses/{selected_course_code}/versions")
+            if not versions_data:
+                versions_data = _local_course_versions(selected_course_code)
+            if versions_data:
+                year_options = [v["year"] for v in versions_data]
+                selected_year = st.selectbox(
+                    "Year",
+                    options=year_options,
+                    index=year_options.index(2026) if 2026 in year_options else 0,
+                    key="year_select",
+                )
+
     if not selected_course_code:
-        st.info("Select a course in the sidebar to begin.")
+        st.info("Select a course above to begin.")
     else:
-        # ── Overview metrics ─────────────────────────────────────────────────
+        # Overview metrics
         st.subheader(f"Overview · {selected_course_label} · {selected_year}")
         with st.spinner("Loading course graph …"):
             graph_data = api_get(
@@ -289,7 +230,7 @@ with sec_course:
 
         st.divider()
 
-        # ── Sunburst ──────────────────────────────────────────────────────────
+        # Sunburst
         st.subheader(f"Sunburst · {selected_course_label} · {selected_year}")
         st.caption("Click any wedge to zoom in. Grey = no subject data in that branch.")
         with st.spinner("Building sunburst …"):
@@ -300,7 +241,7 @@ with sec_course:
 
         st.divider()
 
-        # ── D3 Tree ───────────────────────────────────────────────────────────
+        # D3 Tree
         st.subheader(f"Course Tree (D3) · {selected_course_label} · {selected_year}")
         st.caption(
             "Top-down hierarchy. Click blue/purple nodes to expand. Scroll to zoom."
@@ -311,43 +252,56 @@ with sec_course:
             )
 
 
-# ===========================================================================
 # SECTION 2 — Subject Details
-# Details · Requisites · Requisite Graph · Evolution · Prereq Tree
-# ===========================================================================
-
-with sec_subject:
+elif section == "Subject Details":
     st.header("Subject Details")
 
-    if not selected_subject_code:
-        st.info("Search for a subject in the sidebar, then select it.")
-    else:
-        year = int(selected_subject_year)
+    # Subject selector
+    subject_search = st.text_input(
+        "Search by code or name",
+        placeholder="e.g. 31265 or Communication",
+        key="subj_search",
+    )
+    subject_options = {}
+    if subject_search and len(subject_search) >= 2:
+        search_data = api_get_silent("/subjects/search", params={"q": subject_search})
+        if not search_data:
+            search_data = _local_subject_search(subject_search)
+        if search_data:
+            subject_options = {
+                f"{s['name']} ({s['code']})": s["code"] for s in search_data
+            }
 
-        # ── Subject metadata ──────────────────────────────────────────────────
+    selected_subject_label = st.selectbox(
+        "Select subject", options=list(subject_options.keys()), key="subject_select"
+    )
+    selected_subject_code = subject_options.get(selected_subject_label)
+
+    if not selected_subject_code:
+        st.info("Search for a subject above, then select it.")
+    else:
+        # ── Subject metadata + version slider ────────────────────────────────
         with st.spinner(f"Loading subject {selected_subject_code} …"):
             detail = api_get(f"/subjects/{selected_subject_code}")
 
+        chosen_year = 2026  # default fallback
+
         if detail:
             st.subheader(f"{detail['name']}  ·  `{detail['code']}`")
-            versions = detail.get("versions", [])
-            st.caption(f"{len(versions)} version(s) in database")
+            all_versions = detail.get("versions", [])
+            st.caption(f"{len(all_versions)} version(s) in database")
 
-            version_years = [v["year"] for v in versions]
-            chosen_year = (
-                st.select_slider(
+            version_years = sorted([v["year"] for v in all_versions])
+            if version_years:
+                chosen_year = st.select_slider(
                     "View version",
-                    options=sorted(version_years),
+                    options=version_years,
                     value=max(version_years),
                     key="subject_version_slider",
                 )
-                if version_years
-                else None
-            )
-            chosen_version = (
-                next((v for v in versions if v["year"] == chosen_year), None)
-                if chosen_year
-                else None
+
+            chosen_version = next(
+                (v for v in all_versions if v["year"] == chosen_year), None
             )
 
             if chosen_version:
@@ -397,7 +351,7 @@ with sec_subject:
                             )
 
             with st.expander("All versions summary", expanded=False):
-                for v in versions:
+                for v in all_versions:
                     st.markdown(
                         f"**{v['year']}** — {v.get('faculty') or '—'} · "
                         f"{v.get('credit_points') or '—'} CP · {v.get('study_level') or '—'}"
@@ -405,11 +359,11 @@ with sec_subject:
 
         st.divider()
 
-        # ── Requisites ────────────────────────────────────────────────────────
-        st.subheader(f"Requisites · {selected_subject_code} · {year}")
+        # Requisites
+        st.subheader(f"Requisites · {selected_subject_code} · {chosen_year}")
         with st.spinner("Loading requisites …"):
             reqs = api_get(
-                f"/subjects/{selected_subject_code}/version/{year}/requisites"
+                f"/subjects/{selected_subject_code}/version/{chosen_year}/requisites"
             )
 
         if reqs:
@@ -466,8 +420,8 @@ with sec_subject:
 
         st.divider()
 
-        # ── Requisite Graph ───────────────────────────────────────────────────
-        st.subheader(f"Requisite Graph · {selected_subject_code} · {year}")
+        # Requisite Graph
+        st.subheader(f"Requisite Graph · {selected_subject_code} · {chosen_year}")
         st.caption(
             "Click any subject node to expand its prerequisites. "
             "Green = prerequisite, red dashed = anti-requisite, "
@@ -475,28 +429,24 @@ with sec_subject:
         )
         with st.spinner("Building requisite graph …"):
             show_viz(
-                f"/viz/subject/{selected_subject_code}/{year}/prereq-graph",
+                f"/viz/subject/{selected_subject_code}/{chosen_year}/prereq-graph",
                 height=700,
             )
 
         st.divider()
 
-        # ── Evolution ─────────────────────────────────────────────────────────
+        # Evolution
         st.subheader(f"Subject Evolution · {selected_subject_code}")
         st.caption("How this subject changed across 2023–2026: metrics + text diff.")
         with st.spinner("Building evolution timeline …"):
             show_viz(f"/viz/subject/{selected_subject_code}/evolution", height=1200)
 
 
-# ===========================================================================
 # SECTION 3 — Subject Twin
-# Similarity network · Shared subjects
-# ===========================================================================
 
-with sec_twin:
+elif section == "Subject Twin":
     st.header("Subject Twin")
 
-    # ── Subject Twins (similarity network) ───────────────────────────────────
     st.subheader("Subject Twins & Siblings")
     st.markdown(
         "Network of subjects whose descriptions and learning outcomes are textually similar "
@@ -510,7 +460,6 @@ with sec_twin:
 
     st.divider()
 
-    # ── Shared Subjects ───────────────────────────────────────────────────────
     st.subheader("Subjects Shared Across Programs")
     st.markdown(
         "Bipartite graph: coloured nodes = programs, small nodes = subjects. "
@@ -525,10 +474,9 @@ with sec_twin:
 
 # ===========================================================================
 # SECTION 4 — Subject Similarity
-# TF-IDF pairwise comparison + top-N
 # ===========================================================================
 
-with sec_similarity:
+elif section == "Subject Similarity":
     st.header("Subject Similarity")
     st.markdown(
         "Compare two subjects using TF-IDF vectorisation and cosine similarity."

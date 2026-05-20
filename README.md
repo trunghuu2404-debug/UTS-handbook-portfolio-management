@@ -173,13 +173,13 @@ FastAPI backend to be running.
 | Course sunburst | FastAPI viz endpoint | FastAPI viz endpoint |
 | Course tree (D3) | FastAPI viz endpoint | FastAPI viz endpoint |
 | Subject browsing | Local JSON | FastAPI `/subjects` |
-| Subject requisites | ❌ Not available | FastAPI `/subjects/{code}/version/{year}/requisites` |
+| Subject requisites | ✅ Yes | ✅ Yes |
 | Prerequisite graph | FastAPI viz endpoint | FastAPI viz endpoint |
 | Subject evolution | FastAPI viz endpoint | FastAPI viz endpoint |
 | Subject twins network | FastAPI viz endpoint | FastAPI viz endpoint |
 | Shared subjects | FastAPI viz endpoint | FastAPI viz endpoint |
 | Subject similarity compare | FastAPI `/similarity/compare` + `/similarity/top` | FastAPI `/similarity/compare` + `/similarity/top` |
-| Course structure metrics | ❌ Not available | FastAPI `/courses/{code}/graph` |
+| Course structure metrics | ✅ Yes | ✅ Yes |
 | UTS Handbook link | ✅ Sidebar shortcut | ❌ Not available |
 | Requires Live Server | ✅ Yes | ❌ No |
 | Works partially offline | ✅ Yes (browsing only) | ❌ No |

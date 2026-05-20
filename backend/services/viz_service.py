@@ -9,42 +9,310 @@ modules need no knowledge of Neo4j or Cypher.
 
 from __future__ import annotations
 
-import json
 from collections import defaultdict
 from functools import lru_cache
-from pathlib import Path
 from typing import Optional
 
 from database.neo4j import run_query
 
-# Dataset folder: backend/services/ → backend/ → project root → dataset/
-_DATASET_DIR = Path(__file__).resolve().parent.parent.parent / "dataset"
-
-
-# ============================================================================
-# Course data  (read from JSON — Neo4j cannot traverse AoS sub-structures)
-# ============================================================================
+# Course data  (fully from Neo4j, traversing AoS sub-structures)
 
 
 @lru_cache(maxsize=16)
 def get_course_data(course_code: str, year: int) -> Optional[dict]:
     """
-    Return course data from the source JSON file.
-    Reading from JSON is the reliable way to get the full AoS hierarchy
-    (Sub-Majors, Choice Blocks, etc.) since those sub-structures require
-    traversing AreaOfStudy nodes not captured by simple HAS_CHILD queries.
+    Return course data from Neo4j, mirroring the JSON structure expected by
+    the visualization walk functions.
+
+    Traverses:
+      CourseVersion
+        -[:HAS_STRUCTURE]-> Structure
+        -[:HAS_CHILD*]-> Structure
+        -[:CONTAINS]-> Subject                   (direct subjects)
+        -[:CONTAINS_AOS]-> AreaOfStudy
+          -[:HAS_VERSION]-> AreaOfStudyVersion
+          -[:HAS_STRUCTURE]-> Structure           (AoS inner blocks)
+          -[:HAS_CHILD*]-> Structure
+          -[:CONTAINS]-> Subject                  (subjects within AoS)
     """
-    for course_dir in _DATASET_DIR.iterdir():
-        if course_dir.is_dir() and course_dir.name.startswith(course_code):
-            json_path = course_dir / f"{year}.json"
-            if json_path.exists():
-                return json.loads(json_path.read_text(encoding="utf-8"))
-    return None
+
+    # Course metadata
+    meta = run_query(
+        """
+        MATCH (c:Course {code: $code})-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
+        RETURN c.code AS course_code, cv.course_name AS course_name, cv.year AS year
+        LIMIT 1
+        """,
+        {"code": course_code, "year": year},
+    )
+    if not meta:
+        return None
+    course_meta = meta[0]
+
+    # Top-level structure IDs (direct children of CourseVersion)
+    top_rows = run_query(
+        """
+        MATCH (c:Course {code: $code})-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
+        -[:HAS_STRUCTURE]->(st:Structure)
+        RETURN st.id AS id, st.structure_name AS name, st.structure_cp AS cp
+        """,
+        {"code": course_code, "year": year},
+    )
+    top_ids = [r["id"] for r in top_rows]
+    all_structs: dict = {r["id"]: {"name": r["name"], "cp": r["cp"]} for r in top_rows}
+
+    # All HAS_CHILD edges within course structures
+    child_rows = run_query(
+        """
+        MATCH (c:Course {code: $code})-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
+        -[:HAS_STRUCTURE]->(top:Structure)
+        OPTIONAL MATCH (top)-[:HAS_CHILD*0..9]->(p:Structure)-[:HAS_CHILD]->(ch:Structure)
+        WHERE p IS NOT NULL AND ch IS NOT NULL
+        RETURN DISTINCT p.id AS parent_id,
+               ch.id AS child_id, ch.structure_name AS child_name, ch.structure_cp AS child_cp
+        """,
+        {"code": course_code, "year": year},
+    )
+    struct_children: dict = defaultdict(list)  # parent_id -> [child_id, ...]
+    for r in child_rows:
+        pid, cid = r["parent_id"], r["child_id"]
+        if pid and cid:
+            struct_children[pid].append(cid)
+            all_structs[cid] = {"name": r["child_name"], "cp": r["child_cp"]}
+
+    # Subjects directly in course structures
+    direct_subj_rows = run_query(
+        """
+        MATCH (c:Course {code: $code})-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
+        -[:HAS_STRUCTURE]->(top:Structure)
+        OPTIONAL MATCH (top)-[:HAS_CHILD*0..10]->(st:Structure)-[:CONTAINS]->(s:Subject)
+        OPTIONAL MATCH (s)-[:HAS_VERSION]->(sv:SubjectVersion {year: $year})
+        WHERE s IS NOT NULL
+        RETURN DISTINCT st.id AS struct_id, s.code AS code, s.name AS name,
+               sv.credit_points AS cp, sv.faculty AS faculty,
+               sv.study_level AS study_level, sv.type AS sub_type
+        """,
+        {"code": course_code, "year": year},
+    )
+    struct_subjects: dict = defaultdict(list)  # struct_id -> [subject_dict, ...]
+    for r in direct_subj_rows:
+        if r["struct_id"] and r["code"]:
+            struct_subjects[r["struct_id"]].append(
+                {
+                    "code": r["code"],
+                    "name": r["name"] or r["code"],
+                    "credit_points": r["cp"] or "6",
+                    "faculty": r["faculty"] or "",
+                    "study_level": r["study_level"] or "",
+                    "type": r["sub_type"] or "Subject",
+                }
+            )
+
+    # AoS nodes in course structures
+    aos_rows = run_query(
+        """
+        MATCH (c:Course {code: $code})-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
+        -[:HAS_STRUCTURE]->(top:Structure)
+        OPTIONAL MATCH (top)-[:HAS_CHILD*0..10]->(st:Structure)
+        -[:CONTAINS_AOS]->(aos:AreaOfStudy)
+        -[:HAS_VERSION]->(aosv:AreaOfStudyVersion {year: $year})
+        WHERE aos IS NOT NULL
+        RETURN DISTINCT st.id AS struct_id, aos.code AS code, aosv.name AS name,
+               aosv.credit_points AS cp, aosv.type AS type, aosv.id AS version_id
+        """,
+        {"code": course_code, "year": year},
+    )
+    struct_aos: dict = defaultdict(list)  # struct_id -> [aos_dict, ...]
+    all_aosv_ids: list = []
+    for r in aos_rows:
+        if r["struct_id"] and r["code"]:
+            struct_aos[r["struct_id"]].append(
+                {
+                    "code": r["code"],
+                    "name": r["name"] or r["code"],
+                    "credit_points": r["cp"] or "",
+                    "type": r["type"] or "Sub-Major",
+                    "version_id": r["version_id"],
+                    "have_structure": [],  # filled below
+                }
+            )
+            if r["version_id"]:
+                all_aosv_ids.append(r["version_id"])
+
+    # AoS inner top-level structures (AreaOfStudyVersion -[:HAS_STRUCTURE]->)
+    if all_aosv_ids:
+        aos_top_rows = run_query(
+            """
+            UNWIND $ids AS av_id
+            MATCH (aosv:AreaOfStudyVersion {id: av_id})-[:HAS_STRUCTURE]->(ist:Structure)
+            RETURN av_id, ist.id AS id, ist.structure_name AS name, ist.structure_cp AS cp
+            """,
+            {"ids": all_aosv_ids},
+        )
+        aosv_top_structs: dict = defaultdict(list)  # aosv_id -> [struct_id, ...]
+        for r in aos_top_rows:
+            aosv_top_structs[r["av_id"]].append(r["id"])
+            all_structs[r["id"]] = {"name": r["name"], "cp": r["cp"]}
+
+        # HAS_CHILD edges within AoS inner structures
+        if aosv_top_structs:
+            inner_ids = [sid for sids in aosv_top_structs.values() for sid in sids]
+            inner_child_rows = run_query(
+                """
+                UNWIND $ids AS root_id
+                MATCH (root:Structure {id: root_id})
+                OPTIONAL MATCH (root)-[:HAS_CHILD*0..5]->(p:Structure)-[:HAS_CHILD]->(ch:Structure)
+                WHERE p IS NOT NULL AND ch IS NOT NULL
+                RETURN DISTINCT p.id AS parent_id,
+                       ch.id AS child_id, ch.structure_name AS child_name, ch.structure_cp AS cp
+                """,
+                {"ids": inner_ids},
+            )
+            for r in inner_child_rows:
+                if r["parent_id"] and r["child_id"]:
+                    struct_children[r["parent_id"]].append(r["child_id"])
+                    all_structs[r["child_id"]] = {
+                        "name": r["child_name"],
+                        "cp": r["cp"],
+                    }
+
+            # Subjects within AoS inner structure
+            inner_subj_rows = run_query(
+                """
+                UNWIND $ids AS root_id
+                MATCH (root:Structure {id: root_id})
+                OPTIONAL MATCH (root)-[:HAS_CHILD*0..5]->(st:Structure)-[:CONTAINS]->(s:Subject)
+                OPTIONAL MATCH (s)-[:HAS_VERSION]->(sv:SubjectVersion {year: $year})
+                WHERE s IS NOT NULL
+                RETURN DISTINCT st.id AS struct_id, s.code AS code, s.name AS name,
+                       sv.credit_points AS cp, sv.faculty AS faculty,
+                       sv.study_level AS study_level, sv.type AS sub_type
+
+                UNION
+
+                UNWIND $ids AS root_id
+                MATCH (root:Structure {id: root_id})-[:CONTAINS]->(s:Subject)
+                OPTIONAL MATCH (s)-[:HAS_VERSION]->(sv:SubjectVersion {year: $year})
+                WHERE s IS NOT NULL
+                RETURN DISTINCT root_id AS struct_id, s.code AS code, s.name AS name,
+                       sv.credit_points AS cp, sv.faculty AS faculty,
+                       sv.study_level AS study_level, sv.type AS sub_type
+                """,
+                {"ids": inner_ids, "year": year},
+            )
+            for r in inner_subj_rows:
+                if r["struct_id"] and r["code"]:
+                    struct_subjects[r["struct_id"]].append(
+                        {
+                            "code": r["code"],
+                            "name": r["name"] or r["code"],
+                            "credit_points": r["cp"] or "6",
+                            "faculty": r["faculty"] or "",
+                            "study_level": r["study_level"] or "",
+                            "type": r["sub_type"] or "Subject",
+                        }
+                    )
+    else:
+        aosv_top_structs = {}
+
+    # Reconstruct hierarchy in Python
+
+    # Build aosv_id -> AoS entry map so we can attach inner structures
+    aosv_to_aos: dict = {}
+    for sid, aos_list in struct_aos.items():
+        for aos in aos_list:
+            aosv_to_aos[aos["version_id"]] = aos
+
+    # Attach inner structure trees to each AoS
+    def build_inner_struct(struct_id: str, visited: frozenset = frozenset()) -> dict:
+        if struct_id in visited:
+            return {}  # break cycle
+        visited = visited | {struct_id}
+        s = all_structs.get(struct_id, {})
+        return {
+            "structure_name": s.get("name", ""),
+            "structure_cp": s.get("cp", ""),
+            "has_subject": struct_subjects.get(struct_id, []),
+            "have_sub_structures": [
+                build_inner_struct(cid, visited)
+                for cid in struct_children.get(struct_id, [])
+                if cid != struct_id  # skip self-loops
+            ],
+            "has_area_of_study": [],
+        }
+
+    for aosv_id, inner_top_ids in aosv_top_structs.items():
+        aos_entry = aosv_to_aos.get(aosv_id)
+        if aos_entry:
+            aos_entry["have_structure"] = [
+                build_inner_struct(sid) for sid in inner_top_ids
+            ]
+
+    # Build top-level structure tree
+    def build_struct(struct_id: str, visited: frozenset = frozenset()) -> dict:
+        if struct_id in visited:
+            return {}  # break cycle
+        visited = visited | {struct_id}
+        s = all_structs.get(struct_id, {})
+        return {
+            "structure_name": s.get("name", ""),
+            "structure_cp": s.get("cp", ""),
+            "has_subject": struct_subjects.get(struct_id, []),
+            "have_sub_structures": [
+                build_struct(cid, visited)
+                for cid in struct_children.get(struct_id, [])
+                if cid != struct_id  # skip self-loops
+            ],
+            "has_area_of_study": struct_aos.get(struct_id, []),
+        }
+
+    return {
+        "course_code": course_meta["course_code"],
+        "course_name": course_meta["course_name"],
+        "year": course_meta["year"],
+        "structure": [build_struct(tid) for tid in top_ids],
+    }
 
 
-# ============================================================================
+# Shared subjects data  (fully from Neo4j via IN_COURSE_VERSION)
+
+
+@lru_cache(maxsize=8)
+def get_shared_subjects_data(year: int) -> dict:
+    """
+    Return all courses for a year with the subjects they contain:
+        {course_code: {name: str, subjects: {subj_code: subj_name}}}
+
+    Uses IN_COURSE_VERSION which is explicitly set for every Subject that
+    appears anywhere in a course version — including subjects nested inside
+    AreaOfStudy inner structures — so this gives the complete subject list.
+    """
+    rows = run_query(
+        """
+        MATCH (c:Course)-[:HAS_VERSION]->(cv:CourseVersion {year: $year})
+        MATCH (s:Subject)-[:IN_COURSE_VERSION]->(cv)
+        RETURN c.code AS course_code, cv.course_name AS course_name,
+               s.code AS subj_code, s.name AS subj_name
+        """,
+        {"year": year},
+    )
+
+    courses: dict = {}
+    for r in rows:
+        ccode = r["course_code"]
+        if not ccode:
+            continue
+        if ccode not in courses:
+            courses[ccode] = {"name": r["course_name"] or ccode, "subjects": {}}
+        if r["subj_code"]:
+            courses[ccode]["subjects"][r["subj_code"]] = (
+                r["subj_name"] or r["subj_code"]
+            )
+
+    return courses
+
+
 # Subject evolution data
-# ============================================================================
 
 
 @lru_cache(maxsize=32)
@@ -112,9 +380,7 @@ def get_subject_versions_all(subject_code: str) -> dict:
     return versions
 
 
-# ============================================================================
 # Prerequisite tree and graph data
-# ============================================================================
 
 
 @lru_cache(maxsize=64)
@@ -255,72 +521,7 @@ def build_prereq_tree_dict(
     return build_node(subject_code, 0, frozenset())
 
 
-# ============================================================================
-# Shared subjects data
-# ============================================================================
-
-
-@lru_cache(maxsize=8)
-def get_shared_subjects_data(year: int) -> dict:
-    """
-    Return all courses for a year with the subjects they contain:
-        {course_code: {name: str, subjects: {subj_code: subj_name}}}
-
-    Reads from JSON files (same reason as get_course_data) — Neo4j HAS_CHILD
-    traversal misses subjects nested under AreaOfStudy nodes, so this approach
-    guarantees the full subject list including those under Sub-Majors and electives.
-    """
-
-    def _collect(node, found: dict) -> None:
-        """Recursively walk any JSON node and collect every subject leaf."""
-        if isinstance(node, dict):
-            # Subject leaf: has code + name + credit_points but no structure_name
-            if (
-                "code" in node
-                and "name" in node
-                and "credit_points" in node
-                and "structure_name" not in node
-                and "have_structure" not in node
-            ):
-                code = str(node["code"]).strip()
-                if code:
-                    found[code] = node.get("name", code)
-                return
-            for v in node.values():
-                if isinstance(v, (dict, list)):
-                    _collect(v, found)
-        elif isinstance(node, list):
-            for item in node:
-                _collect(item, found)
-
-    courses: dict = {}
-    if not _DATASET_DIR.exists():
-        return courses
-
-    for course_dir in sorted(_DATASET_DIR.iterdir()):
-        if not course_dir.is_dir() or not course_dir.name.startswith("C"):
-            continue
-        json_path = course_dir / f"{year}.json"
-        if not json_path.exists():
-            continue
-        try:
-            data = json.loads(json_path.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        subjects: dict = {}
-        _collect(data.get("structure", []), subjects)
-        if subjects:
-            courses[data["course_code"]] = {
-                "name": data["course_name"],
-                "subjects": subjects,
-            }
-
-    return courses
-
-
-# ============================================================================
 # Subject metadata bulk (for similarity network node labels)
-# ============================================================================
 
 
 @lru_cache(maxsize=8)

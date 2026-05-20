@@ -1,0 +1,1 @@
+The website must be launched from a local server. This can by achieved by using an extension on VsCode called Live Server

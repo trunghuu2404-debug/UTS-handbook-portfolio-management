@@ -24,6 +24,7 @@ def compare_two_subjects(
 
     return result
 
+
 @router.get("/top")
 def top_similar_subjects(
     subject_code: str = Query(..., description="Target subject code"),

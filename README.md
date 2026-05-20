@@ -119,7 +119,22 @@ pip install requirment.txt
 python database_importer.py
 ```
  
-### 2. Start the backend
+### 2. Set up Neo4j
+
+1. Download and install [Neo4j Desktop](https://neo4j.com/download/)
+2. Open Neo4j Desktop, then create a new project and add a local DBMS
+3. Set a password when prompted, then start the DBMS
+4. Open `backend/database/neo4j.py` and update the credentials to match:
+
+```python
+NEO4J_URI      = "bolt://localhost:7687"
+NEO4J_USER     = "neo4j"
+NEO4J_PASSWORD = "your_password_here"   # ← change this
+```
+
+The URI and username can stay as defaults unless you changed them during setup.
+
+### 3. Start the backend
  
 ```bash
 cd backend
@@ -133,7 +148,7 @@ API docs available at http://localhost:8000/docs
  
 ---
  
-## Running the Frontend
+## 4. Running the Frontend
  
 ### Option A — Main frontend (SPI.html)
  

@@ -1,6 +1,4 @@
 """
-backend/visualizations/similarity_network.py
-----------------------------------------------
 Interactive pyvis subject-similarity network.
 Edge weights come from pre-computed CSV files in similarity_analysis/.
 Node metadata (faculty, CP, study level) comes from Neo4j via viz_service.

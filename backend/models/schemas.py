@@ -1,10 +1,4 @@
-"""
-models/schemas.py
------------------
-Pydantic response models matching the Neo4j schema.
-Uses Optional[X] instead of X | None for Python 3.9 compatibility.
-"""
-
+# Pydantic response models matching the Neo4j schema.
 from __future__ import annotations
 from typing import Any, Optional
 from pydantic import BaseModel

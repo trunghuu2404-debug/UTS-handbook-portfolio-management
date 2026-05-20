@@ -1,6 +1,4 @@
 """
-backend/visualizations/shared_subjects.py
--------------------------------------------
 Bipartite pyvis graph: courses (large nodes) connected to subjects they contain.
 Subjects appearing in 2+ courses float to the centre (shared subjects).
 Data is sourced from Neo4j via viz_service.

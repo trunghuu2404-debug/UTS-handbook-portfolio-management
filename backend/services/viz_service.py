@@ -10,9 +10,8 @@ from typing import Optional
 
 from database.neo4j import run_query
 
+
 # Course data  (fully from Neo4j, traversing AoS sub-structures)
-
-
 @lru_cache(maxsize=16)
 def get_course_data(course_code: str, year: int) -> Optional[dict]:
     """
@@ -212,7 +211,7 @@ def get_course_data(course_code: str, year: int) -> Optional[dict]:
 
     # Reconstruct hierarchy in Python
 
-    # Build aosv_id -> AoS entry map so we can attach inner structures
+    # Build aosv_id to AoS entry map so we can attach inner structures
     aosv_to_aos: dict = {}
     for sid, aos_list in struct_aos.items():
         for aos in aos_list:
@@ -308,8 +307,6 @@ def get_shared_subjects_data(year: int) -> dict:
 
 
 # Subject evolution data
-
-
 @lru_cache(maxsize=32)
 def get_subject_versions_all(subject_code: str) -> dict:
     """
@@ -376,8 +373,6 @@ def get_subject_versions_all(subject_code: str) -> dict:
 
 
 # Prerequisite tree and graph data
-
-
 @lru_cache(maxsize=64)
 def get_prereq_subgraph(subject_code: str, year: int) -> dict:
     """
@@ -471,8 +466,6 @@ def get_prereq_subgraph(subject_code: str, year: int) -> dict:
 
 
 # Subject metadata bulk (for similarity network node labels)
-
-
 @lru_cache(maxsize=8)
 def get_subjects_metadata(year: int) -> dict:
     """

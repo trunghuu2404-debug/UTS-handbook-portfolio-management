@@ -1,6 +1,4 @@
 """
-services/subject_service.py
----------------------------
 All Cypher queries and data transformation for Subject endpoints.
 """
 
@@ -14,9 +12,7 @@ from models.schemas import (
     OtherReqOut,
 )
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
+# Helper
 
 
 def _to_list(val) -> list:
@@ -47,11 +43,7 @@ def _sv_row_to_model(r: dict) -> SubjectVersionOut:
     )
 
 
-# ---------------------------------------------------------------------------
 # Public service functions
-# ---------------------------------------------------------------------------
-
-
 def get_subject_detail(subject_code: str):
     """
     Return the Subject identity node plus all of its SubjectVersion nodes,
@@ -129,7 +121,7 @@ def get_subject_requisites(subject_code: str, year: int):
     """
     vid = f"{subject_code}_{year}"
 
-    # ── Header row (the subject version itself) ──────────────────────────────
+    # Header row (the subject version itself)
     header_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})
     RETURN sv.id                    AS id,
@@ -144,7 +136,7 @@ def get_subject_requisites(subject_code: str, year: int):
         return None
     h = header_rows[0]
 
-    # ── Prerequisites ────────────────────────────────────────────────────────
+    # Prerequisites
     prereq_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[r:PREREQUISITE]->(pre:SubjectVersion)
     OPTIONAL MATCH (pre)-[:OF_SUBJECT]->(s:Subject)
@@ -171,7 +163,7 @@ def get_subject_requisites(subject_code: str, year: int):
         for r in prereq_rows
     ]
 
-    # ── Anti-requisites ──────────────────────────────────────────────────────
+    # Anti-requisites
     anti_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[r:ANTI_REQUISITE]->(anti:SubjectVersion)
     OPTIONAL MATCH (anti)-[:OF_SUBJECT]->(s:Subject)
@@ -197,7 +189,7 @@ def get_subject_requisites(subject_code: str, year: int):
         for r in anti_rows
     ]
 
-    # ── Admission requisites ─────────────────────────────────────────────────
+    # Admission requisites
     adm_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[:HAS_ADMISSION_REQUISITE]->(ar:AdmissionRequisite)
     RETURN ar.detail    AS detail,
@@ -217,7 +209,7 @@ def get_subject_requisites(subject_code: str, year: int):
         for r in adm_rows
     ]
 
-    # ── Other requisites ─────────────────────────────────────────────────────
+    # Other requisites
     other_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[:HAS_OTHER_REQUISITE]->(or:OtherRequisite)
     RETURN or.note AS note,

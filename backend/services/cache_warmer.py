@@ -1,6 +1,4 @@
 """
-backend/services/cache_warmer.py
-----------------------------------
 Pre-warms all visualization HTML caches on startup.
 
 Run in a background thread so the server is available immediately
@@ -23,9 +21,7 @@ _SIM_DIR = Path(__file__).resolve().parent.parent.parent / "similarity_analysis"
 _YEARS = [2023, 2024, 2025, 2026]
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
-
-
+# Helpers
 def _all_course_codes() -> list[str]:
     """Return all course codes from the dataset folder (fast, no DB needed)."""
     codes = []
@@ -61,9 +57,7 @@ def _popular_subject_codes(limit: int = 40) -> list[str]:
     return []
 
 
-# ── Warmer ───────────────────────────────────────────────────────────────────
-
-
+# Warmer
 def _warm() -> None:
     """Run all pre-warming work. Called inside a daemon thread."""
     log.info("Cache warmer started …")
@@ -80,7 +74,7 @@ def _warm() -> None:
 
     total = 0
 
-    # 1. Course visualizations (sunburst + tree) for every code × year
+    # Course visualizations (sunburst + tree)
     course_codes = _all_course_codes()
     log.info(f"  Warming {len(course_codes)} courses × {len(_YEARS)} years …")
     for code in course_codes:
@@ -92,7 +86,7 @@ def _warm() -> None:
             except Exception as exc:
                 log.debug(f"  Skip sunburst/tree {code}/{year}: {exc}")
 
-    # 2. Shared subjects + similarity networks for all years
+    # Shared subjects + similarity networks for all years
     log.info("  Warming shared-subjects and similarity networks …")
     for year in _YEARS:
         try:
@@ -106,7 +100,7 @@ def _warm() -> None:
         except Exception as exc:
             log.debug(f"  Skip similarity {year}: {exc}")
 
-    # 3. Subject visualizations for popular subjects × all years
+    # Subject visualizations for popular subjects
     subject_codes = _popular_subject_codes()
     log.info(f"  Warming {len(subject_codes)} subjects × {len(_YEARS)} years …")
     for code in subject_codes:

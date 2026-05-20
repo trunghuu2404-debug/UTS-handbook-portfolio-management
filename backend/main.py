@@ -1,6 +1,4 @@
 """
-main.py
--------
 FastAPI application entry point.
 
 Start the server:

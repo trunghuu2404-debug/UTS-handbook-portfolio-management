@@ -1,6 +1,4 @@
 """
-backend/visualizations/dynamic_viz.py
----------------------------------------
 Builds visualization HTML for subjects and courses.
 Data is sourced from Neo4j via viz_service — no file reading here.
 
@@ -28,9 +26,8 @@ from services.viz_service import (
     get_subject_versions_all,
 )
 
+
 # Internal helpers
-
-
 def _parse_cp(value) -> int:
     if not value:
         return 0

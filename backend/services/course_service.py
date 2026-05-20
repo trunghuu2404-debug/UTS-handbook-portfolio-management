@@ -1,6 +1,4 @@
 """
-services/course_service.py
---------------------------
 All Cypher queries and data transformation for Course endpoints.
 Routes call these functions — no Cypher lives in routes.
 """
@@ -16,7 +14,7 @@ from models.schemas import (
 
 
 def get_all_courses() -> list[CourseOut]:
-    """Return every Course node as a lightweight listing."""
+    # Return every Course node as a lightweight listing.
     cypher = """
     MATCH (c:Course)
     RETURN c.code AS code,
@@ -28,7 +26,7 @@ def get_all_courses() -> list[CourseOut]:
 
 
 def get_course_versions(course_code: str) -> list[CourseVersionOut]:
-    """Return all CourseVersion nodes for a given course code."""
+    # Return all CourseVersion nodes for a given course code.
     cypher = """
     MATCH (c:Course {code: $code})-[:HAS_VERSION]->(cv:CourseVersion)
     RETURN cv.id                        AS id,
@@ -60,15 +58,13 @@ def get_course_versions(course_code: str) -> list[CourseVersionOut]:
 
 
 def get_course_graph(course_code: str, year=None) -> GraphResponse:
-    """
-    Build the full graph for a course (optionally filtered to one year).
 
-    The graph includes:
-        Course → CourseVersion → Structure → (Subject | AreaOfStudy)
-        Structure → child Structure (HAS_CHILD)
+    # Build the full graph for a course (optionally filtered to one year).
+    # The graph includes:
+    #     Course to CourseVersion to Structure to (Subject or AreaOfStudy)
+    #     Structure to child Structure (HAS_CHILD)
+    # Each node gets a 'type' so the frontend can colour-code them.
 
-    Each node gets a 'type' so the frontend can colour-code them.
-    """
     # Build optional year filter — must use WHERE not AND after MATCH
     year_filter = "WHERE cv.year = $year" if year is not None else ""
 

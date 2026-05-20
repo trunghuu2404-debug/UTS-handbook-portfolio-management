@@ -1,6 +1,4 @@
 """
-backend/database/create_indexes.py
-------------------------------------
 One-time script: creates Neo4j indexes for all properties that are
 used in MATCH patterns throughout the application.
 

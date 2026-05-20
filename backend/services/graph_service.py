@@ -1,6 +1,4 @@
 """
-services/graph_service.py
--------------------------
 Graph-specific queries that return node/link JSON for visualisation:
   - Subject requisite network for one SubjectVersion
   - Area of Study internal structure graph
@@ -9,11 +7,8 @@ Graph-specific queries that return node/link JSON for visualisation:
 from database.neo4j import run_query
 from models.schemas import GraphResponse, GraphNode, GraphLink
 
-# ---------------------------------------------------------------------------
+
 # Helper
-# ---------------------------------------------------------------------------
-
-
 def _add_node(
     nodes: dict, node_id: str, label: str, node_type: str, props: dict = None
 ):
@@ -40,27 +35,25 @@ def _add_link(
             )
 
 
-# ---------------------------------------------------------------------------
 # Subject requisite graph
-# ---------------------------------------------------------------------------
 
 
 def get_subject_requisite_graph(subject_code: str, year: int) -> GraphResponse:
-    """
-    Return a graph of one SubjectVersion and all its requisite relationships:
-      - PREREQUISITE       → other SubjectVersion nodes
-      - ANTI_REQUISITE     → other SubjectVersion nodes
-      - HAS_ADMISSION_REQUISITE → AdmissionRequisite nodes
-      - HAS_OTHER_REQUISITE     → OtherRequisite nodes
 
-    Relationship properties (item_id, rule) are stored on the link.
-    """
+    # Return a graph of one SubjectVersion and all its requisite relationships:
+    #   - PREREQUISITE       → other SubjectVersion nodes
+    #   - ANTI_REQUISITE     → other SubjectVersion nodes
+    #   - HAS_ADMISSION_REQUISITE → AdmissionRequisite nodes
+    #   - HAS_OTHER_REQUISITE     → OtherRequisite nodes
+
+    # Relationship properties (item_id, rule) are stored on the link.
+
     vid = f"{subject_code}_{year}"
     nodes: dict[str, GraphNode] = {}
     links: list[GraphLink] = []
     seen: set[tuple] = set()
 
-    # ── Centre node ──────────────────────────────────────────────────────────
+    # Centre node
     centre_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})
     RETURN sv.id AS id, sv.name AS name, sv.code AS code, sv.year AS year
@@ -78,7 +71,7 @@ def get_subject_requisite_graph(subject_code: str, year: int) -> GraphResponse:
         {"code": c["code"], "name": c.get("name"), "year": c["year"]},
     )
 
-    # ── Prerequisites ─────────────────────────────────────────────────────────
+    # Prerequisites
     prereq_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[r:PREREQUISITE]->(pre:SubjectVersion)
     OPTIONAL MATCH (pre)-[:OF_SUBJECT]->(s:Subject)
@@ -111,7 +104,7 @@ def get_subject_requisite_graph(subject_code: str, year: int) -> GraphResponse:
             },
         )
 
-    # ── Anti-requisites ───────────────────────────────────────────────────────
+    # Anti-requisites
     anti_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[r:ANTI_REQUISITE]->(anti:SubjectVersion)
     OPTIONAL MATCH (anti)-[:OF_SUBJECT]->(s:Subject)
@@ -139,7 +132,7 @@ def get_subject_requisite_graph(subject_code: str, year: int) -> GraphResponse:
             {"item_id": r.get("item_id", ""), "rule": r.get("rule", "")},
         )
 
-    # ── Admission requisites ──────────────────────────────────────────────────
+    # Admission requisites
     adm_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[:HAS_ADMISSION_REQUISITE]->(ar:AdmissionRequisite)
     RETURN ar.id        AS id,
@@ -163,7 +156,7 @@ def get_subject_requisite_graph(subject_code: str, year: int) -> GraphResponse:
         )
         _add_link(links, seen, vid, r["id"], "HAS_ADMISSION_REQUISITE")
 
-    # ── Other requisites ──────────────────────────────────────────────────────
+    # Other requisites
     other_cypher = """
     MATCH (sv:SubjectVersion {id: $vid})-[:HAS_OTHER_REQUISITE]->(or:OtherRequisite)
     RETURN or.id   AS id,
@@ -183,9 +176,7 @@ def get_subject_requisite_graph(subject_code: str, year: int) -> GraphResponse:
     return GraphResponse(nodes=list(nodes.values()), links=links)
 
 
-# ---------------------------------------------------------------------------
 # Area of Study structure graph
-# ---------------------------------------------------------------------------
 
 
 def get_aos_graph(aos_code: str, year=None) -> GraphResponse:

@@ -1,6 +1,4 @@
 """
-backend/routes/viz_routes.py
------------------------------
 FastAPI endpoints that return visualization HTML pages.
 Each endpoint calls the appropriate visualization builder and streams back HTML.
 """
@@ -20,11 +18,7 @@ from visualizations.similarity_network import build_similarity_network_html
 router = APIRouter(prefix="/viz", tags=["Visualizations"])
 
 
-# ============================================================================
 # Course visualizations
-# ============================================================================
-
-
 @router.get("/course/{course_code}/{year}/sunburst", response_class=HTMLResponse)
 def viz_course_sunburst(course_code: str, year: int = 2026):
     """Plotly sunburst of a course's structure for a given year."""
@@ -37,11 +31,7 @@ def viz_course_tree(course_code: str, year: int = 2026):
     return HTMLResponse(content=build_course_tree_html(course_code, year))
 
 
-# ============================================================================
 # Subject visualizations
-# ============================================================================
-
-
 @router.get("/subject/{subject_code}/evolution", response_class=HTMLResponse)
 def viz_subject_evolution(subject_code: str):
     """Plotly evolution timeline + diff for a subject across all available years."""
@@ -54,11 +44,7 @@ def viz_prereq_graph(subject_code: str, year: int = 2026):
     return HTMLResponse(content=build_prereq_graph_html(subject_code, year))
 
 
-# ============================================================================
 # Cross-course / similarity visualizations
-# ============================================================================
-
-
 @router.get("/shared-subjects/{year}", response_class=HTMLResponse)
 def viz_shared_subjects(year: int = 2026):
     """Pyvis bipartite graph of subjects shared across programs."""

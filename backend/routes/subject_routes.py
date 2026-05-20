@@ -1,8 +1,3 @@
-"""
-routes/subject_routes.py
-"""
-
-from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
 from models.schemas import SubjectDetailOut, SubjectVersionOut, SubjectRequisitesOut
 from services import subject_service

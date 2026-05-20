@@ -1,13 +1,10 @@
 """
-backend/visualizations/prereq_graph.py
-----------------------------------------
 Interactive prerequisite graph using vis.js.
-
-Behaviour:
-- Root node auto-expands on load (shows its direct prerequisites).
-- Click any subject node to expand its prerequisites.
-- Click an expanded node again to collapse it.
-- Admission and other requisite items shown as distinct node shapes.
+Function:
+Root node auto-expands on load (shows its direct prerequisites).
+Click any subject node to expand its prerequisites.
+Click an expanded node again to collapse it.
+Admission and other requisite items shown as distinct node shapes.
 """
 
 from __future__ import annotations

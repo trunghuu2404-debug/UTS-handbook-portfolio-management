@@ -1,6 +1,4 @@
 """
-database/neo4j.py
------------------
 Centralised Neo4j connection and query runner.
 All other layers call run_query() — nothing else talks to the driver directly.
 """
@@ -15,7 +13,9 @@ log = logging.getLogger(__name__)
 
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
-NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "Trungvip2404@")
+NEO4J_PASSWORD = os.getenv(
+    "NEO4J_PASSWORD", "Trungvip2404@"
+)  # Might change the password if run the database locally
 
 _driver: Optional[Driver] = None
 

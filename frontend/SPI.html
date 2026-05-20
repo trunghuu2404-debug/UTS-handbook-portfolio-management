@@ -984,8 +984,6 @@ async function stRunCompare() {
     const score = result.similarity_score;
     const pct   = result.similarity_percentage.toFixed(2);
     const classification = stClassifyFromLabel(result.classification);
-
-    // Map API field_scores keys to the renderer's expected keys
     const fieldLabels = {
       description:       'Description',
       learning_outcomes: 'Learning outcomes',
@@ -995,8 +993,6 @@ async function stRunCompare() {
     Object.entries(result.field_scores || {}).forEach(([k, v]) => {
       fieldScores[k] = v.score;
     });
-
-    // Map top matches to the shape stBuildResult expects
     const top5 = (topResult?.top_matches || []).map(m => ({
       code:  m.code,
       name:  m.name,
@@ -1011,8 +1007,6 @@ async function stRunCompare() {
   }
   btn.disabled = false;
 }
-
-// Map the backend's plain-text classification string to the {label, cls} shape the renderer uses
 function stClassifyFromLabel(label) {
   const l = (label || '').toLowerCase();
   if (l.includes('twin') || l.includes('very strong')) return { label, cls: 'high' };
@@ -1020,8 +1014,6 @@ function stClassifyFromLabel(label) {
   if (l.includes('moderate'))                          return { label, cls: 'med'  };
   return { label, cls: 'low' };
 }
-
-// stGetText is still used by stBuildResult for rendering field text from the API subject objects
 function stGetText(subject, field) {
   if (field === 'learning_outcomes') {
     const lo = subject.learning_outcomes;
@@ -1031,11 +1023,8 @@ function stGetText(subject, field) {
   if (field === 'learning_activities') return subject.learning_activities || subject.learning_and_teaching_activities || '';
   return subject[field] || '';
 }
-
 function stBuildResult(s1,s2,code1,code2,year1,year2,score,pct,classification,fieldScores,fieldLabels,top5) {
   const wrap=document.createElement('div'); wrap.className='st-result';
-
-  // Overview
   const overview=document.createElement('div'); overview.className='st-overview';
   const left=document.createElement('div'); left.className='st-subject-card';
   left.innerHTML=`<div class="st-subject-name">${esc(s1.name||code1)}</div><div class="st-subject-meta">${esc(code1)} · ${year1}</div><div class="st-subject-detail"><strong>Faculty:</strong> ${esc(s1.faculty||'—')}</div><div class="st-subject-detail"><strong>Study level:</strong> ${esc(s1.study_level||'—')}</div><div class="st-subject-detail"><strong>Credit points:</strong> ${esc(s1.credit_points||'—')}</div>`;
@@ -1047,7 +1036,6 @@ function stBuildResult(s1,s2,code1,code2,year1,year2,score,pct,classification,fi
   const diag=document.createElement('div'); diag.className='st-diagram';
   diag.innerHTML=`<div class="st-diagram-box"><div class="st-diagram-code">${esc(code1)}</div><div class="st-diagram-name">${esc(s1.name||code1)}</div><div class="st-diagram-year">${year1}</div></div><div class="st-diagram-arrow"><div class="st-diagram-arrow-pct">${pct}%</div><div class="st-diagram-arrow-icon">──▶</div><div class="st-diagram-arrow-method">TF-IDF + Cosine Similarity</div></div><div class="st-diagram-box"><div class="st-diagram-code">${esc(code2)}</div><div class="st-diagram-name">${esc(s2.name||code2)}</div><div class="st-diagram-year">${year2}</div></div>`;
   wrap.appendChild(diag);
-
   const hr1=document.createElement('hr'); hr1.className='st-divider'; wrap.appendChild(hr1);
   const fh=document.createElement('div'); fh.style.cssText='font-size:16px;font-weight:600;color:#111;margin-bottom:16px;'; fh.textContent='Field-level similarity'; wrap.appendChild(fh);
   const fw=document.createElement('div'); fw.className='st-fields';

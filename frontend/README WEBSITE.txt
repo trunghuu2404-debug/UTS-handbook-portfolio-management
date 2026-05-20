@@ -1,0 +1,2 @@
+The website must be launched from a local server. This can by achieved by using an extension on VSCode called Live Server.
+You also need to make the Neo4j database is running before running the website.

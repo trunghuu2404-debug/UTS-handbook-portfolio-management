@@ -1,11 +1,6 @@
-"""
-backend/services/viz_service.py
---------------------------------
-All Neo4j queries that feed the visualization layer.
-
-Every function returns plain Python dicts/lists so the visualization
-modules need no knowledge of Neo4j or Cypher.
-"""
+# All Neo4j queries that feed the visualization layer.
+# Every function returns plain Python dicts/lists so the visualization
+# modules need no knowledge of Neo4j or Cypher.
 
 from __future__ import annotations
 
@@ -473,52 +468,6 @@ def get_prereq_subgraph(subject_code: str, year: int) -> dict:
         "admission_reqs": admission_reqs,
         "other_reqs": other_reqs,
     }
-
-
-def build_prereq_tree_dict(
-    subject_code: str, year: int, max_depth: int = 4
-) -> Optional[dict]:
-    """
-    Return a nested tree dict suitable for the D3 prereq-tree visualization.
-    Root = subject_code, children = its prerequisites (recursively).
-    Depth is controlled here in Python (not in Cypher).
-    """
-    data = get_prereq_subgraph(subject_code, year)
-    if subject_code not in data["nodes"]:
-        return None
-
-    prereqs_of: dict = defaultdict(list)
-    for pre, tgt in data["prereq_edges"]:
-        prereqs_of[tgt].append(pre)
-
-    anti_of: dict = defaultdict(list)
-    for src, anti in data["anti_edges"]:
-        anti_of[src].append(anti)
-
-    def build_node(code: str, depth: int, visited: frozenset) -> Optional[dict]:
-        if code in visited:
-            return None
-        nd = data["nodes"].get(code)
-        if not nd:
-            return None
-        children = []
-        if depth < max_depth:
-            vis2 = visited | {code}
-            for pre in prereqs_of.get(code, []):
-                child = build_node(pre, depth + 1, vis2)
-                if child:
-                    children.append(child)
-        return {
-            "name": f"{code}  {nd['name']}",
-            "code": code,
-            "subject_name": nd["name"],
-            "faculty": nd["faculty"],
-            "cp": nd["cp"],
-            "antis": anti_of.get(code, []),
-            "children": children,
-        }
-
-    return build_node(subject_code, 0, frozenset())
 
 
 # Subject metadata bulk (for similarity network node labels)

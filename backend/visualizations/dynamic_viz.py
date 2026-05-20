@@ -6,7 +6,6 @@ Data is sourced from Neo4j via viz_service — no file reading here.
 
 Public API (identical signatures to the original dynamic_viz.py):
     build_evolution_html(subject_code, years=(2023,2024,2025,2026)) -> str
-    build_prereq_tree_html(subject_code, year=2026, max_depth=4) -> str
     build_sunburst_html(course_code, year=2026) -> str
     build_course_tree_html(course_code, year=2026) -> str
 """
@@ -25,14 +24,11 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 from services.viz_service import (
-    build_prereq_tree_dict,
     get_course_data,
     get_subject_versions_all,
 )
 
-# ============================================================================
 # Internal helpers
-# ============================================================================
 
 
 def _parse_cp(value) -> int:
@@ -90,11 +86,7 @@ def _patch_missing_tree(node: dict) -> None:
         _patch_missing_tree(c)
 
 
-# ============================================================================
-# 1. Subject evolution timeline
-# ============================================================================
-
-
+# Subject evolution timeline
 @lru_cache(maxsize=128)
 def build_evolution_html(
     subject_code: str,
@@ -271,125 +263,7 @@ def build_evolution_html(
 </body></html>"""
 
 
-# ============================================================================
-# 2. Prerequisite tree (D3)
-# ============================================================================
-
-
-def build_prereq_tree_html(
-    subject_code: str,
-    year: int = 2026,
-    max_depth: int = 4,
-) -> str:
-    """Return a D3 vertical prereq-tree HTML page for the given subject."""
-    tree_data = build_prereq_tree_dict(subject_code, year, max_depth)
-    if tree_data is None:
-        return (
-            f"<div style='padding:24px;color:#a00;'>"
-            f"Subject {subject_code} not found for year {year}.</div>"
-        )
-
-    name = tree_data.get("subject_name", subject_code)
-    tree_json = json.dumps(tree_data)
-
-    return f"""<!doctype html><html><head><meta charset="utf-8">
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-<script>if(typeof d3==='undefined')document.write('<script src="https://unpkg.com/d3@7/dist/d3.min.js"><\\/script>');</script>
-<style>
-  body {{ font-family: Inter, Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; color: #222; }}
-  header {{ padding: 12px 18px; background: #fff; border-bottom: 1px solid #e5e5e5; }}
-  header h1 {{ margin: 0 0 3px 0; font-size: 17px; }}
-  header p  {{ margin: 0; color: #666; font-size: 12px; }}
-  #tree-container {{ width: 100vw; height: calc(100vh - 60px); overflow: hidden; }}
-  .node circle {{ stroke: #fff; stroke-width: 2px; }}
-  .node--root circle     {{ fill: #2c3e50; }}
-  .node--internal circle {{ fill: #3498db; cursor: pointer; }}
-  .node--leaf circle     {{ fill: #27ae60; }}
-  .node text {{ font-size: 12px; pointer-events: none; }}
-  .link {{ fill: none; stroke: #bbb; stroke-width: 1.6; }}
-  #tooltip {{
-    position: absolute; pointer-events: none;
-    background: #1f2937; color: #fff; padding: 8px 12px; border-radius: 6px;
-    font-size: 12px; line-height: 1.5; max-width: 320px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.18); opacity: 0; transition: opacity 0.15s;
-  }}
-</style></head>
-<body>
-<header>
-  <h1>Prerequisite tree &middot; {name} ({subject_code}) &middot; {year}</h1>
-  <p>Target subject at top, prerequisites branch downward. Click a blue node to collapse / expand.</p>
-</header>
-<div id="tree-container"></div>
-<div id="tooltip"></div>
-<script>
-const data = {tree_json};
-const container = document.getElementById('tree-container');
-const tooltip  = document.getElementById('tooltip');
-const margin = {{top:50,right:40,bottom:50,left:40}};
-let width = container.clientWidth - margin.left - margin.right;
-const svg = d3.select('#tree-container').append('svg')
-  .attr('width', container.clientWidth).attr('height', container.clientHeight);
-const zoomG = svg.append('g').attr('transform',`translate(${{margin.left}},${{margin.top}})`);
-svg.call(d3.zoom().scaleExtent([0.3,3]).on('zoom', ev => zoomG.attr('transform', ev.transform)));
-let root = d3.hierarchy(data);
-let i = 0;
-root.descendants().forEach(d => {{ if (d.depth > 1 && d.children) {{ d._children = d.children; d.children = null; }} }});
-const tree = d3.tree().nodeSize([200,110]);
-function update(source) {{
-  tree(root);
-  const nodes = root.descendants();
-  const links = root.links();
-  let xMin=Infinity, xMax=-Infinity;
-  nodes.forEach(d => {{ if(d.x<xMin)xMin=d.x; if(d.x>xMax)xMax=d.x; }});
-  const xOff = -((xMin+xMax)/2) + width/2;
-  nodes.forEach(d => d.x += xOff);
-  const link = zoomG.selectAll('path.link').data(links, d => d.target.data.code);
-  link.enter().append('path').attr('class','link')
-    .attr('d', d3.linkVertical().x(d=>d.x).y(d=>d.y))
-    .merge(link).transition().duration(300)
-    .attr('d', d3.linkVertical().x(d=>d.x).y(d=>d.y));
-  link.exit().remove();
-  const node = zoomG.selectAll('g.node').data(nodes, d => d.data.code || (d.id = ++i));
-  const nE = node.enter().append('g')
-    .attr('class', d => 'node ' + (d.depth===0 ? 'node--root' : (d._children||d.children ? 'node--internal' : 'node--leaf')))
-    .attr('transform', d => `translate(${{d.x}},${{d.y}})`)
-    .on('click', (ev,d) => {{
-      if (d.children) {{ d._children=d.children; d.children=null; }}
-      else if (d._children) {{ d.children=d._children; d._children=null; }}
-      update(d);
-    }})
-    .on('mouseover', (ev,d) => {{
-      const a = d.data.antis && d.data.antis.length
-        ? `<div style="color:#fbbf24;margin-top:4px;">Anti-reqs: ${{d.data.antis.join(', ')}}</div>` : '';
-      tooltip.innerHTML = `<strong>${{d.data.subject_name}}</strong><br>Code: ${{d.data.code}}<br>Faculty: ${{d.data.faculty}}<br>CP: ${{d.data.cp}}${{a}}`;
-      tooltip.style.opacity = 1;
-    }})
-    .on('mousemove', ev => {{ tooltip.style.left=(ev.pageX+14)+'px'; tooltip.style.top=(ev.pageY+14)+'px'; }})
-    .on('mouseout', () => tooltip.style.opacity=0);
-  nE.append('circle').attr('r', 9);
-  nE.append('text').attr('y',26).attr('text-anchor','middle').attr('font-weight',600).attr('fill','#222')
-    .text(d => d.data.code);
-  nE.append('text').attr('y',42).attr('text-anchor','middle').attr('fill','#555')
-    .text(d => {{ const n=d.data.subject_name||''; return n.length>28 ? n.slice(0,26)+'...' : n; }});
-  nE.filter(d => d._children).append('text').attr('y',4).attr('text-anchor','middle')
-    .attr('fill','#fff').attr('font-weight',700).attr('font-size',10).text('+');
-  node.merge(nE).transition().duration(300).attr('transform', d => `translate(${{d.x}},${{d.y}})`);
-  node.exit().remove();
-}}
-update(root);
-window.addEventListener('resize', () => {{
-  width = container.clientWidth - margin.left - margin.right;
-  svg.attr('width', container.clientWidth).attr('height', container.clientHeight);
-  update(root);
-}});
-</script></body></html>"""
-
-
-# ============================================================================
-# 3. Course sunburst (Plotly)
-# ============================================================================
-
-
+# Course sunburst (Plotly)
 def _walk_course(
     node: dict, parent_label: str, rows: list, depth: int = 0, max_depth: int = 12
 ) -> None:
@@ -487,11 +361,7 @@ def build_sunburst_html(course_code: str, year: int = 2026) -> str:
     return fig.to_html(include_plotlyjs=True, full_html=True)
 
 
-# ============================================================================
-# 4. Course tree (D3)
-# ============================================================================
-
-
+# Course tree (D3)
 def _build_course_tree_node(node: dict) -> dict:
     if "structure_name" in node:
         children = []
